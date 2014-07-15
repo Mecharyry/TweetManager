@@ -8,6 +8,12 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
+    private final ToastValidator validator;
+
+    public MainActivity() {
+        validator = new ToastValidator();
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,13 +23,14 @@ public class MainActivity extends Activity {
 
         Button button = (Button) findViewById(R.id.button);
         button.setOnClickListener(onButtonClicked);
-
     }
 
     private final View.OnClickListener onButtonClicked = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Toast.makeText(MainActivity.this, "Lets Have Toast!", Toast.LENGTH_SHORT).show();
+            if (validator.canToast()) {
+                Toast.makeText(MainActivity.this, "Lets Have Toast!", Toast.LENGTH_SHORT).show();
+            }
         }
     };
 }
