@@ -12,7 +12,6 @@ public class MainActivity extends Activity {
 
     public MainActivity() {
         validator = new ToastValidator();
-
     }
 
     @Override
