@@ -2,4 +2,5 @@ apply plugin: 'java'
 
 dependencies {
     compile 'oauth.signpost:signpost-core:1.2.1.2@jar'
+    compile 'oauth.signpost:signpost-commonshttp4:1.2.1.2@jar'
 }
