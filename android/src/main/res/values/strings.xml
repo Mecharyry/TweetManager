@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="button_text">Toast!</string>
+    <string name="button_authorize_text">Authorize App</string>
     <string name="action_settings">Twitter App</string>
+    <string name="button_dev_tweets_text">Retrieve Dev Tweets</string>
 </resources>

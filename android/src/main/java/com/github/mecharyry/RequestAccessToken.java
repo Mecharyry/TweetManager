@@ -1,8 +1,5 @@
 package com.github.mecharyry;
 
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -13,47 +10,38 @@ import oauth.signpost.exception.OAuthExpectationFailedException;
 import oauth.signpost.exception.OAuthMessageSignerException;
 import oauth.signpost.exception.OAuthNotAuthorizedException;
 
-public class RequestTokenTask extends AsyncTask<Void, Void, Void> {
-
-    public static final String OAUTH_CALLBACK_URL = "mecharyry-android:///";
-    private static final String TAG = "RequestTokenTask";
+public class RequestAccessToken extends AsyncTask<Void, Void, Void> {
+    private static final String TAG = "RequestAccessToken";
     private final OAuthConsumer consumer;
     private final OAuthProvider provider;
-    private final Context context;
+    private final String oauthVerifier;
 
-    public RequestTokenTask(Context context, OAuthConsumer consumer, OAuthProvider provider) {
-        this.context = context;
+    public RequestAccessToken(OAuthConsumer consumer, OAuthProvider provider, String oauthVerifier) {
         this.consumer = consumer;
         this.provider = provider;
+        this.oauthVerifier = oauthVerifier;
     }
 
     @Override
     protected Void doInBackground(Void... params) {
-
-        Log.i(TAG, "Fetching request token from Twitter...");
+        Log.i(TAG, "Fetching access token from Twitter...");
 
         try {
-            String authUrl = provider.retrieveRequestToken(consumer, OAUTH_CALLBACK_URL);
-            Log.i(TAG, authUrl);
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(authUrl)).setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP |
-                    Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_FROM_BACKGROUND);
-            context.startActivity(intent);
-        } catch (OAuthMessageSignerException e) {   // TODO Handle Exceptions
+            provider.retrieveAccessToken(consumer, oauthVerifier);
+        } catch (OAuthMessageSignerException e) {
             e.printStackTrace();
-            e.getMessage();
         } catch (OAuthNotAuthorizedException e) {
             e.printStackTrace();
-            e.getMessage();
         } catch (OAuthExpectationFailedException e) {
             e.printStackTrace();
-            e.getMessage();
         } catch (OAuthCommunicationException e) {
             e.printStackTrace();
-            e.getMessage();
         }
 
         Log.i(TAG, "Request Token: " + consumer.getToken());
         Log.i(TAG, "Request Secret: " + consumer.getTokenSecret());
+        Constants.ACCESS_TOKEN = consumer.getToken().toString();
+        Constants.TOKEN_SECRET = consumer.getTokenSecret().toString();
         return null;
     }
 }
