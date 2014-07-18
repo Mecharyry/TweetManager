@@ -5,8 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.ListView;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -16,6 +15,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import oauth.signpost.OAuthConsumer;
 import oauth.signpost.exception.OAuthCommunicationException;
 import oauth.signpost.exception.OAuthExpectationFailedException;
@@ -24,15 +25,34 @@ import oauth.signpost.exception.OAuthMessageSignerException;
 public class ListViewActivity extends Activity {
 
     private static final String TAG = "ListViewActivity";
+    private static final String TAG_STATUSES = "statuses";
+    private static final String TAG_TEXT = "text";
+    private static final String TAG_USER = "user";
+    private static final String TAG_SCREEN_NAME = "screen_name";
+    private static final String TAG_LOCATION = "location";
+    private ArrayList<Tweet> tweets;
+    private TweetAdapter tweetArrayAdapter;
     private OAuthConsumer consumer;
-    private EditText editText;
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_view);
+        int layoutId = R.layout.tweets_list_item;
+        listView = (ListView) findViewById(R.id.listview_tweets);
+
         consumer = (OAuthConsumer) getIntent().getExtras().get("CONSUMER");
-        editText = (EditText) findViewById(R.id.edit_text_tweets);
+        tweets = new ArrayList<Tweet>();
+
+        Tweet tweet = new Tweet();
+        tweet.setScreenName("screen01");
+        tweet.setLocation("location01");
+        tweet.setText("text01");
+        tweets.add(tweet);
+
+        tweetArrayAdapter = new TweetAdapter(this, layoutId, tweets); // TODO;
+        listView.setAdapter(tweetArrayAdapter);
 
         retrieveAndroidDevTweets();
     }
@@ -59,31 +79,49 @@ public class ListViewActivity extends Activity {
 
     private void retrieveAndroidDevTweets() {
         String unsignedUrl = "https://api.twitter.com/1.1/search/tweets.json?q=%23AndroidDev";
+        String signedUrl = signUrl(unsignedUrl);
+        Log.i(TAG, "URL: " + signedUrl);
 
-        new AsyncHttpClient().get(signUrl(unsignedUrl), new JsonHttpResponseHandler() {
+        new AsyncHttpClient().get(signedUrl, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 Log.i(TAG, "Call to retrieve timeline succeeded: JSONObject");
-                editText.setText(response.toString(), TextView.BufferType.EDITABLE);
+
+                StringBuilder sb = new StringBuilder();
+
+                try {
+                    JSONArray statuses = response.getJSONArray(TAG_STATUSES);
+
+                    for (int i = 0; i < statuses.length(); i++) {
+                        JSONObject jsonObject = statuses.getJSONObject(i);
+                        JSONObject user = jsonObject.getJSONObject(TAG_USER);
+                        String screenName = user.getString(TAG_SCREEN_NAME);
+                        String location = user.getString(TAG_LOCATION);
+                        String text = jsonObject.getString(TAG_TEXT);
+
+                        Tweet tweet = new Tweet();
+                        tweet.setScreenName(screenName);
+                        tweet.setLocation(location);
+                        tweet.setText(text);
+
+                        tweets.add(tweet);
+                        sb.append("Screen Name: " + screenName + " Location: " +
+                                location + " Text: " + text + "\n\n");
+
+                        tweetArrayAdapter.notifyDataSetChanged();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.i(TAG, "Retrieved all tweets relating to Android Dev" + tweets);
             }
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 super.onSuccess(statusCode, headers, response);
                 Log.i(TAG, "Call to retrieve timeline succeeded: JSONArray.");
-
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < response.length(); i++) {
-                    try {
-                        Object jsonObj = response.get(i);
-                        sb.append(jsonObj.toString());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-                editText.setText(sb, TextView.BufferType.EDITABLE);
             }
 
             @Override

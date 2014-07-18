@@ -5,10 +5,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/edit_text_tweets"
+    <ListView
+        android:id="@+id/listview_tweets"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:editable="false"/>
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>
