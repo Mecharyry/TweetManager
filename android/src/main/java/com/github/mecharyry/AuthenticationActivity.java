@@ -45,6 +45,7 @@ public class AuthenticationActivity extends Activity {
             if (hasAccess()) {
                 // Create from storage.
                 Log.i(TAG, "Retrieving from storage");
+                consumer.setTokenWithSecret(getAccessToken(), getAccessTokenSecret());
                 Intent intent = new Intent(v.getContext(), ListViewActivity.class);
                 intent.putExtra("CONSUMER", consumer);
                 startActivity(intent);
@@ -53,6 +54,14 @@ public class AuthenticationActivity extends Activity {
                 Toast.makeText(AuthenticationActivity.this, "Opening Browser", Toast.LENGTH_SHORT).show();
                 new RequestTokenTask(v.getContext()).execute();
             }
+        }
+
+        private String getAccessTokenSecret() {
+            return preferences.getString(PREF_ACCESS_SECRET, null);
+        }
+
+        private String getAccessToken() {
+            return preferences.getString("access_token", null);
         }
     };
 
@@ -161,7 +170,7 @@ public class AuthenticationActivity extends Activity {
             Log.i(TAG, "Request Token: " + consumer.getToken());
             Log.i(TAG, "Request Secret: " + consumer.getTokenSecret());
             accessToken = consumer.getToken() != null ? consumer.getToken() : "";
-            accessSecret = consumer.getTokenSecret() != null ? consumer.getToken() : "";
+            accessSecret = consumer.getTokenSecret() != null ? consumer.getTokenSecret() : "";
             saveAccessToken();
             return null;
         }

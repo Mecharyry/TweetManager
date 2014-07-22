@@ -32,7 +32,9 @@ public class TweetAdapter extends ArrayAdapter<Tweet> {
             row = inflater.inflate(resource, parent, false);
 
             holder = new TweetHolder();
-            holder.textText = (TextView) row.findViewById(R.id.text_screen_name);
+            holder.textScreenName = (TextView) row.findViewById(R.id.text_screen_name);
+            holder.textTweet = (TextView) row.findViewById(R.id.text_tweet);
+            holder.textLocation = (TextView) row.findViewById(R.id.text_location);
 
             row.setTag(holder);
         } else {
@@ -40,7 +42,9 @@ public class TweetAdapter extends ArrayAdapter<Tweet> {
         }
 
         Tweet tweet = tweets.get(position);
-        holder.textText.setText(tweet.getText());
+        holder.textScreenName.setText("Screen Name: " + tweet.getScreenName());
+        holder.textTweet.setText("Tweet: " + tweet.getText());
+        holder.textLocation.setText("Location: " + tweet.getLocation());
 
         return row;
     }
@@ -51,6 +55,8 @@ public class TweetAdapter extends ArrayAdapter<Tweet> {
     }
 
     private static class TweetHolder {
-        TextView textText;
+        TextView textScreenName;
+        TextView textTweet;
+        TextView textLocation;
     }
 }
