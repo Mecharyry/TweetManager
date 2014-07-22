@@ -43,7 +43,7 @@ public class TweetAdapter extends ArrayAdapter<Tweet> {
 
         Tweet tweet = tweets.get(position);
         holder.textScreenName.setText("Screen Name: " + tweet.getScreenName());
-        holder.textTweet.setText("Tweet: " + tweet.getText());
+        holder.textTweet.setText(tweet.getText());
         holder.textLocation.setText("Location: " + tweet.getLocation());
 
         return row;

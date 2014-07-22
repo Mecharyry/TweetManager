@@ -2,19 +2,17 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent" android:background="@drawable/custom_shape"
+    android:padding="12dp">
 
     <TextView
+        android:id="@+id/text_tweet"
+        style="@style/tweet_text_style" />
+    <TextView
         android:id="@+id/text_screen_name"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        style="@style/screen_name_style" />
     <TextView
         android:id="@+id/text_location"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-    <TextView
-        android:id="@+id/text_tweet"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        style="@style/location_style" />
 
 </LinearLayout>
