@@ -120,18 +120,18 @@ public class AuthenticationActivity extends Activity {
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(authUrl)).setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP |
                         Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_FROM_BACKGROUND);
                 context.startActivity(intent);
-            } catch (OAuthMessageSignerException e) {   // TODO Handle Exceptions
+            } catch (OAuthMessageSignerException e) {
                 e.printStackTrace();
-                e.getMessage();
+                e.getMessage(); // TODO: Handle Exception.
             } catch (OAuthNotAuthorizedException e) {
                 e.printStackTrace();
-                e.getMessage();
+                e.getMessage(); // TODO: Handle Exception.
             } catch (OAuthExpectationFailedException e) {
                 e.printStackTrace();
-                e.getMessage();
+                e.getMessage(); // TODO: Handle Exception.
             } catch (OAuthCommunicationException e) {
                 e.printStackTrace();
-                e.getMessage();
+                e.getMessage(); // TODO: Handle Exception.
             }
 
             Log.i(TAG, "Request Token: " + consumer.getToken());
@@ -157,13 +157,13 @@ public class AuthenticationActivity extends Activity {
             try {
                 provider.retrieveAccessToken(consumer, oauthVerifier);
             } catch (OAuthMessageSignerException e) {
-                e.printStackTrace();
+                e.printStackTrace();    // TODO: Handle Exception.
             } catch (OAuthNotAuthorizedException e) {
-                e.printStackTrace();
+                e.printStackTrace();    // TODO: Handle Exception.
             } catch (OAuthExpectationFailedException e) {
-                e.printStackTrace();
+                e.printStackTrace();    // TODO: Handle Exception.
             } catch (OAuthCommunicationException e) {
-                e.printStackTrace();
+                e.printStackTrace();    // TODO: Handle Exception.
             }
 
 

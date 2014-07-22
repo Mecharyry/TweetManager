@@ -7,10 +7,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 
 import oauth.signpost.OAuthConsumer;
@@ -21,15 +17,16 @@ import oauth.signpost.exception.OAuthMessageSignerException;
 public class ListViewActivity extends Activity {
 
     private static final String TAG = "ListViewActivity";
-    private static final String TAG_STATUSES = "statuses";
-    private static final String TAG_TEXT = "text";
-    private static final String TAG_USER = "user";
-    private static final String TAG_SCREEN_NAME = "screen_name";
-    private static final String TAG_LOCATION = "location";
     private ArrayList<Tweet> tweets;
     private TweetAdapter tweetArrayAdapter;
     private OAuthConsumer consumer;
     private ListView listView;
+
+    public void setTweets(ArrayList<Tweet> tweets) {
+        this.tweets.clear();
+        this.tweets.addAll(tweets);
+        tweetArrayAdapter.notifyDataSetChanged();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +38,11 @@ public class ListViewActivity extends Activity {
         consumer = (OAuthConsumer) getIntent().getExtras().get("CONSUMER");
         tweets = new ArrayList<Tweet>();
 
-        tweetArrayAdapter = new TweetAdapter(this, layoutId, tweets); // TODO;
+        tweetArrayAdapter = new TweetAdapter(this, layoutId, tweets);
         listView.setAdapter(tweetArrayAdapter);
 
-        retrieveAndroidDevTweets();
+        requestAndroidDevTweets();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -63,35 +59,11 @@ public class ListViewActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void retrieveAndroidDevTweets() {
+    private void requestAndroidDevTweets() {
         String unsignedUrl = "https://api.twitter.com/1.1/search/tweets.json?q=%23AndroidDev&count=50";
         String signedUrl = signUrl(unsignedUrl);
         Log.i(TAG, "URL: " + signedUrl);
         new RetrieveTweetsByHashtagTask(this).execute(signedUrl);
-    }
-
-    void displayTweets(JSONObject response) {
-        try {
-            JSONArray statuses = response.getJSONArray(TAG_STATUSES);
-
-            for (int i = 0; i < statuses.length(); i++) {
-                JSONObject jsonObject = statuses.getJSONObject(i);
-                JSONObject user = jsonObject.getJSONObject(TAG_USER);
-                String screenName = user.getString(TAG_SCREEN_NAME);
-                String location = user.getString(TAG_LOCATION);
-                String text = jsonObject.getString(TAG_TEXT);
-
-                Tweet tweet = new Tweet();
-                tweet.setScreenName(screenName);
-                tweet.setLocation(location);
-                tweet.setText(text);
-
-                tweets.add(tweet);
-                tweetArrayAdapter.notifyDataSetChanged();
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     private String signUrl(String unsignedUrl) {

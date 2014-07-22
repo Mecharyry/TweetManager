@@ -1,24 +1,20 @@
 package com.github.mecharyry;
 
-import android.os.AsyncTask;
-import android.util.Log;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.util.ArrayList;
 
-public class RetrieveTweetsByHashtagTask extends AsyncTask<String, Void, JSONObject> {
+public class RetrieveTweetsByHashtagTask extends TwitterRequestTask {
     private static final String TAG = "TwitterRequest";
+    private static final String TAG_STATUSES = "statuses";
+    private static final String TAG_TEXT = "text";
+    private static final String TAG_USER = "user";
+    private static final String TAG_SCREEN_NAME = "screen_name";
+    private static final String TAG_LOCATION = "location";
     private final ListViewActivity context;
 
     public RetrieveTweetsByHashtagTask(ListViewActivity context) {
@@ -26,54 +22,57 @@ public class RetrieveTweetsByHashtagTask extends AsyncTask<String, Void, JSONObj
     }
 
     @Override
-    protected JSONObject doInBackground(String... params) {
-        HttpClient client = new DefaultHttpClient();
-        HttpGet get = new HttpGet(params[0]);
+    protected ArrayList<Tweet> doInBackground(String... params) {
+        InputStream inputStream = super.performGet(params);
 
-        HttpResponse response;
-        try {
-            response = client.execute(get);
+        if (inputStream != null) {
+            try {
+                String inputStreamString = super.inputStreamToString(inputStream);
+                JSONObject jsonObject = super.convertStringToJson(inputStreamString);
 
-            HttpEntity entity = response.getEntity();
-
-            if (entity != null) {
-                Log.i(TAG, "SUCCESS!");
-                InputStream inputStream = entity.getContent();
-
-                if (inputStream != null) {
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                    StringBuilder stringBuilder = new StringBuilder();
-                    String line;
-                    while ((line = bufferedReader.readLine()) != null) {
-                        stringBuilder.append(line);
-                    }
-                    inputStream.close();
-                    return convertStringToJson(stringBuilder.toString());
+                if (jsonObject != null) {
+                    return jsonToTweet(jsonObject);
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-
         return null;
     }
 
     @Override
-    protected void onPostExecute(JSONObject jsonObject) {
-        context.displayTweets(jsonObject);
-
-        super.onPostExecute(jsonObject);
+    protected void onPostExecute(final ArrayList<?> objects) {
+        context.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                context.setTweets((ArrayList<Tweet>) objects);
+            }
+        });
+        super.onPostExecute(objects);
     }
 
-    private static JSONObject convertStringToJson(String input) {
+    private ArrayList<Tweet> jsonToTweet(JSONObject response) {
         try {
-            Log.i(TAG, new JSONObject(input).toString());
-            return new JSONObject(input);
+            ArrayList<Tweet> tweets = new ArrayList<Tweet>();
+            JSONArray statuses = response.getJSONArray(TAG_STATUSES);
+
+            for (int i = 0; i < statuses.length(); i++) {
+                JSONObject jsonObject = statuses.getJSONObject(i);
+                JSONObject user = jsonObject.getJSONObject(TAG_USER);
+                String screenName = user.getString(TAG_SCREEN_NAME);
+                String location = user.getString(TAG_LOCATION);
+                String text = jsonObject.getString(TAG_TEXT);
+
+                Tweet tweet = new Tweet();
+                tweet.setScreenName(screenName);
+                tweet.setLocation(location);
+                tweet.setText(text);
+
+                tweets.add(tweet);
+            }
+            return tweets;
         } catch (JSONException e) {
-            e.printStackTrace();
+            e.printStackTrace();    // TODO: Handle Exception.
         }
         return null;
     }
