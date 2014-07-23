@@ -1,6 +1,8 @@
-package com.github.mecharyry;
+package com.github.mecharyry.oauth.task;
 
 import android.os.AsyncTask;
+
+import com.github.mecharyry.oauth.OAuthAuthenticator;
 
 import java.lang.ref.WeakReference;
 

@@ -1,4 +1,4 @@
-package com.github.mecharyry;
+package com.github.mecharyry.tweetlist;
 
 public class Tweet {
     private String screenName;

@@ -8,7 +8,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import oauth.signpost.OAuthConsumer;
+import com.github.mecharyry.oauth.AccessToken;
+import com.github.mecharyry.oauth.OAuthAuthenticator;
+import com.github.mecharyry.oauth.OAuthRequesterActivity;
+import com.github.mecharyry.oauth.task.RequestAccessTokenTask;
+import com.github.mecharyry.oauth.task.RequestTokenTask;
 
 public class AuthenticationActivity extends Activity {
 
@@ -76,10 +80,10 @@ public class AuthenticationActivity extends Activity {
     private final RequestAccessTokenTask.Callback accessTokenCallback = new RequestAccessTokenTask.Callback() {
         @Override
         public void onRetrieved(AccessToken response) {
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putString(PREF_ACCESS_TOKEN, response.getToken());
-                editor.putString(PREF_ACCESS_SECRET, response.getSecret());
-                editor.apply();
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString(PREF_ACCESS_TOKEN, response.getToken());
+            editor.putString(PREF_ACCESS_SECRET, response.getSecret());
+            editor.apply();
         }
     };
 

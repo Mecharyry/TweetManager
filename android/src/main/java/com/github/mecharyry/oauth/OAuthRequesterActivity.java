@@ -1,10 +1,12 @@
-package com.github.mecharyry;
+package com.github.mecharyry.oauth;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.webkit.WebView;
+
+import com.github.mecharyry.R;
 
 public class OAuthRequesterActivity extends Activity {
 

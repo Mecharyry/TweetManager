@@ -14,7 +14,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".OAuthRequesterActivity"
+            android:name=".oauth.OAuthRequesterActivity"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

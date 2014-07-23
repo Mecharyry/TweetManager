@@ -7,6 +7,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
+import com.github.mecharyry.tweetlist.task.RetrieveTweetsByHashtagTask;
+import com.github.mecharyry.tweetlist.Tweet;
+import com.github.mecharyry.tweetlist.TweetAdapter;
+
 import java.util.ArrayList;
 
 import oauth.signpost.OAuthConsumer;
