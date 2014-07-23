@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.github.mecharyry" >
+    package="com.github.mecharyry">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application>
-        <activity
-            android:name=".auth.AuthenticationActivity" >
+        <activity android:name=".auth.AuthenticationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,8 +26,7 @@
         </activity>
         <activity
             android:name=".tweetlist.ListViewActivity"
-            android:label="@string/title_activity_list_view" >
-        </activity>
+            android:label="@string/title_activity_list_view"></activity>
     </application>
 
 </manifest>

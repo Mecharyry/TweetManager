@@ -8,8 +8,6 @@ import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.github.mecharyry.R;
-import com.github.mecharyry.tweetlist.Tweet;
-import com.github.mecharyry.tweetlist.TweetAdapter;
 import com.github.mecharyry.tweetlist.task.RetrieveTweetsByHashtagTask;
 
 import java.util.ArrayList;
@@ -24,8 +22,8 @@ public class ListViewActivity extends Activity {
     private static final String TAG = "ListViewActivity";
     private ArrayList<Tweet> tweets;
     private TweetAdapter tweetArrayAdapter;
-    private OAuthConsumer consumer;
     private ListView listView;
+    private OAuthConsumer consumer;
 
     public void setTweets(ArrayList<Tweet> tweets) {
         this.tweets.clear();

@@ -12,6 +12,6 @@
         android:layout_margin="10dp"
         android:scrollbars="none"
         android:divider="@android:color/transparent"
-        android:dividerHeight="10.0sp"/>
+        android:dividerHeight="10.0sp" />
 
 </LinearLayout>

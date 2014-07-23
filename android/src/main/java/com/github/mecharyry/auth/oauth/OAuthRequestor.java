@@ -3,15 +3,15 @@ package com.github.mecharyry.auth.oauth;
 import android.app.Activity;
 import android.content.Intent;
 
-class OAuthRequestor {
-    public static final int REQUEST_CODE = 100;
+public class OAuthRequestor {
+    private static final int REQUEST_CODE = 100;
     private final AuthenticatorRequesterResult onResult;
 
-    interface AuthenticatorRequesterResult {
+    public interface AuthenticatorRequesterResult {
         void onRequesterResult(String result);
     }
 
-    OAuthRequestor(AuthenticatorRequesterResult onResult) {
+    public OAuthRequestor(AuthenticatorRequesterResult onResult) {
         this.onResult = onResult;
     }
 
@@ -21,7 +21,7 @@ class OAuthRequestor {
         activity.startActivityForResult(intent, REQUEST_CODE);
     }
 
-    void onOAuthRequesterResult(int requestCode, int resultCode, Intent data) {
+    public void onOAuthRequesterResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK && requestCode == 100) {
             String verifier = data.getStringExtra("OAUTH_VERIFIER");
             onResult.onRequesterResult(verifier);

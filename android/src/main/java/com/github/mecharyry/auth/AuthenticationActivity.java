@@ -2,25 +2,22 @@ package com.github.mecharyry.auth;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
-import com.github.mecharyry.tweetlist.ListViewActivity;
 import com.github.mecharyry.R;
-import com.github.mecharyry.auth.oauth.OAuthAuthenticator;
+import com.github.mecharyry.tweetlist.ListViewActivity;
 
 public class AuthenticationActivity extends Activity {
 
-    private static final String TAG = "MainActivity";
     private AuthenticationManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences preferences = getSharedPreferences("twitter_prefs", MODE_PRIVATE);
-        manager = new AuthenticationManager(OAuthAuthenticator.newInstance(), this, preferences);
+        manager = AuthenticationManager.newInstance(this);
 
         setContentView(R.layout.authentication_activity);
 
@@ -32,12 +29,17 @@ public class AuthenticationActivity extends Activity {
     private final View.OnClickListener onAuthorizeButtonClicked = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (manager.hasAccess()) {
-                Intent intent = new Intent(AuthenticationActivity.this, ListViewActivity.class);
-                startActivity(intent);
+            if (manager.hasAccessToken()) {
+                navigateToTweetList();
             } else {
+                Toast.makeText(AuthenticationActivity.this, "Opening Browser", Toast.LENGTH_SHORT).show();
                 manager.authenticate();
             }
+        }
+
+        private void navigateToTweetList() {
+            Intent intent = new Intent(AuthenticationActivity.this, ListViewActivity.class);
+            startActivity(intent);
         }
     };
 
