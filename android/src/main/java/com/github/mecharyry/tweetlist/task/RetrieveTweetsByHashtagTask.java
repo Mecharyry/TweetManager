@@ -2,7 +2,7 @@ package com.github.mecharyry.tweetlist.task;
 
 import android.util.Log;
 
-import com.github.mecharyry.ListViewActivity;
+import com.github.mecharyry.tweetlist.ListViewActivity;
 import com.github.mecharyry.tweetlist.Tweet;
 
 import org.json.JSONArray;

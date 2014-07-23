@@ -1,14 +1,15 @@
-package com.github.mecharyry;
+package com.github.mecharyry.auth;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.widget.Toast;
 
-import com.github.mecharyry.oauth.AccessToken;
-import com.github.mecharyry.oauth.OAuthAuthenticator;
-import com.github.mecharyry.oauth.task.RequestAccessTokenTask;
-import com.github.mecharyry.oauth.task.RequestTokenTask;
+import com.github.mecharyry.OAuthRequestor;
+import com.github.mecharyry.auth.oauth.AccessToken;
+import com.github.mecharyry.auth.oauth.OAuthAuthenticator;
+import com.github.mecharyry.auth.oauth.task.RequestAccessTokenTask;
+import com.github.mecharyry.auth.oauth.task.RequestTokenTask;
 
 class AuthenticationManager {
     private static final String PREF_ACCESS_TOKEN = "access_token";

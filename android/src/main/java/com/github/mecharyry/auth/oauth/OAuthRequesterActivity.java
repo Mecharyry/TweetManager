@@ -1,4 +1,4 @@
-package com.github.mecharyry.oauth;
+package com.github.mecharyry.auth.oauth;
 
 import android.app.Activity;
 import android.content.Intent;

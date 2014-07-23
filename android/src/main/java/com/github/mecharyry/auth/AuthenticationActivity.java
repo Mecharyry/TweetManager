@@ -1,4 +1,4 @@
-package com.github.mecharyry;
+package com.github.mecharyry.auth;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.github.mecharyry.oauth.OAuthAuthenticator;
+import com.github.mecharyry.tweetlist.ListViewActivity;
+import com.github.mecharyry.R;
+import com.github.mecharyry.auth.oauth.OAuthAuthenticator;
 
 public class AuthenticationActivity extends Activity {
 
@@ -31,7 +33,8 @@ public class AuthenticationActivity extends Activity {
         @Override
         public void onClick(View v) {
             if (manager.hasAccess()) {
-                //loginAuthenticatedUser();
+                Intent intent = new Intent(AuthenticationActivity.this, ListViewActivity.class);
+                startActivity(intent);
             } else {
                 manager.authenticate();
             }

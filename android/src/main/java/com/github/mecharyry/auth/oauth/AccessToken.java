@@ -1,4 +1,4 @@
-package com.github.mecharyry.oauth;
+package com.github.mecharyry.auth.oauth;
 
 public class AccessToken {
     private final String accessToken;

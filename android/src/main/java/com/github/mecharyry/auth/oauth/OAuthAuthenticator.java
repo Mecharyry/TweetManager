@@ -1,4 +1,4 @@
-package com.github.mecharyry.oauth;
+package com.github.mecharyry.auth.oauth;
 
 import oauth.signpost.OAuthConsumer;
 import oauth.signpost.OAuthProvider;

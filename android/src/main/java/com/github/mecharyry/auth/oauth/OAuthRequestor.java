@@ -1,9 +1,7 @@
-package com.github.mecharyry;
+package com.github.mecharyry.auth.oauth;
 
 import android.app.Activity;
 import android.content.Intent;
-
-import com.github.mecharyry.oauth.OAuthRequesterActivity;
 
 class OAuthRequestor {
     public static final int REQUEST_CODE = 100;

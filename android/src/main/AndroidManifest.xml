@@ -6,7 +6,7 @@
 
     <application>
         <activity
-            android:name=".AuthenticationActivity" >
+            android:name=".auth.AuthenticationActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -14,7 +14,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".oauth.OAuthRequesterActivity"
+            android:name=".auth.oauth.OAuthRequesterActivity"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -26,7 +26,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ListViewActivity"
+            android:name=".tweetlist.ListViewActivity"
             android:label="@string/title_activity_list_view" >
         </activity>
     </application>
