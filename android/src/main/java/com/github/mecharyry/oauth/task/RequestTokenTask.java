@@ -28,7 +28,7 @@ public class RequestTokenTask extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String response) {
         Callback callback = callbackWeakReference.get();
-        if(callback != null){
+        if (callback != null) {
             callback.onRetrieved(response);
         }
     }

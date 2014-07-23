@@ -32,7 +32,7 @@ public class OAuthAuthenticator {
         this.provider = provider;
     }
 
-    public String retrieveAuthenticationUrl(){
+    public String retrieveAuthenticationUrl() {
         try {
             return provider.retrieveRequestToken(consumer, OAUTH_CALLBACK_URL);
         } catch (OAuthMessageSignerException e) {

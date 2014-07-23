@@ -7,7 +7,7 @@ import com.github.mecharyry.oauth.OAuthAuthenticator;
 
 import java.lang.ref.WeakReference;
 
-public class RequestAccessTokenTask extends AsyncTask<String, Void, AccessToken>{
+public class RequestAccessTokenTask extends AsyncTask<String, Void, AccessToken> {
 
     private OAuthAuthenticator oAuthAuthenticator;
     private final WeakReference<Callback> callbackWeakReference;
@@ -30,7 +30,7 @@ public class RequestAccessTokenTask extends AsyncTask<String, Void, AccessToken>
     protected void onPostExecute(AccessToken accessToken) {
         super.onPostExecute(accessToken);
         Callback callback = callbackWeakReference.get();
-        if(callback != null){
+        if (callback != null) {
             callback.onRetrieved(accessToken);
         }
     }

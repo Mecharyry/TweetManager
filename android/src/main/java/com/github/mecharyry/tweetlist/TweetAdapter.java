@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.github.mecharyry.R;
-import com.github.mecharyry.tweetlist.Tweet;
 
 import java.util.List;
 
