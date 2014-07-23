@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="button_authorize_text">Login</string>
+    <string name="button_authorize_text">loginNewUser</string>
     <string name="action_settings">Twitter App</string>
     <string name="button_dev_tweets_text">Retrieve Dev Tweets</string>
     <string name="title_activity_list_view">ListViewActivity</string>

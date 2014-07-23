@@ -72,11 +72,11 @@ public class ListViewActivity extends Activity {
             try {
                 return consumer.sign(unsignedUrl);
             } catch (OAuthMessageSignerException e) {
-                e.printStackTrace();
+                Log.e(TAG, "OAuthMessageSignerException", e);
             } catch (OAuthExpectationFailedException e) {
-                e.printStackTrace();
+                Log.e(TAG, "OAuthExpectationFailedException", e);
             } catch (OAuthCommunicationException e) {
-                e.printStackTrace();
+                Log.e(TAG, "OAuthCommunicationException", e);
             }
         }
         return null;

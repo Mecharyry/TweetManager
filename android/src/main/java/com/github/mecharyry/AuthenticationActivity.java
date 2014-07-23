@@ -23,37 +23,43 @@ import oauth.signpost.exception.OAuthNotAuthorizedException;
 
 public class AuthenticationActivity extends Activity {
 
+    private static final String TAG = "MainActivity";
     static final String CONSUMER_KEY = "Mz3VVcNtAX7m1UIi2tS8Xf8X9";
     static final String CONSUMER_SECRET = "Lj5tHjg5sl2OXHrfjzBI9yTc86wIs7PN4MUJPOUo7076vdciiH";
+    private static final OAuthConsumer CONSUMER = new CommonsHttpOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
     private static final String PREF_ACCESS_TOKEN = "access_token";
     private static final String PREF_ACCESS_SECRET = "access_secret";
-    private static final String TAG = "MainActivity";
-    private SharedPreferences preferences;
-    private static final OAuthConsumer consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
-    private static final String requestTokenEndpointUrl = "https://api.twitter.com/oauth/request_token";
-    private static final String accessTokenEndpointUrl = "https://api.twitter.com/oauth/access_token";
-    private static final String authorizationWebsiteUrl = "https://api.twitter.com/oauth/authorize";
-    private final static OAuthProvider provider = new CommonsHttpOAuthProvider(
-            requestTokenEndpointUrl,
-            accessTokenEndpointUrl,
-            authorizationWebsiteUrl
+    private static final String REQUEST_TOKEN_ENDPOINT_URL = "https://api.twitter.com/oauth/request_token";
+    private static final String ACCESS_TOKEN_ENDPOINT_URL = "https://api.twitter.com/oauth/access_token";
+    private static final String AUTHORIZATION_WEBSITE_URL = "https://api.twitter.com/oauth/authorize";
+    private final static OAuthProvider PROVIDER = new CommonsHttpOAuthProvider(
+            REQUEST_TOKEN_ENDPOINT_URL,
+            ACCESS_TOKEN_ENDPOINT_URL,
+            AUTHORIZATION_WEBSITE_URL
     );
+    private static SharedPreferences preferences;
 
     private final View.OnClickListener onAuthorizeButtonClicked = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             if (hasAccess()) {
-                // Create from storage.
-                Log.i(TAG, "Retrieving from storage");
-                consumer.setTokenWithSecret(getAccessToken(), getAccessTokenSecret());
-                Intent intent = new Intent(v.getContext(), ListViewActivity.class);
-                intent.putExtra("CONSUMER", consumer);
-                startActivity(intent);
+                loginAuthenticatedUser(v);
             } else {
-                // Login.
-                Toast.makeText(AuthenticationActivity.this, "Opening Browser", Toast.LENGTH_SHORT).show();
-                new RequestTokenTask(v.getContext()).execute();
+                loginNewUser(v);
             }
+        }
+
+        private void loginAuthenticatedUser(View v) {
+            Log.i(TAG, "Retrieving from storage");
+            CONSUMER.setTokenWithSecret(getAccessToken(), getAccessTokenSecret());
+            Intent intent = new Intent(v.getContext(), ListViewActivity.class);
+            intent.putExtra("CONSUMER", CONSUMER);
+            startActivity(intent);
+        }
+
+        private void loginNewUser(View v) {
+            Toast.makeText(AuthenticationActivity.this, "Opening Browser", Toast.LENGTH_SHORT).show();
+            new RequestTokenTask(v.getContext()).execute();
         }
 
         private String getAccessTokenSecret() {
@@ -101,7 +107,7 @@ public class AuthenticationActivity extends Activity {
         return preferences.contains(PREF_ACCESS_TOKEN) && preferences.contains(PREF_ACCESS_SECRET);
     }
 
-    private class RequestTokenTask extends AsyncTask<Void, Void, Void> {
+    private static class RequestTokenTask extends AsyncTask<Void, Void, Void> {
         private static final String OAUTH_CALLBACK_URL = "mecharyry-android:///";
         private static final String TAG = "RequestTokenTask";
         private final Context context;
@@ -115,32 +121,26 @@ public class AuthenticationActivity extends Activity {
             Log.i(TAG, "Fetching request token from Twitter...");
 
             try {
-                String authUrl = provider.retrieveRequestToken(consumer, OAUTH_CALLBACK_URL);
+                String authUrl = PROVIDER.retrieveRequestToken(CONSUMER, OAUTH_CALLBACK_URL);
                 Log.i(TAG, authUrl);
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(authUrl)).setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP |
                         Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_FROM_BACKGROUND);
                 context.startActivity(intent);
             } catch (OAuthMessageSignerException e) {
-                e.printStackTrace();
-                e.getMessage(); // TODO: Handle Exception.
+                Log.e(TAG, "OAuthMessageSignerException", e);
             } catch (OAuthNotAuthorizedException e) {
-                e.printStackTrace();
-                e.getMessage(); // TODO: Handle Exception.
+                Log.e(TAG, "OAuthNotAuthorizedException", e);
             } catch (OAuthExpectationFailedException e) {
-                e.printStackTrace();
-                e.getMessage(); // TODO: Handle Exception.
+                Log.e(TAG, "OAuthExpectationFailedException", e);
             } catch (OAuthCommunicationException e) {
-                e.printStackTrace();
-                e.getMessage(); // TODO: Handle Exception.
+                Log.e(TAG, "OAuthCommunicationException", e);
             }
 
-            Log.i(TAG, "Request Token: " + consumer.getToken());
-            Log.i(TAG, "Request Secret: " + consumer.getTokenSecret());
             return null;
         }
     }
 
-    private class AccessTokenTask extends AsyncTask<Void, Void, Void> {
+    private static class AccessTokenTask extends AsyncTask<Void, Void, Void> {
         private static final String TAG = "AccessTokenTask";
         private final String oauthVerifier;
         private String accessToken;
@@ -155,22 +155,19 @@ public class AuthenticationActivity extends Activity {
             Log.i(TAG, "Fetching access token from Twitter...");
 
             try {
-                provider.retrieveAccessToken(consumer, oauthVerifier);
+                PROVIDER.retrieveAccessToken(CONSUMER, oauthVerifier);
             } catch (OAuthMessageSignerException e) {
-                e.printStackTrace();    // TODO: Handle Exception.
+                Log.e(TAG, "OAuthMessageSignerException", e);
             } catch (OAuthNotAuthorizedException e) {
-                e.printStackTrace();    // TODO: Handle Exception.
+                Log.e(TAG, "OAuthNotAuthorizedException", e);
             } catch (OAuthExpectationFailedException e) {
-                e.printStackTrace();    // TODO: Handle Exception.
+                Log.e(TAG, "OAuthExpectationFailedException", e);
             } catch (OAuthCommunicationException e) {
-                e.printStackTrace();    // TODO: Handle Exception.
+                Log.e(TAG, "OAuthCommunicationException", e);
             }
 
-
-            Log.i(TAG, "Request Token: " + consumer.getToken());
-            Log.i(TAG, "Request Secret: " + consumer.getTokenSecret());
-            accessToken = consumer.getToken() != null ? consumer.getToken() : "";
-            accessSecret = consumer.getTokenSecret() != null ? consumer.getTokenSecret() : "";
+            accessToken = CONSUMER.getToken() != null ? CONSUMER.getToken() : "";
+            accessSecret = CONSUMER.getTokenSecret() != null ? CONSUMER.getTokenSecret() : "";
             saveAccessToken();
             return null;
         }

@@ -36,9 +36,9 @@ public class TwitterRequestTask extends AsyncTask<String, Void, ArrayList<?>> {
                 return entity.getContent();
             }
         } catch (ClientProtocolException e) {
-            e.printStackTrace();
+            Log.e(TAG, "ClientProtocolException", e);
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, "IOException", e);
         }
         return null;
     }
@@ -59,7 +59,7 @@ public class TwitterRequestTask extends AsyncTask<String, Void, ArrayList<?>> {
             Log.i(TAG, new JSONObject(input).toString());
             return new JSONObject(input);
         } catch (JSONException e) {
-            e.printStackTrace();    // TODO: Handle Exception.
+            Log.e(TAG, "JSONException", e);
         }
         return null;
     }

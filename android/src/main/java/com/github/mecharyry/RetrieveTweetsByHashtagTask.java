@@ -1,5 +1,7 @@
 package com.github.mecharyry;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,7 +36,7 @@ public class RetrieveTweetsByHashtagTask extends TwitterRequestTask {
                     return jsonToTweet(jsonObject);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e(TAG, "IOException", e);
             }
         }
         return null;
@@ -72,7 +74,7 @@ public class RetrieveTweetsByHashtagTask extends TwitterRequestTask {
             }
             return tweets;
         } catch (JSONException e) {
-            e.printStackTrace();    // TODO: Handle Exception.
+            Log.e(TAG, "JSONException", e);
         }
         return null;
     }
