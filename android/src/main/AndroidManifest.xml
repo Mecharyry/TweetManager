@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application>
-        <activity android:name=".auth.AuthenticationActivity">
+        <activity android:name="com.github.mecharyry.auth.AuthenticationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -13,7 +13,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".auth.oauth.OAuthRequesterActivity"
+            android:name="com.github.mecharyry.auth.oauth.OAuthRequesterActivity"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -25,8 +25,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".tweetlist.ListViewActivity"
-            android:label="@string/title_activity_list_view"></activity>
+            android:name="com.github.mecharyry.tweetlist.ListViewActivity"
+            android:label="@string/title_activity_list_view" />
     </application>
 
 </manifest>

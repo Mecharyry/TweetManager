@@ -14,7 +14,7 @@ public class AccessTokenPreferences {
         return new AccessTokenPreferences(context.getSharedPreferences(AccessTokenPreferences.class.getSimpleName(), Context.MODE_PRIVATE));
     }
 
-    public AccessTokenPreferences(SharedPreferences preferences) {
+    private AccessTokenPreferences(SharedPreferences preferences) {
         this.preferences = preferences;
     }
 
