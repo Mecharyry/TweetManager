@@ -1,6 +1,7 @@
 package com.github.mecharyry.tweetlist.adapter;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,14 +17,16 @@ import java.util.List;
 public class TweetAdapter extends BaseAdapter {
     private final LayoutInflater layoutInflater;
     private final List<Tweet> tweets;
+    private final Resources resources;
 
     public static TweetAdapter newInstance(Context context) {
-        return new TweetAdapter(LayoutInflater.from(context), new ArrayList<Tweet>());
+        return new TweetAdapter(LayoutInflater.from(context), new ArrayList<Tweet>(), context.getResources());
     }
 
-    private TweetAdapter(LayoutInflater layoutInflater, List<Tweet> tweets) {
+    private TweetAdapter(LayoutInflater layoutInflater, List<Tweet> tweets, Resources resources) {
         this.layoutInflater = layoutInflater;
         this.tweets = tweets;
+        this.resources = resources;
     }
 
     public void updateTweets(List<Tweet> tweets) {
@@ -66,9 +69,9 @@ public class TweetAdapter extends BaseAdapter {
         }
 
         Tweet tweet = tweets.get(position);
-        holder.textScreenName.setText("Screen Name: " + tweet.getScreenName());
+        holder.textScreenName.setText(String.format(resources.getString(R.string.screen_name_text), tweet.getScreenName()));
         holder.textTweet.setText(tweet.getText());
-        holder.textLocation.setText("Location: " + tweet.getLocation());
+        holder.textLocation.setText(String.format(resources.getString(R.string.location_text), tweet.getLocation()));
 
         return row;
     }
