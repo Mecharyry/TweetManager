@@ -5,6 +5,7 @@ import android.content.Intent;
 
 public class OAuthRequester {
     private static final int REQUEST_CODE = 100;
+    private static final String OAUTH_VERIFIER = "OAUTH_VERIFIER";
     private final AuthenticatorRequesterResult onResult;
 
     public interface AuthenticatorRequesterResult {
@@ -23,7 +24,7 @@ public class OAuthRequester {
 
     public void onOAuthRequesterResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
-            String verifier = data.getStringExtra("OAUTH_VERIFIER");
+            String verifier = data.getStringExtra(OAUTH_VERIFIER);
             onResult.onRequesterResult(verifier);
         }
     }
