@@ -11,6 +11,7 @@ import com.github.mecharyry.R;
 import com.github.mecharyry.auth.oauth.AccessToken;
 import com.github.mecharyry.tweetlist.adapter.TweetAdapter;
 import com.github.mecharyry.tweetlist.adapter.mapping.Tweet;
+import com.github.mecharyry.tweetlist.task.PerformGetTask;
 
 import java.util.List;
 
@@ -21,9 +22,9 @@ public class ListViewActivity extends Activity {
     private RequestManager requestManager;
     private ListView listView;
 
-    private final RequestManager.Callback updateList = new RequestManager.Callback() {
+    private final PerformGetTask.Callback updateListCallback = new PerformGetTask.Callback() {
         @Override
-        public void onResponseResult(List<Tweet> tweets) {
+        public void onGetResponse(List<Tweet> tweets) {
             tweetArrayAdapter.updateTweets(tweets);
         }
     };
@@ -33,12 +34,12 @@ public class ListViewActivity extends Activity {
         super.onCreate(savedInstanceState);
         AccessTokenPreferences accessTokenPreferences = AccessTokenPreferences.newInstance(this);
         AccessToken accessToken = accessTokenPreferences.retrieveAccessToken();
-        requestManager = RequestManager.newInstance(accessToken, updateList);
+        requestManager = RequestManager.newInstance(accessToken);
         this.tweetArrayAdapter = TweetAdapter.newInstance(this);
         setContentView(R.layout.activity_list_view);
         listView = (ListView) findViewById(R.id.listview_tweets);
         listView.setAdapter(tweetArrayAdapter);
-        requestManager.requestAndroidDevTweets();
+        requestManager.requestAndroidDevTweets(updateListCallback);
     }
 
     @Override

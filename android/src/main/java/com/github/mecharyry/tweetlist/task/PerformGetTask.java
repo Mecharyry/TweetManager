@@ -1,27 +1,22 @@
 package com.github.mecharyry.tweetlist.task;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
+import com.github.mecharyry.tweetlist.JsonParsing;
+import com.github.mecharyry.tweetlist.TwitterRequester;
+import com.github.mecharyry.tweetlist.adapter.mapping.Tweet;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import org.json.JSONObject;
+
 import java.lang.ref.WeakReference;
+import java.util.List;
 
-public class PerformGetTask extends AsyncTask<String, Void, String> {
-    private static String TAG = "PerformGetTask";
+public class PerformGetTask extends AsyncTask<String, Void, List<Tweet>> {
+
     private final WeakReference<Callback> callbackWeakReference;
 
     public interface Callback {
-        void onRetrieved(String response);
+        void onGetResponse(List<Tweet> tweets);
     }
 
     public PerformGetTask(Callback callback) {
@@ -29,46 +24,17 @@ public class PerformGetTask extends AsyncTask<String, Void, String> {
     }
 
     @Override
-    protected String doInBackground(String... urls) {
-        HttpClient client = new DefaultHttpClient();
-        HttpGet get = new HttpGet(urls[0]);
-
-        HttpResponse response;
-        try {
-            response = client.execute(get);
-
-            HttpEntity entity = response.getEntity();
-
-            if (entity != null) {
-                Log.i(TAG, "Retrieved Response!");
-                InputStream inputStream = entity.getContent();
-                return inputStreamToString(inputStream);
-            }
-        } catch (ClientProtocolException e) {
-            Log.e(TAG, "ClientProtocolException", e);
-        } catch (IOException e) {
-            Log.e(TAG, "IOException", e);
-        }
-        return null;
+    protected List<Tweet> doInBackground(String... urls) {
+        JSONObject jsonObject = TwitterRequester.newInstance().request(urls[0]);
+        return JsonParsing.newInstance().TweetsByHashTag(jsonObject);
     }
 
     @Override
-    protected void onPostExecute(String response) {
+    protected void onPostExecute(List<Tweet> response) {
         super.onPostExecute(response);
         Callback callback = callbackWeakReference.get();
         if (callback != null) {
-            callback.onRetrieved(response);
+            callback.onGetResponse(response);
         }
-    }
-
-    protected static String inputStreamToString(InputStream inputStream) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-        StringBuilder stringBuilder = new StringBuilder();
-        String line;
-        while ((line = bufferedReader.readLine()) != null) {
-            stringBuilder.append(line);
-        }
-        inputStream.close();
-        return stringBuilder.toString();
     }
 }
