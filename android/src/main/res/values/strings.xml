@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="button_authorize_text">loginNewUser</string>
+    <string name="button_authorize">loginNewUser</string>
     <string name="action_settings">Twitter App</string>
-    <string name="button_dev_tweets_text">Retrieve Dev Tweets</string>
+    <string name="button_dev_tweets">Retrieve Dev Tweets</string>
     <string name="title_activity_list_view">ListViewActivity</string>
     <string name="hello_world">Hello world!</string>
-    <string name="screen_name_text">Screen Name: %1$s</string>
-    <string name="location_text">Location: %1$s</string>
+    <string name="screen_name_label">Screen Name: %1$s</string>
+    <string name="location_label">Location: %1$s</string>
 
 </resources>
