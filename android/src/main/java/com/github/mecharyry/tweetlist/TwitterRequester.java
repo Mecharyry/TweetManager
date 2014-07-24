@@ -20,7 +20,7 @@ public class TwitterRequester {
 
     private static final String TAG = "TwitterRequester";
 
-    public static TwitterRequester newInstance(){
+    public static TwitterRequester newInstance() {
         return new TwitterRequester();
     }
 
