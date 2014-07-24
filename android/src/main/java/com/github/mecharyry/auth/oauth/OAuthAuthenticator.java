@@ -10,7 +10,6 @@ import oauth.signpost.exception.OAuthMessageSignerException;
 import oauth.signpost.exception.OAuthNotAuthorizedException;
 
 public class OAuthAuthenticator {
-    private static final String TAG = "OAuthAuthenticator";
     private static final String OAUTH_CALLBACK_URL = "mecharyry-android:///";
     private static final String REQUEST_TOKEN_ENDPOINT_URL = "https://api.twitter.com/oauth/request_token";
     private static final String ACCESS_TOKEN_ENDPOINT_URL = "https://api.twitter.com/oauth/access_token";
@@ -25,6 +24,11 @@ public class OAuthAuthenticator {
         OAuthConsumer consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
         OAuthProvider provider = new CommonsHttpOAuthProvider(REQUEST_TOKEN_ENDPOINT_URL, ACCESS_TOKEN_ENDPOINT_URL, AUTHORIZATION_WEBSITE_URL);
         return new OAuthAuthenticator(consumer, provider);
+    }
+
+    public OAuthConsumer getConsumer(AccessToken accessToken) {
+        consumer.setTokenWithSecret(accessToken.getToken(), accessToken.getSecret());
+        return consumer;
     }
 
     public OAuthAuthenticator(OAuthConsumer consumer, OAuthProvider provider) {

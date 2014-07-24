@@ -16,12 +16,22 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.lang.ref.WeakReference;
 
-public class TwitterRequestTask extends AsyncTask<String, Void, ArrayList<?>> {
-    private static final String TAG = "TwitterRequestTask";
+public class PerformGetTask extends AsyncTask<String, Void, InputStream> {
+    private static String TAG = "PerformGetTask";
+    private final WeakReference<Callback> callbackWeakReference;
 
-    protected InputStream performGet(String... urls) {
+    public interface Callback {
+        void onRetrieved(InputStream stream);
+    }
+
+    public PerformGetTask(Callback callback) {
+        callbackWeakReference = new WeakReference<Callback>(callback);
+    }
+
+    @Override
+    protected InputStream doInBackground(String... urls) {
         HttpClient client = new DefaultHttpClient();
         HttpGet get = new HttpGet(urls[0]);
 
@@ -43,7 +53,16 @@ public class TwitterRequestTask extends AsyncTask<String, Void, ArrayList<?>> {
         return null;
     }
 
-    protected String inputStreamToString(InputStream inputStream) throws IOException {
+    @Override
+    protected void onPostExecute(InputStream inputStream) {
+        super.onPostExecute(inputStream);
+        Callback callback = callbackWeakReference.get();
+        if (callback != null) {
+            callback.onRetrieved(inputStream);
+        }
+    }
+
+    protected static String inputStreamToString(InputStream inputStream) throws IOException { // TODO: Move to new class.
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         StringBuilder stringBuilder = new StringBuilder();
         String line;
@@ -54,7 +73,7 @@ public class TwitterRequestTask extends AsyncTask<String, Void, ArrayList<?>> {
         return stringBuilder.toString();
     }
 
-    protected static JSONObject convertStringToJson(String input) {
+    protected static JSONObject convertStringToJson(String input) { // TODO: Move to new class.
         try {
             Log.i(TAG, new JSONObject(input).toString());
             return new JSONObject(input);
@@ -62,10 +81,5 @@ public class TwitterRequestTask extends AsyncTask<String, Void, ArrayList<?>> {
             Log.e(TAG, "JSONException", e);
         }
         return null;
-    }
-
-    @Override
-    protected ArrayList<?> doInBackground(String... params) {
-        throw new UnsupportedOperationException("Please use the subclass implementation of the doInBackground method.");
     }
 }

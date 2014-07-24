@@ -7,10 +7,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
+import com.github.mecharyry.AccessTokenPreferences;
 import com.github.mecharyry.R;
-import com.github.mecharyry.tweetlist.task.RetrieveTweetsByHashtagTask;
-
-import java.util.ArrayList;
+import com.github.mecharyry.auth.oauth.OAuthAuthenticator;
 
 import oauth.signpost.OAuthConsumer;
 import oauth.signpost.exception.OAuthCommunicationException;
@@ -20,31 +19,29 @@ import oauth.signpost.exception.OAuthMessageSignerException;
 public class ListViewActivity extends Activity {
 
     private static final String TAG = "ListViewActivity";
-    private ArrayList<Tweet> tweets;
     private TweetAdapter tweetArrayAdapter;
     private ListView listView;
     private OAuthConsumer consumer;
-
-    public void setTweets(ArrayList<Tweet> tweets) {
-        this.tweets.clear();
-        this.tweets.addAll(tweets);
-        tweetArrayAdapter.notifyDataSetChanged();
-    }
+    private OAuthAuthenticator oAuthAuthentication;
+    private AccessTokenPreferences accessTokenPreferences;
+    private RequestManager requestManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        oAuthAuthentication = OAuthAuthenticator.newInstance();
+        accessTokenPreferences = AccessTokenPreferences.newInstance(this);
+        consumer = oAuthAuthentication.getConsumer(accessTokenPreferences.retrieveAccessToken());
+        requestManager = RequestManager.newInstance();
+
         setContentView(R.layout.activity_list_view);
         int layoutId = R.layout.tweets_list_item;
         listView = (ListView) findViewById(R.id.listview_tweets);
 
-        consumer = (OAuthConsumer) getIntent().getExtras().get("CONSUMER");
-        tweets = new ArrayList<Tweet>();
-
-        tweetArrayAdapter = new TweetAdapter(this, layoutId, tweets);
+        tweetArrayAdapter = TweetAdapter.newInstance(this, layoutId);
         listView.setAdapter(tweetArrayAdapter);
 
-        requestAndroidDevTweets();
+        requestManager.requestAndroidDevTweets();
     }
 
     @Override
@@ -60,13 +57,6 @@ public class ListViewActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void requestAndroidDevTweets() {
-        String unsignedUrl = "https://api.twitter.com/1.1/search/tweets.json?q=%23AndroidDev&count=50";
-        String signedUrl = signUrl(unsignedUrl);
-        Log.i(TAG, "URL: " + signedUrl);
-        new RetrieveTweetsByHashtagTask(this).execute(signedUrl);
     }
 
     private String signUrl(String unsignedUrl) {

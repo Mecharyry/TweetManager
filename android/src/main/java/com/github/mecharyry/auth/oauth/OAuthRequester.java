@@ -3,7 +3,7 @@ package com.github.mecharyry.auth.oauth;
 import android.app.Activity;
 import android.content.Intent;
 
-public class OAuthRequestor {
+public class OAuthRequester {
     private static final int REQUEST_CODE = 100;
     private final AuthenticatorRequesterResult onResult;
 
@@ -11,7 +11,7 @@ public class OAuthRequestor {
         void onRequesterResult(String result);
     }
 
-    public OAuthRequestor(AuthenticatorRequesterResult onResult) {
+    public OAuthRequester(AuthenticatorRequesterResult onResult) {
         this.onResult = onResult;
     }
 

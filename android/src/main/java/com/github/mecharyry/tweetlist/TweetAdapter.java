@@ -10,18 +10,29 @@ import android.widget.TextView;
 
 import com.github.mecharyry.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TweetAdapter extends ArrayAdapter<Tweet> {
-    private Context context;
-    private int resource;
-    private List<Tweet> tweets;
+    private final Context context;
+    private final int resource;
+    private final List<Tweet> tweets;
 
-    public TweetAdapter(Context context, int resource, List<Tweet> objects) {
-        super(context, resource, objects);
+    public static TweetAdapter newInstance(Context context, int resource){
+        return  new TweetAdapter(context, resource);
+    }
+
+    private TweetAdapter(Context context, int resource) {
+        super(context, resource);
         this.context = context;
         this.resource = resource;
-        this.tweets = objects;
+        this.tweets = new ArrayList<Tweet>();
+    }
+
+    public void setTweets(ArrayList<Tweet> tweets) {
+        this.tweets.clear();
+        this.tweets.addAll(tweets);
+        this.notifyDataSetChanged();
     }
 
     @Override
