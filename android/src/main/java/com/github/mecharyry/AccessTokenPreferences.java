@@ -9,6 +9,7 @@ public class AccessTokenPreferences {
     private static final String PREF_ACCESS_TOKEN = "access_token";
     private static final String PREF_ACCESS_SECRET = "access_secret";
     private final SharedPreferences preferences;
+    private String DEFAULT_VALUE = "";
 
     public static AccessTokenPreferences newInstance(Context context) {
         return new AccessTokenPreferences(context.getSharedPreferences(AccessTokenPreferences.class.getSimpleName(), Context.MODE_PRIVATE));
@@ -26,8 +27,8 @@ public class AccessTokenPreferences {
     }
 
     public AccessToken retrieveAccessToken() {
-        String token = preferences.getString(PREF_ACCESS_TOKEN, "");
-        String secret = preferences.getString(PREF_ACCESS_SECRET, "");
+        String token = preferences.getString(PREF_ACCESS_TOKEN, DEFAULT_VALUE);
+        String secret = preferences.getString(PREF_ACCESS_SECRET, DEFAULT_VALUE);
         return new AccessToken(token, secret);
     }
 
