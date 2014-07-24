@@ -21,7 +21,7 @@ class AuthenticationManager {
         return new AuthenticationManager(OAuthAuthenticator.newInstance(), activity, AccessTokenPreferences.newInstance(activity));
     }
 
-    AuthenticationManager(OAuthAuthenticator oAuthAuthentication, Activity activity, AccessTokenPreferences accessTokenPreferences) {
+    private AuthenticationManager(OAuthAuthenticator oAuthAuthentication, Activity activity, AccessTokenPreferences accessTokenPreferences) {
         this.oAuthAuthentication = oAuthAuthentication;
         this.oAuthRequester = new OAuthRequester(onOAuthRequesterResult);
         this.activity = activity;

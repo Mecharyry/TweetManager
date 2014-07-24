@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 
 public class OAuthRequester {
-    private static final int REQUEST_CODE = 100;
     private static final String OAUTH_VERIFIER = "OAUTH_VERIFIER";
     private final AuthenticatorRequesterResult onResult;
+    private static final int REQUEST_CODE = 100;
 
     public interface AuthenticatorRequesterResult {
         void onRequesterResult(String result);

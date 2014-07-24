@@ -24,6 +24,9 @@ public class TwitterRequester {
         return new TwitterRequester();
     }
 
+    private TwitterRequester() {
+    }
+
     public JSONObject request(String signedUrl) {
         HttpClient client = new DefaultHttpClient();
         HttpGet get = new HttpGet(signedUrl);

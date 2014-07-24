@@ -20,7 +20,7 @@ public class RequestManager {
         return new RequestManager(oAuthConsumer);
     }
 
-    public RequestManager(OAuthConsumer consumer) {
+    private RequestManager(OAuthConsumer consumer) {
         this.consumer = consumer;
     }
 

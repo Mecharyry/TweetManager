@@ -23,13 +23,16 @@ public class JsonParsing {
         return new JsonParsing();
     }
 
+    private JsonParsing() {
+    }
+
     public List<Tweet> TweetsByHashTag(JSONObject jsonObject) {
         try {
             ArrayList<Tweet> tweets = new ArrayList<Tweet>();
             JSONArray statuses = jsonObject.getJSONArray(TAG_STATUSES);
 
-            for (int i = 0; i < statuses.length(); i++) {
-                JSONObject innerJsonObject = statuses.getJSONObject(i);
+            for (int statusIndex = 0; statusIndex < statuses.length(); statusIndex++) {
+                JSONObject innerJsonObject = statuses.getJSONObject(statusIndex);
                 JSONObject user = innerJsonObject.getJSONObject(TAG_USER);
                 String screenName = user.getString(TAG_SCREEN_NAME);
                 String location = user.getString(TAG_LOCATION);
