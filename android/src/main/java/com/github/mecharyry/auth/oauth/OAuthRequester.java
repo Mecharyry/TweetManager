@@ -22,7 +22,7 @@ public class OAuthRequester {
     }
 
     public void onOAuthRequesterResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK && requestCode == 100) {
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
             String verifier = data.getStringExtra("OAUTH_VERIFIER");
             onResult.onRequesterResult(verifier);
         }
