@@ -31,7 +31,7 @@ public class OAuthAuthenticator {
         return consumer;
     }
 
-    public OAuthAuthenticator(OAuthConsumer consumer, OAuthProvider provider) {
+    private OAuthAuthenticator(OAuthConsumer consumer, OAuthProvider provider) {
         this.consumer = consumer;
         this.provider = provider;
     }

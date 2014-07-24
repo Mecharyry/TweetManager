@@ -1,38 +1,50 @@
-package com.github.mecharyry.tweetlist;
+package com.github.mecharyry.tweetlist.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.github.mecharyry.R;
+import com.github.mecharyry.tweetlist.adapter.mapping.Tweet;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TweetAdapter extends ArrayAdapter<Tweet> {
-    private final Context context;
-    private final int resource;
+public class TweetAdapter extends BaseAdapter {
+    private final LayoutInflater layoutInflater;
     private final List<Tweet> tweets;
 
-    public static TweetAdapter newInstance(Context context, int resource){
-        return  new TweetAdapter(context, resource);
+    public static TweetAdapter newInstance(Context context) {
+        return new TweetAdapter(LayoutInflater.from(context), new ArrayList<Tweet>());
     }
 
-    private TweetAdapter(Context context, int resource) {
-        super(context, resource);
-        this.context = context;
-        this.resource = resource;
-        this.tweets = new ArrayList<Tweet>();
+    private TweetAdapter(LayoutInflater layoutInflater, List<Tweet> tweets) {
+        this.layoutInflater = layoutInflater;
+        this.tweets = tweets;
     }
 
-    public void setTweets(ArrayList<Tweet> tweets) {
+    public void updateTweets(List<Tweet> tweets) {
         this.tweets.clear();
         this.tweets.addAll(tweets);
         this.notifyDataSetChanged();
+    }
+
+    @Override
+    public int getCount() {
+        return tweets.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return tweets.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return tweets.get(position).hashCode();
     }
 
     @Override
@@ -41,8 +53,7 @@ public class TweetAdapter extends ArrayAdapter<Tweet> {
         TweetHolder holder = null;
 
         if (row == null) {
-            LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-            row = inflater.inflate(resource, parent, false);
+            row = layoutInflater.inflate(R.layout.tweets_list_item, parent, false);
 
             holder = new TweetHolder();
             holder.textScreenName = (TextView) row.findViewById(R.id.text_screen_name);
@@ -60,11 +71,6 @@ public class TweetAdapter extends ArrayAdapter<Tweet> {
         holder.textLocation.setText("Location: " + tweet.getLocation());
 
         return row;
-    }
-
-    @Override
-    public void setNotifyOnChange(boolean notifyOnChange) {
-        super.setNotifyOnChange(notifyOnChange);
     }
 
     private static class TweetHolder {

@@ -9,8 +9,6 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,12 +16,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.ref.WeakReference;
 
-public class PerformGetTask extends AsyncTask<String, Void, InputStream> {
+public class PerformGetTask extends AsyncTask<String, Void, String> {
     private static String TAG = "PerformGetTask";
     private final WeakReference<Callback> callbackWeakReference;
 
     public interface Callback {
-        void onRetrieved(InputStream stream);
+        void onRetrieved(String response);
     }
 
     public PerformGetTask(Callback callback) {
@@ -31,7 +29,7 @@ public class PerformGetTask extends AsyncTask<String, Void, InputStream> {
     }
 
     @Override
-    protected InputStream doInBackground(String... urls) {
+    protected String doInBackground(String... urls) {
         HttpClient client = new DefaultHttpClient();
         HttpGet get = new HttpGet(urls[0]);
 
@@ -43,7 +41,8 @@ public class PerformGetTask extends AsyncTask<String, Void, InputStream> {
 
             if (entity != null) {
                 Log.i(TAG, "Retrieved Response!");
-                return entity.getContent();
+                InputStream inputStream = entity.getContent();
+                return inputStreamToString(inputStream);
             }
         } catch (ClientProtocolException e) {
             Log.e(TAG, "ClientProtocolException", e);
@@ -54,15 +53,15 @@ public class PerformGetTask extends AsyncTask<String, Void, InputStream> {
     }
 
     @Override
-    protected void onPostExecute(InputStream inputStream) {
-        super.onPostExecute(inputStream);
+    protected void onPostExecute(String response) {
+        super.onPostExecute(response);
         Callback callback = callbackWeakReference.get();
         if (callback != null) {
-            callback.onRetrieved(inputStream);
+            callback.onRetrieved(response);
         }
     }
 
-    protected static String inputStreamToString(InputStream inputStream) throws IOException { // TODO: Move to new class.
+    protected static String inputStreamToString(InputStream inputStream) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         StringBuilder stringBuilder = new StringBuilder();
         String line;
@@ -71,15 +70,5 @@ public class PerformGetTask extends AsyncTask<String, Void, InputStream> {
         }
         inputStream.close();
         return stringBuilder.toString();
-    }
-
-    protected static JSONObject convertStringToJson(String input) { // TODO: Move to new class.
-        try {
-            Log.i(TAG, new JSONObject(input).toString());
-            return new JSONObject(input);
-        } catch (JSONException e) {
-            Log.e(TAG, "JSONException", e);
-        }
-        return null;
     }
 }
