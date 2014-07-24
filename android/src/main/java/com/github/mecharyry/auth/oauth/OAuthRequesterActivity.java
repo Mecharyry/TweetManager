@@ -10,6 +10,8 @@ import com.github.mecharyry.R;
 
 public class OAuthRequesterActivity extends Activity {
 
+    private static final String OAUTH_VERIFIER = "OAUTH_VERIFIER";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +32,7 @@ public class OAuthRequesterActivity extends Activity {
         if (responseUri != null) {
             String oauthVerifier = responseUri.getQueryParameter("oauth_verifier");
             Intent intentVerifier = new Intent();
-            intentVerifier.putExtra("OAUTH_VERIFIER", oauthVerifier);
+            intentVerifier.putExtra(OAUTH_VERIFIER, oauthVerifier);
             setResult(Activity.RESULT_OK, intentVerifier);
             finish();
         }

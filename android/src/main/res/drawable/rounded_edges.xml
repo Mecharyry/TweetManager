@@ -3,16 +3,16 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/shape_my">
     <stroke
-        android:width="4dp"
-        android:color="#636161" />
+        android:width="@dimen/rounded_edges_border_width"
+        android:color="@color/rounded_edges_border_color" />
 
     <padding
-        android:left="5dp"
-        android:top="5dp"
-        android:right="5dp"
-        android:bottom="5dp" />
+        android:left="@dimen/rounded_edges_left_padding"
+        android:top="@dimen/rounded_edges_top_padding"
+        android:right="@dimen/rounded_edges_right_padding"
+        android:bottom="@dimen/rounded_edges_bottom_padding" />
 
-    <corners android:radius="24dp" />
+    <corners android:radius="@dimen/rounded_edges_radius" />
 
-    <solid android:color="#FFF" />
+    <solid android:color="@color/rounded_edges_background_color" />
 </shape>

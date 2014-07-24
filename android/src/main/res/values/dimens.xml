@@ -5,4 +5,10 @@
     <dimen name="list_view_item_padding">12dp</dimen>
     <dimen name="list_view_padding">10dp</dimen>
     <dimen name="list_view_divider_height">10.0sp</dimen>
+    <dimen name="rounded_edges_left_padding">5dp</dimen>
+    <dimen name="rounded_edges_top_padding">5dp</dimen>
+    <dimen name="rounded_edges_right_padding">5dp</dimen>
+    <dimen name="rounded_edges_bottom_padding">5dp</dimen>
+    <dimen name="rounded_edges_radius">24dp</dimen>
+    <dimen name="rounded_edges_border_width">4dp</dimen>
 </resources>
