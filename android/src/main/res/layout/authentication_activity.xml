@@ -7,10 +7,10 @@
 
     <ImageView
         android:id="@+id/image_view_twitter_logo"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
+        android:layout_width="@dimen/logo_width"
+        android:layout_height="@dimen/logo_height"
         android:layout_centerHorizontal="true"
-        android:layout_margin="20dp"
+        android:layout_margin="@dimen/logo_margin"
         android:src="@drawable/twitter_dark" />
 
     <Button
@@ -19,23 +19,15 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/image_view_twitter_logo"
         android:layout_centerHorizontal="true"
-        android:text="@string/button_authorize_text" />
-
-    <Button
-        android:id="@+id/button_clear_credentials"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/button_authorize"
-        android:layout_centerHorizontal="true"
-        android:text="@string/clear_credentials" />
+        android:text="@string/authenticate" />
 
     <Button
         android:id="@+id/button_android_dev_tweets"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/button_clear_credentials"
+        android:layout_below="@+id/button_authorize"
         android:layout_centerHorizontal="true"
-        android:text="Android Dev Tweets" />
+        android:text="@string/android_dev_tweets"/>
 
     <Button
         android:id="@+id/button_my_stream"
@@ -43,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/button_android_dev_tweets"
         android:layout_centerHorizontal="true"
-        android:text="My Stream" />
+        android:text="@string/my_stream"/>
 
 </RelativeLayout>
 

@@ -10,25 +10,33 @@ import com.github.mecharyry.auth.oauth.OAuthRequester;
 import com.github.mecharyry.auth.oauth.task.RequestAccessTokenTask;
 import com.github.mecharyry.auth.oauth.task.RequestTokenTask;
 
+import java.lang.ref.WeakReference;
+
 class AuthenticationManager {
 
     private final OAuthAuthenticator oAuthAuthentication;
     private final OAuthRequester oAuthRequester;
     private final Activity activity;
     private final AccessTokenPreferences accessTokenPreferences;
+    private static WeakReference<Callback> callbackWeakReference;
 
-    public static AuthenticationManager newInstance(Activity activity) {
-        return new AuthenticationManager(OAuthAuthenticator.newInstance(), activity, AccessTokenPreferences.newInstance(activity));
+    public interface Callback {
+        void onAuthenticated();
     }
 
-    private AuthenticationManager(OAuthAuthenticator oAuthAuthentication, Activity activity, AccessTokenPreferences accessTokenPreferences) {
+    public static AuthenticationManager newInstance(Activity activity, Callback callback) {
+        return new AuthenticationManager(OAuthAuthenticator.newInstance(), activity, AccessTokenPreferences.newInstance(activity), callback);
+    }
+
+    private AuthenticationManager(OAuthAuthenticator oAuthAuthentication, Activity activity, AccessTokenPreferences accessTokenPreferences, Callback callback) {
         this.oAuthAuthentication = oAuthAuthentication;
         this.oAuthRequester = new OAuthRequester(onOAuthRequesterResult);
         this.activity = activity;
         this.accessTokenPreferences = accessTokenPreferences;
+        callbackWeakReference = new WeakReference<Callback>(callback);
     }
 
-    private final OAuthRequester.AuthenticatorRequesterResult onOAuthRequesterResult = new OAuthRequester.AuthenticatorRequesterResult() {
+    private final OAuthRequester.Callback onOAuthRequesterResult = new OAuthRequester.Callback() {
         @Override
         public void onRequesterResult(String result) {
             new RequestAccessTokenTask(accessTokenCallback, oAuthAuthentication).execute(result);
@@ -39,6 +47,10 @@ class AuthenticationManager {
         @Override
         public void onRetrieved(AccessToken response) {
             accessTokenPreferences.saveAccessToken(response);
+            Callback callback = callbackWeakReference.get();
+            if(callback != null){
+                callback.onAuthenticated();
+            }
         }
     };
 
@@ -59,5 +71,9 @@ class AuthenticationManager {
 
     public boolean hasAccessToken() {
         return accessTokenPreferences.hasAccess();
+    }
+
+    public void removeAccessToken(){
+        accessTokenPreferences.removeAccessToken();
     }
 }

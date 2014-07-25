@@ -69,9 +69,9 @@ public class TweetAdapter extends BaseAdapter {
         }
 
         Tweet tweet = tweets.get(position);
-        holder.textScreenName.setText(String.format(resources.getString(R.string.screen_name_text), tweet.getScreenName()));
+        holder.textScreenName.setText(String.format(resources.getString(R.string.screen_name_label), tweet.getScreenName()));
         holder.textTweet.setText(tweet.getText());
-        holder.textLocation.setText(String.format(resources.getString(R.string.location_text), tweet.getLocation()));
+        holder.textLocation.setText(String.format(resources.getString(R.string.location_label), tweet.getLocation()));
 
         return row;
     }

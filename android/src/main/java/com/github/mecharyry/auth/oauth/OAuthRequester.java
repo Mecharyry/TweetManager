@@ -5,14 +5,14 @@ import android.content.Intent;
 
 public class OAuthRequester {
     private static final String OAUTH_VERIFIER = "OAUTH_VERIFIER";
-    private final AuthenticatorRequesterResult onResult;
+    private final Callback onResult;
     private static final int REQUEST_CODE = 100;
 
-    public interface AuthenticatorRequesterResult {
+    public interface Callback {
         void onRequesterResult(String result);
     }
 
-    public OAuthRequester(AuthenticatorRequesterResult onResult) {
+    public OAuthRequester(Callback onResult) {
         this.onResult = onResult;
     }
 

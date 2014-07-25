@@ -41,19 +41,4 @@ public class AndroidDevTweetsActivity extends Activity {
         listView.setAdapter(tweetArrayAdapter);
         requestManager.requestAndroidDevTweets(updateListCallback);
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.list_view, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }
