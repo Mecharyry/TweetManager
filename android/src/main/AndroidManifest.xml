@@ -2,13 +2,31 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.github.mecharyry">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application>
-        <activity android:name="com.github.mecharyry.MainActivity">
+        <activity android:name="com.github.mecharyry.auth.AuthenticationActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.github.mecharyry.auth.oauth.OAuthRequesterActivity"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="mecharyry-android" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.github.mecharyry.tweetlist.ListViewActivity"
+            android:label="@string/title_activity_list_view" />
     </application>
 
 </manifest>
