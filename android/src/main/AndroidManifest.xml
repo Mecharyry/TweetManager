@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.github.mecharyry" >
+    package="com.github.mecharyry">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <application>
-        <activity android:name="com.github.mecharyry.auth.AuthenticationActivity" >
+    <application android:theme="@android:style/Theme.Light">
+        <activity android:name="com.github.mecharyry.auth.AuthenticationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -14,7 +14,7 @@
         </activity>
         <activity
             android:name="com.github.mecharyry.auth.oauth.OAuthRequesterActivity"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -29,8 +29,7 @@
             android:label="@string/title_activity_list_view" />
         <activity
             android:name="com.github.mecharyry.tweetlist.MyStreamActivity"
-            android:label="@string/title_activity_my_stream" >
-        </activity>
+            android:label="@string/title_activity_my_stream"/>
     </application>
 
 </manifest>

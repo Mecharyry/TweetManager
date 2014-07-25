@@ -1,31 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/rounded_edges"
-    android:padding="@dimen/list_view_item_padding">
+    android:background="@drawable/shadows"
+    android:padding="@dimen/list_view_item_padding" >
 
-    <TextView
-        android:id="@+id/text_tweet"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textColor="@color/tweet_text_color"
-        android:typeface="monospace"
-        android:textStyle="bold" />
+    <ImageView
+        android:id="@+id/user_thumb_image"
+        android:layout_width="@dimen/thumb_image_width"
+        android:layout_height="@dimen/thumb_image_height" />
 
     <TextView
         android:id="@+id/text_screen_name"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:text="@string/screen_name_label" />
+        android:text="@string/screen_name_label"
+        android:layout_toRightOf="@id/user_thumb_image"
+        android:layout_marginTop="@dimen/thumb_info_top_margin"/>
 
     <TextView
         android:id="@+id/text_location"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/location_label" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/location_label"
+        android:layout_below="@+id/text_screen_name"
+        android:layout_toRightOf="@id/user_thumb_image"
+        android:layout_marginTop="@dimen/thumb_info_top_margin"/>
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/text_tweet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/tweet_text_color"
+        android:typeface="normal"
+        android:textStyle="bold"
+        android:layout_below="@+id/text_location"
+        android:layout_marginTop="@dimen/thumb_info_top_margin" />
+
+</RelativeLayout>

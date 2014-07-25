@@ -4,8 +4,8 @@
     android:id="@+id/listview_androiddev_tweets"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:layout_margin="@dimen/list_view_padding"
-    android:scrollbars="none"
     android:divider="@android:color/transparent"
-    android:dividerHeight="@dimen/list_view_divider_height" />
+    android:dividerHeight="@dimen/list_view_divider_height"
+    android:orientation="vertical"
+    android:scrollbars="none"/>

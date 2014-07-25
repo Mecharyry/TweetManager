@@ -19,7 +19,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/image_view_twitter_logo"
         android:layout_centerHorizontal="true"
-        android:text="@string/authenticate" />
+        android:text="@string/authenticate"
+        android:padding="@dimen/menu_button_padding"/>
 
     <Button
         android:id="@+id/button_android_dev_tweets"
@@ -27,7 +28,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/button_authorize"
         android:layout_centerHorizontal="true"
-        android:text="@string/android_dev_tweets"/>
+        android:text="@string/android_dev_tweets"
+        android:padding="@dimen/menu_button_padding"/>
 
     <Button
         android:id="@+id/button_my_stream"
@@ -35,7 +37,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/button_android_dev_tweets"
         android:layout_centerHorizontal="true"
-        android:text="@string/my_stream"/>
+        android:text="@string/my_stream"
+        android:padding="@dimen/menu_button_padding"/>
 
 </RelativeLayout>
 
