@@ -1,5 +1,7 @@
 package com.github.mecharyry.auth.oauth;
 
+import com.github.mecharyry.BuildConfig;
+
 import oauth.signpost.OAuthConsumer;
 import oauth.signpost.OAuthProvider;
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
@@ -15,8 +17,8 @@ public class OAuthAuthenticator {
     private static final String REQUEST_TOKEN_ENDPOINT_URL = "https://api.twitter.com/oauth/request_token";
     private static final String ACCESS_TOKEN_ENDPOINT_URL = "https://api.twitter.com/oauth/access_token";
     private static final String AUTHORIZATION_WEBSITE_URL = "https://api.twitter.com/oauth/authorize";
-    private static final String CONSUMER_KEY = "Mz3VVcNtAX7m1UIi2tS8Xf8X9";
-    private static final String CONSUMER_SECRET = "Lj5tHjg5sl2OXHrfjzBI9yTc86wIs7PN4MUJPOUo7076vdciiH";
+    private static final String CONSUMER_KEY = BuildConfig.CONSUMER_KEY;
+    private static final String CONSUMER_SECRET = BuildConfig.CONSUMER_SECRET;
 
     private final OAuthConsumer consumer;
     private final OAuthProvider provider;
