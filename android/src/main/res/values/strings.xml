@@ -12,5 +12,6 @@
 
     <string name="screen_name_label">Screen Name: %1$s</string>
     <string name="location_label">Location: %1$s</string>
+    <string name="title_activity_authentication">Authentication</string>
 
 </resources>

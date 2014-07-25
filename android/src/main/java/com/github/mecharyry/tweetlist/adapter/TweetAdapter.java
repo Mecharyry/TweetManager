@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.mecharyry.R;
@@ -62,6 +63,7 @@ public class TweetAdapter extends BaseAdapter {
             holder.textScreenName = (TextView) row.findViewById(R.id.text_screen_name);
             holder.textTweet = (TextView) row.findViewById(R.id.text_tweet);
             holder.textLocation = (TextView) row.findViewById(R.id.text_location);
+            holder.imageThumbNail = (ImageView) row.findViewById(R.id.user_thumb_image);
 
             row.setTag(holder);
         } else {
@@ -72,6 +74,7 @@ public class TweetAdapter extends BaseAdapter {
         holder.textScreenName.setText(String.format(resources.getString(R.string.screen_name_label), tweet.getScreenName()));
         holder.textTweet.setText(tweet.getText());
         holder.textLocation.setText(String.format(resources.getString(R.string.location_label), tweet.getLocation()));
+        holder.imageThumbNail.setImageBitmap(tweet.getThumbImage());
 
         return row;
     }
@@ -80,5 +83,6 @@ public class TweetAdapter extends BaseAdapter {
         TextView textScreenName;
         TextView textTweet;
         TextView textLocation;
+        ImageView imageThumbNail;
     }
 }

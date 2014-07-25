@@ -22,4 +22,5 @@
     <dimen name="shadow_right_padding">3dp</dimen>
     <dimen name="shadow_bottom_padding">3dp</dimen>
     <dimen name="shadow_left_padding">0dp</dimen>
+    <dimen name="thumb_info_left_margin">5dp</dimen>
 </resources>

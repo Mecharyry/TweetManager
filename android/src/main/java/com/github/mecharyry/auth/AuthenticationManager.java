@@ -48,7 +48,7 @@ class AuthenticationManager {
         public void onRetrieved(AccessToken response) {
             accessTokenPreferences.saveAccessToken(response);
             Callback callback = callbackWeakReference.get();
-            if(callback != null){
+            if (callback != null) {
                 callback.onAuthenticated();
             }
         }
@@ -73,7 +73,7 @@ class AuthenticationManager {
         return accessTokenPreferences.hasAccess();
     }
 
-    public void removeAccessToken(){
+    public void removeAccessToken() {
         accessTokenPreferences.removeAccessToken();
     }
 }

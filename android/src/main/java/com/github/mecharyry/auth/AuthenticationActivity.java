@@ -8,9 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.github.mecharyry.AccessTokenPreferences;
 import com.github.mecharyry.R;
-import com.github.mecharyry.auth.oauth.AccessToken;
 import com.github.mecharyry.tweetlist.AndroidDevTweetsActivity;
 
 public class AuthenticationActivity extends Activity {
@@ -36,7 +34,7 @@ public class AuthenticationActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.menu_item_clear_credentials:
                 manager.removeAccessToken();
                 setButtonsEnabled(manager.hasAccessToken());

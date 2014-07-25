@@ -2,42 +2,62 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape>
-            <solid android:color="#10CCCCCC" />
-            <padding android:top="@dimen/shadow_top_padding" android:right="@dimen/shadow_right_padding" android:bottom="@dimen/shadow_bottom_padding" android:left="@dimen/shadow_left_padding" />
+            <solid android:color="@color/shadow_level_01" />
+            <padding
+                android:top="@dimen/shadow_top_padding"
+                android:right="@dimen/shadow_right_padding"
+                android:bottom="@dimen/shadow_bottom_padding"
+                android:left="@dimen/shadow_left_padding" />
         </shape>
     </item>
 
     <item>
         <shape>
-            <solid android:color="#20CCCCCC" />
-            <padding android:top="@dimen/shadow_top_padding" android:right="@dimen/shadow_right_padding" android:bottom="@dimen/shadow_bottom_padding" android:left="@dimen/shadow_left_padding" />
+            <solid android:color="@color/shadow_level_02" />
+            <padding
+                android:top="@dimen/shadow_top_padding"
+                android:right="@dimen/shadow_right_padding"
+                android:bottom="@dimen/shadow_bottom_padding"
+                android:left="@dimen/shadow_left_padding" />
         </shape>
     </item>
 
     <item>
         <shape>
-            <solid android:color="#40CCCCCC" />
-            <padding android:top="@dimen/shadow_top_padding" android:right="@dimen/shadow_right_padding" android:bottom="@dimen/shadow_bottom_padding" android:left="@dimen/shadow_left_padding" />
+            <solid android:color="@color/shadow_level_03" />
+            <padding
+                android:top="@dimen/shadow_top_padding"
+                android:right="@dimen/shadow_right_padding"
+                android:bottom="@dimen/shadow_bottom_padding"
+                android:left="@dimen/shadow_left_padding" />
         </shape>
     </item>
 
     <item>
         <shape>
-            <solid android:color="#50CCCCCC" />
-            <padding android:top="@dimen/shadow_top_padding" android:right="@dimen/shadow_right_padding" android:bottom="@dimen/shadow_bottom_padding" android:left="@dimen/shadow_left_padding" />
+            <solid android:color="@color/shadow_level_04" />
+            <padding
+                android:top="@dimen/shadow_top_padding"
+                android:right="@dimen/shadow_right_padding"
+                android:bottom="@dimen/shadow_bottom_padding"
+                android:left="@dimen/shadow_left_padding" />
         </shape>
     </item>
 
     <item>
         <shape>
-            <solid android:color="#60CCCCCC" />
-            <padding android:top="@dimen/shadow_top_padding" android:right="@dimen/shadow_right_padding" android:bottom="@dimen/shadow_bottom_padding" android:left="@dimen/shadow_left_padding" />
+            <solid android:color="@color/shadow_level_05" />
+            <padding
+                android:top="@dimen/shadow_top_padding"
+                android:right="@dimen/shadow_right_padding"
+                android:bottom="@dimen/shadow_bottom_padding"
+                android:left="@dimen/shadow_left_padding" />
         </shape>
     </item>
 
     <item>
         <shape>
-            <solid android:color="#FFFFFF" />
+            <solid android:color="@color/shadow_level_content_background" />
         </shape>
     </item>
 </layer-list>
