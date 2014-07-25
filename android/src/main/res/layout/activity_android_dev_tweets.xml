@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/listview_androiddev_tweets"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="@dimen/list_view_padding"
+    android:scrollbars="none"
+    android:divider="@android:color/transparent"
+    android:dividerHeight="@dimen/list_view_divider_height" />

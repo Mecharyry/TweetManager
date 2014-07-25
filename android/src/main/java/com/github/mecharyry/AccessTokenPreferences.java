@@ -26,6 +26,13 @@ public class AccessTokenPreferences {
         editor.apply();
     }
 
+    public void removeAccessToken() {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.remove(PREF_ACCESS_TOKEN);
+        editor.remove(PREF_ACCESS_SECRET);
+        editor.apply();
+    }
+
     public AccessToken retrieveAccessToken() {
         String token = preferences.getString(PREF_ACCESS_TOKEN, DEFAULT_VALUE);
         String secret = preferences.getString(PREF_ACCESS_SECRET, DEFAULT_VALUE);

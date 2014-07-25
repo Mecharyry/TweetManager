@@ -7,23 +7,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.github.mecharyry.AccessTokenPreferences;
 import com.github.mecharyry.R;
-import com.github.mecharyry.tweetlist.ListViewActivity;
+import com.github.mecharyry.tweetlist.AndroidDevTweetsActivity;
 
 public class AuthenticationActivity extends Activity {
 
     private AuthenticationManager manager;
+    private AccessTokenPreferences accessTokenPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         manager = AuthenticationManager.newInstance(this);
+        accessTokenPreferences = AccessTokenPreferences.newInstance(this.getApplicationContext());
 
         setContentView(R.layout.authentication_activity);
-
-        Button button = (Button) findViewById(R.id.button_authorize);
-        button.setOnClickListener(onAuthorizeButtonClicked);
-
+        findViewById(R.id.button_authorize).setOnClickListener(onAuthorizeButtonClicked);
+        findViewById(R.id.button_clear_credentials).setOnClickListener(onClearCredentialsClicked);
     }
 
     private final View.OnClickListener onAuthorizeButtonClicked = new View.OnClickListener() {
@@ -38,8 +39,18 @@ public class AuthenticationActivity extends Activity {
         }
 
         private void navigateToTweetList() {
-            Intent intent = new Intent(AuthenticationActivity.this, ListViewActivity.class);
+            Intent intent = new Intent(AuthenticationActivity.this, AndroidDevTweetsActivity.class);
             startActivity(intent);
+        }
+    };
+
+
+
+    private final View.OnClickListener onClearCredentialsClicked = new View.OnClickListener(){
+
+        @Override
+        public void onClick(View v) {
+            accessTokenPreferences.removeAccessToken();
         }
     };
 

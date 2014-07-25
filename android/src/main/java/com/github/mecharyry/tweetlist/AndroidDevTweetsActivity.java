@@ -15,7 +15,7 @@ import com.github.mecharyry.tweetlist.task.PerformGetTask;
 
 import java.util.List;
 
-public class ListViewActivity extends Activity {
+public class AndroidDevTweetsActivity extends Activity {
 
     private static final String TAG = "ListViewActivity";
     private TweetAdapter tweetArrayAdapter;
@@ -36,8 +36,8 @@ public class ListViewActivity extends Activity {
         AccessToken accessToken = accessTokenPreferences.retrieveAccessToken();
         requestManager = RequestManager.newInstance(accessToken);
         this.tweetArrayAdapter = TweetAdapter.newInstance(this);
-        setContentView(R.layout.activity_list_view);
-        listView = (ListView) findViewById(R.id.listview_tweets);
+        setContentView(R.layout.activity_android_dev_tweets);
+        listView = (ListView) findViewById(R.id.listview_androiddev_tweets);
         listView.setAdapter(tweetArrayAdapter);
         requestManager.requestAndroidDevTweets(updateListCallback);
     }
