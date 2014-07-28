@@ -38,7 +38,7 @@ public class AuthenticationActivity extends Activity {
     private final View.OnClickListener onAuthorizeButtonClicked = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Toast.makeText(AuthenticationActivity.this, "Opening Browser", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AuthenticationActivity.this, getString(R.string.toast_notification), Toast.LENGTH_SHORT).show();
             manager.authenticate();
         }
     };

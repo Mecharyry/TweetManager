@@ -15,5 +15,6 @@
     <string name="title_activity_authentication">Authentication</string>
     <string name="user_thumbnail_image_content_description">user thumbnail image</string>
     <string name="application_logo_content_description">Application logo</string>
+    <string name="toast_notification">Opening Browser</string>
 
 </resources>
