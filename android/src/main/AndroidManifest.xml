@@ -21,17 +21,23 @@
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data android:scheme="mecharyry-android" />
             </intent-filter>
         </activity>
 
         <activity
             android:name="com.github.mecharyry.tweetlist.AndroidDevTweetsActivity"
-            android:label="@string/title_activity_list_view" />
+            android:label="@string/title_activity_list_view">
+            28
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="com.github.mecharyry.ANDROID_TWEETS_INTENT"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+        </activity>
         <activity
             android:name="com.github.mecharyry.tweetlist.MyStreamActivity"
             android:label="@string/title_activity_my_stream" />

@@ -2,9 +2,11 @@ package com.github.mecharyry.auth.oauth;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 
 public class OAuthRequester {
     private static final String OAUTH_VERIFIER = "OAUTH_VERIFIER";
+    public static final String AUTHENTICATION_BROWSER_INTENT = "com.github.mecharyry.ANDROID_TWEETS_INTENT";
     private final Callback onResult;
     private static final int REQUEST_CODE = 100;
 

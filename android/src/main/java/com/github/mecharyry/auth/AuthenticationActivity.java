@@ -15,6 +15,7 @@ import com.github.mecharyry.tweetlist.AndroidDevTweetsActivity;
 public class AuthenticationActivity extends Activity {
 
     private static final String TAG = "AuthenticationActivity";
+    private static final String ANDROID_DEV_TWEETS_INTENT = "com.github.mecharyry.ANDROID_TWEETS_INTENT";
     private AuthenticationManager manager;
 
     @Override
@@ -71,7 +72,7 @@ public class AuthenticationActivity extends Activity {
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(AuthenticationActivity.this, AndroidDevTweetsActivity.class);
+            Intent intent = new Intent(ANDROID_DEV_TWEETS_INTENT);
             startActivity(intent);
         }
     };
