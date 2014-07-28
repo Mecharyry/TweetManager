@@ -21,8 +21,8 @@ public class PerformGetTask extends AsyncTask<String, Void, List<Tweet>> {
         void onGetResponse(List<Tweet> tweets);
     }
 
-    public PerformGetTask(Callback callback) {
-        callbackWeakReference = new WeakReference<Callback>(callback);
+    public PerformGetTask(WeakReference<Callback> callbackWeakReference) {
+        this.callbackWeakReference = callbackWeakReference;
         twitterRequester = new TwitterRequester();
         jsonParsing = new JsonParsing();
     }

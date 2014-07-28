@@ -15,8 +15,8 @@ public class RequestTokenTask extends AsyncTask<Void, Void, String> {
         void onRetrieved(String response);
     }
 
-    public RequestTokenTask(Callback callback, OAuthAuthenticator oAuthAuthenticator) {
-        callbackWeakReference = new WeakReference<Callback>(callback);
+    public RequestTokenTask(WeakReference<Callback> callbackWeakReference, OAuthAuthenticator oAuthAuthenticator) {
+        this.callbackWeakReference = callbackWeakReference;
         this.oAuthAuthenticator = oAuthAuthenticator;
     }
 

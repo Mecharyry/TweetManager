@@ -4,6 +4,8 @@ import com.github.mecharyry.auth.oauth.AccessToken;
 import com.github.mecharyry.auth.oauth.OAuthAuthenticator;
 import com.github.mecharyry.tweetlist.task.PerformGetTask;
 
+import java.lang.ref.WeakReference;
+
 import oauth.signpost.OAuthConsumer;
 import oauth.signpost.exception.OAuthCommunicationException;
 import oauth.signpost.exception.OAuthExpectationFailedException;
@@ -24,10 +26,10 @@ public class RequestManager {
         this.consumer = consumer;
     }
 
-    public void requestAndroidDevTweets(PerformGetTask.Callback callback) {
+    public void requestAndroidDevTweets(WeakReference<PerformGetTask.Callback> callbackWeakReference) {
         String unsignedUrl = "https://api.twitter.com/1.1/search/tweets.json?q=%23AndroidDev&count=50"; // TODO: Question: Could we attach this to a particular button rather than having it in code?
         String signedUrl = signUrl(unsignedUrl);
-        new PerformGetTask(callback).execute(signedUrl);
+        new PerformGetTask(callbackWeakReference).execute(signedUrl);
     }
 
     private String signUrl(String unsignedUrl) {
