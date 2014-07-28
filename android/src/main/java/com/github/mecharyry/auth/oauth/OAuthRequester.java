@@ -3,18 +3,19 @@ package com.github.mecharyry.auth.oauth;
 import android.app.Activity;
 import android.content.Intent;
 
+import java.lang.ref.WeakReference;
+
 public class OAuthRequester {
     private static final String OAUTH_VERIFIER = "OAUTH_VERIFIER";
-    public static final String AUTHENTICATION_BROWSER_INTENT = "com.github.mecharyry.ANDROID_TWEETS_INTENT";
-    private final Callback onResult;
     private static final int REQUEST_CODE = 100;
+    private final WeakReference<Callback> callbackWeakReference;
 
     public interface Callback {
         void onRequesterResult(String result);
     }
 
-    public OAuthRequester(Callback onResult) {
-        this.onResult = onResult;
+    public OAuthRequester(WeakReference<Callback> callbackWeakReference) {
+        this.callbackWeakReference = callbackWeakReference;
     }
 
     public void request(Activity activity, String url) {
@@ -26,7 +27,11 @@ public class OAuthRequester {
     public void onOAuthRequesterResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
             String verifier = data.getStringExtra(OAUTH_VERIFIER);
-            onResult.onRequesterResult(verifier);
+
+            Callback callback = callbackWeakReference.get();
+            if(callback != null){
+                callback.onRequesterResult(verifier);
+            }
         }
     }
 }
