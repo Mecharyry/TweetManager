@@ -24,24 +24,27 @@ class AuthenticationManager {
         void onAuthenticated();
     }
 
-    public static AuthenticationManager newInstance(Activity activity, WeakReference<Callback> callbackWeakReference) {
-        return new AuthenticationManager(OAuthAuthenticator.newInstance(), activity, AccessTokenPreferences.newInstance(activity), callbackWeakReference);
+    public static AuthenticationManager newInstance(Activity activity, Callback callback) {
+        OAuthAuthenticator oAuthAuthenticator = OAuthAuthenticator.newInstance();
+        AccessTokenPreferences accessTokenPreferences = AccessTokenPreferences.newInstance(activity);
+        WeakReference<Callback> callbackWeakReference = new WeakReference<Callback>(callback);
+
+        return new AuthenticationManager(oAuthAuthenticator, activity, accessTokenPreferences, callbackWeakReference);
     }
 
     private AuthenticationManager(OAuthAuthenticator oAuthAuthentication, Activity activity, AccessTokenPreferences accessTokenPreferences, WeakReference<Callback> callbackWeakReference) {
         this.oAuthAuthentication = oAuthAuthentication;
-        WeakReference<OAuthRequester.Callback> weakReference = new WeakReference<OAuthRequester.Callback>(onOAuthRequesterResult);
-        this.oAuthRequester = new OAuthRequester(weakReference);
         this.activity = activity;
         this.accessTokenPreferences = accessTokenPreferences;
         this.callbackWeakReference = callbackWeakReference;
+
+        this.oAuthRequester = OAuthRequester.newInstance(onOAuthRequesterResult);
     }
 
     private final OAuthRequester.Callback onOAuthRequesterResult = new OAuthRequester.Callback() {
         @Override
         public void onRequesterResult(String result) {
-            WeakReference<RequestAccessTokenTask.Callback> weakReference = new WeakReference<RequestAccessTokenTask.Callback>(accessTokenCallback);
-            new RequestAccessTokenTask(weakReference, oAuthAuthentication).execute(result);
+            RequestAccessTokenTask.newInstance(accessTokenCallback, oAuthAuthentication).execute(result);
         }
     };
 
@@ -64,8 +67,7 @@ class AuthenticationManager {
     };
 
     public void authenticate() {
-        WeakReference<RequestTokenTask.Callback> weakReference = new WeakReference<RequestTokenTask.Callback>(requestTokenCallback);
-        new RequestTokenTask(weakReference, oAuthAuthentication).execute();
+        RequestTokenTask.newInstance(requestTokenCallback, oAuthAuthentication).execute();
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

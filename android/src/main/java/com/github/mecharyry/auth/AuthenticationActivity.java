@@ -11,8 +11,6 @@ import android.widget.Toast;
 
 import com.github.mecharyry.R;
 
-import java.lang.ref.WeakReference;
-
 public class AuthenticationActivity extends Activity {
 
     private static final String TAG = "AuthenticationActivity";
@@ -22,7 +20,7 @@ public class AuthenticationActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        manager = AuthenticationManager.newInstance(this, new WeakReference<AuthenticationManager.Callback>(onAccessTokenSaved));
+        manager = AuthenticationManager.newInstance(this, onAccessTokenSaved);
 
         setContentView(R.layout.authentication_activity);
         findViewById(R.id.button_authorize).setOnClickListener(onAuthorizeButtonClicked);

@@ -11,7 +11,6 @@ import com.github.mecharyry.tweetlist.adapter.TweetAdapter;
 import com.github.mecharyry.tweetlist.adapter.mapping.Tweet;
 import com.github.mecharyry.tweetlist.task.PerformGetTask;
 
-import java.lang.ref.WeakReference;
 import java.util.List;
 
 public class AndroidDevTweetsActivity extends Activity {
@@ -38,7 +37,6 @@ public class AndroidDevTweetsActivity extends Activity {
         setContentView(R.layout.activity_android_dev_tweets);
         listView = (ListView) findViewById(R.id.listview_androiddev_tweets);
         listView.setAdapter(tweetArrayAdapter);
-        WeakReference<PerformGetTask.Callback> callbackWeakReference = new WeakReference<PerformGetTask.Callback>(updateListCallback);
-        requestManager.requestAndroidDevTweets(callbackWeakReference);
+        requestManager.requestAndroidDevTweets(updateListCallback);
     }
 }

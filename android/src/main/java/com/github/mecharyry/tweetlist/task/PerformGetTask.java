@@ -21,10 +21,17 @@ public class PerformGetTask extends AsyncTask<String, Void, List<Tweet>> {
         void onGetResponse(List<Tweet> tweets);
     }
 
-    public PerformGetTask(WeakReference<Callback> callbackWeakReference) {
+    public static PerformGetTask newInstance(Callback callback) {
+        WeakReference<Callback> callbackWeakReference = new WeakReference<Callback>(callback);
+        TwitterRequester twitterRequester = new TwitterRequester();
+        JsonParsing jsonParsing = JsonParsing.newInstance();
+        return new PerformGetTask(callbackWeakReference, twitterRequester, jsonParsing);
+    }
+
+    private PerformGetTask(WeakReference<Callback> callbackWeakReference, TwitterRequester twitterRequester, JsonParsing jsonParsing) {
         this.callbackWeakReference = callbackWeakReference;
-        twitterRequester = new TwitterRequester();
-        jsonParsing = new JsonParsing();
+        this.twitterRequester = twitterRequester;
+        this.jsonParsing = jsonParsing;
     }
 
     @Override

@@ -23,8 +23,13 @@ public class JsonParsing {
 
     private final ImageDownloader imageDownloader;
 
-    public JsonParsing() {
-        imageDownloader = new ImageDownloader();
+    public static JsonParsing newInstance() {
+        ImageDownloader imageDownloader = new ImageDownloader();
+        return new JsonParsing(imageDownloader);
+    }
+
+    private JsonParsing(ImageDownloader imageDownloader) {
+        this.imageDownloader = imageDownloader;
     }
 
     public List<Tweet> TweetsByHashTag(JSONObject jsonObject) {

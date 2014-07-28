@@ -14,7 +14,12 @@ public class OAuthRequester {
         void onRequesterResult(String result);
     }
 
-    public OAuthRequester(WeakReference<Callback> callbackWeakReference) {
+    public static OAuthRequester newInstance(Callback callback) {
+        WeakReference<Callback> weakReference = new WeakReference<Callback>(callback);
+        return new OAuthRequester(weakReference);
+    }
+
+    private OAuthRequester(WeakReference<Callback> callbackWeakReference) {
         this.callbackWeakReference = callbackWeakReference;
     }
 
@@ -29,7 +34,7 @@ public class OAuthRequester {
             String verifier = data.getStringExtra(OAUTH_VERIFIER);
 
             Callback callback = callbackWeakReference.get();
-            if(callback != null){
+            if (callback != null) {
                 callback.onRequesterResult(verifier);
             }
         }
