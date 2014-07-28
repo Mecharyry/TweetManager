@@ -21,7 +21,7 @@ public class JsonParsing {
     private static final String KEY_LOCATION = "location";
     private static final String KEY_THUMB_IMAGE = "profile_image_url";
 
-    private final ImageDownloader imageDownloader;
+    private final ImageDownloader imageRetriever;
 
     public static JsonParsing newInstance() {
         ImageDownloader imageDownloader = new ImageDownloader();
@@ -29,7 +29,7 @@ public class JsonParsing {
     }
 
     private JsonParsing(ImageDownloader imageDownloader) {
-        this.imageDownloader = imageDownloader;
+        this.imageRetriever = imageDownloader;
     }
 
     public List<Tweet> TweetsByHashTag(JSONObject jsonObject) {
@@ -45,7 +45,7 @@ public class JsonParsing {
                 String text = innerJsonObject.getString(KEY_TEXT);
                 String imgUrl = user.getString(KEY_THUMB_IMAGE);
 
-                Bitmap bitmap = imageDownloader.retrieveBitmap(imgUrl);
+                Bitmap bitmap = imageRetriever.retrieveBitmap(imgUrl);
 
                 Tweet tweet = new Tweet(screenName, location, text, bitmap);
 
