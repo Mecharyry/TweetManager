@@ -21,15 +21,15 @@ public class JsonParsing {
     private static final String KEY_LOCATION = "location";
     private static final String KEY_THUMB_IMAGE = "profile_image_url";
 
-    private final ImageDownloader imageRetriever;
+    private final ImageRetriever imageRetriever;
 
     public static JsonParsing newInstance() {
-        ImageDownloader imageDownloader = new ImageDownloader();
-        return new JsonParsing(imageDownloader);
+        ImageRetriever imageRetriever = new ImageRetriever();
+        return new JsonParsing(imageRetriever);
     }
 
-    private JsonParsing(ImageDownloader imageDownloader) {
-        this.imageRetriever = imageDownloader;
+    private JsonParsing(ImageRetriever imageRetriever) {
+        this.imageRetriever = imageRetriever;
     }
 
     public List<Tweet> TweetsByHashTag(JSONObject jsonObject) {

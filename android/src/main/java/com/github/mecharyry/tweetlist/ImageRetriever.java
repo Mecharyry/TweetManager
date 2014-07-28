@@ -14,7 +14,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class ImageDownloader {
+public class ImageRetriever {
     private static final String TAG = "ImageDownloader";
 
     public Bitmap retrieveBitmap(String imageUrl) {
@@ -34,9 +34,22 @@ public class ImageDownloader {
             }
         } catch (ClientProtocolException e) {
             Log.e(TAG, "ClientProtocolException", e);
+            throwImageRetrieverException(e);
+
         } catch (IOException e) {
             Log.e(TAG, "IOException", e);
+            throwImageRetrieverException(e);
         }
         return null;
+    }
+
+    private void throwImageRetrieverException(Exception e) {
+        throw new ImageRetrieverException(e);
+    }
+
+    public static class ImageRetrieverException extends RuntimeException {
+        public ImageRetrieverException (Exception e) {
+            super(e);
+        }
     }
 }

@@ -20,9 +20,9 @@ public class AuthenticationActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        manager = AuthenticationManager.newInstance(this, onAccessTokenSaved);
-
         setContentView(R.layout.authentication_activity);
+
+        manager = AuthenticationManager.newInstance(this, onAccessTokenSaved);
         findViewById(R.id.button_authorize).setOnClickListener(onAuthorizeButtonClicked);
         findViewById(R.id.button_android_dev_tweets).setOnClickListener(onAndroidDevTweetsButtonClicked);
     }

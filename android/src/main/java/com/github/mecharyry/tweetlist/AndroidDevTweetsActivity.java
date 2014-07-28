@@ -29,11 +29,12 @@ public class AndroidDevTweetsActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_android_dev_tweets);
+
         AccessTokenPreferences accessTokenPreferences = AccessTokenPreferences.newInstance(this);
         AccessToken accessToken = accessTokenPreferences.retrieveAccessToken();
         requestManager = RequestManager.newInstance(accessToken);
         this.tweetArrayAdapter = TweetAdapter.newInstance(this);
-        setContentView(R.layout.activity_android_dev_tweets);
         listView = (ListView) findViewById(R.id.listview_androiddev_tweets);
         listView.setAdapter(tweetArrayAdapter);
         requestManager.requestAndroidDevTweets(updateListCallback);
