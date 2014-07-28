@@ -3,6 +3,7 @@ package com.github.mecharyry.auth;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +14,7 @@ import com.github.mecharyry.tweetlist.AndroidDevTweetsActivity;
 
 public class AuthenticationActivity extends Activity {
 
+    private static final String TAG = "AuthenticationActivity";
     private AuthenticationManager manager;
 
     @Override
@@ -39,6 +41,9 @@ public class AuthenticationActivity extends Activity {
                 manager.removeAccessToken();
                 setButtonsEnabled(manager.hasAccessToken());
                 break;
+            default:
+                Log.e(TAG, "Menu item not handled.");
+
         }
         return true;
     }
