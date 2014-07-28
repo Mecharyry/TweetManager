@@ -2,7 +2,6 @@ package com.github.mecharyry.auth.oauth;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 
 public class OAuthRequester {
     private static final String OAUTH_VERIFIER = "OAUTH_VERIFIER";

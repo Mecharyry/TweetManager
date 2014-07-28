@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.github.mecharyry.R;
-import com.github.mecharyry.tweetlist.AndroidDevTweetsActivity;
 
 public class AuthenticationActivity extends Activity {
 
@@ -74,14 +73,6 @@ public class AuthenticationActivity extends Activity {
         public void onClick(View v) {
             Intent intent = new Intent(ANDROID_DEV_TWEETS_INTENT);
             startActivity(intent);
-        }
-    };
-
-    private final View.OnClickListener onMyStreamClicked = new View.OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-
         }
     };
 
