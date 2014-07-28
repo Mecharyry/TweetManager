@@ -14,12 +14,12 @@ import java.util.List;
 
 public class JsonParsing {
     private static final String TAG = "PerformJsonParsingTask";
-    private static final String TAG_STATUSES = "statuses";
-    private static final String TAG_TEXT = "text";
-    private static final String TAG_USER = "user";
-    private static final String TAG_SCREEN_NAME = "screen_name";
-    private static final String TAG_LOCATION = "location";
-    private static final String TAG_THUMB_IMAGE = "profile_image_url";
+    private static final String KEY_STATUSES = "statuses";
+    private static final String KEY_TEXT = "text";
+    private static final String KEY_USER = "user";
+    private static final String KEY_SCREEN_NAME = "screen_name";
+    private static final String KEY_LOCATION = "location";
+    private static final String KEY_THUMB_IMAGE = "profile_image_url";
 
     private final ImageDownloader imageDownloader;
 
@@ -30,15 +30,15 @@ public class JsonParsing {
     public List<Tweet> TweetsByHashTag(JSONObject jsonObject) {
         try {
             ArrayList<Tweet> tweets = new ArrayList<Tweet>();
-            JSONArray statuses = jsonObject.getJSONArray(TAG_STATUSES);
+            JSONArray statuses = jsonObject.getJSONArray(KEY_STATUSES);
 
             for (int statusIndex = 0; statusIndex < statuses.length(); statusIndex++) {
                 JSONObject innerJsonObject = statuses.getJSONObject(statusIndex);
-                JSONObject user = innerJsonObject.getJSONObject(TAG_USER);
-                String screenName = user.getString(TAG_SCREEN_NAME);
-                String location = user.getString(TAG_LOCATION);
-                String text = innerJsonObject.getString(TAG_TEXT);
-                String imgUrl = user.getString(TAG_THUMB_IMAGE);
+                JSONObject user = innerJsonObject.getJSONObject(KEY_USER);
+                String screenName = user.getString(KEY_SCREEN_NAME);
+                String location = user.getString(KEY_LOCATION);
+                String text = innerJsonObject.getString(KEY_TEXT);
+                String imgUrl = user.getString(KEY_THUMB_IMAGE);
 
                 Bitmap bitmap = imageDownloader.retrieveBitmap(imgUrl);
 
