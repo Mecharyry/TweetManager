@@ -10,7 +10,8 @@
     <ImageView
         android:id="@+id/user_thumb_image"
         android:layout_width="@dimen/thumb_image_width"
-        android:layout_height="@dimen/thumb_image_height" />
+        android:layout_height="@dimen/thumb_image_height"
+        android:contentDescription="@string/user_thumbnail_image_content_description"/>
 
     <TextView
         android:id="@+id/text_screen_name"

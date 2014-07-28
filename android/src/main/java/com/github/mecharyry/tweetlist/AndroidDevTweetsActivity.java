@@ -15,7 +15,6 @@ import java.util.List;
 
 public class AndroidDevTweetsActivity extends Activity {
 
-    private static final String TAG = "ListViewActivity";
     private TweetAdapter tweetArrayAdapter;
     private RequestManager requestManager;
     private ListView listView;

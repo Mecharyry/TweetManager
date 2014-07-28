@@ -10,7 +10,6 @@ import oauth.signpost.exception.OAuthExpectationFailedException;
 import oauth.signpost.exception.OAuthMessageSignerException;
 
 public class RequestManager {
-    private static final String TAG = "RequestManager";
     private static OAuthConsumer oAuthConsumer;
     private OAuthConsumer consumer;
 
@@ -25,7 +24,7 @@ public class RequestManager {
     }
 
     public void requestAndroidDevTweets(PerformGetTask.Callback callback) {
-        String unsignedUrl = "https://api.twitter.com/1.1/search/tweets.json?q=%23AndroidDev&count=50"; // TODO: Question: Could we attach this to a particular button rather than having it in code?
+        String unsignedUrl = "https://api.twitter.com/1.1/search/tweets.json?q=%23AndroidDev&count=50";
         String signedUrl = signUrl(unsignedUrl);
         PerformGetTask.newInstance(callback).execute(signedUrl);
     }

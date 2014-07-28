@@ -11,7 +11,8 @@
         android:layout_height="@dimen/logo_height"
         android:layout_centerHorizontal="true"
         android:layout_margin="@dimen/logo_margin"
-        android:src="@drawable/twitter_dark" />
+        android:src="@drawable/twitter_dark"
+        android:contentDescription="@string/application_logo_content_description"/>
 
     <Button
         android:id="@+id/button_authorize"

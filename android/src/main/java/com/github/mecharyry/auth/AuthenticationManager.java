@@ -59,16 +59,16 @@ class AuthenticationManager {
         }
     };
 
+    public void authenticate() {
+        RequestTokenTask.newInstance(requestTokenCallback, oAuthAuthentication).execute();
+    }
+
     private final RequestTokenTask.Callback requestTokenCallback = new RequestTokenTask.Callback() {
         @Override
         public void onRetrieved(String response) {
             oAuthRequester.request(activity, response);
         }
     };
-
-    public void authenticate() {
-        RequestTokenTask.newInstance(requestTokenCallback, oAuthAuthentication).execute();
-    }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         oAuthRequester.onOAuthRequesterResult(requestCode, resultCode, data);

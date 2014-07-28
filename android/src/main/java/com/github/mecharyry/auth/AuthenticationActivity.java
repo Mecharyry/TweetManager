@@ -27,6 +27,31 @@ public class AuthenticationActivity extends Activity {
         findViewById(R.id.button_android_dev_tweets).setOnClickListener(onAndroidDevTweetsButtonClicked);
     }
 
+    private final AuthenticationManager.Callback onAccessTokenSaved = new AuthenticationManager.Callback() {
+
+        @Override
+        public void onAuthenticated() {
+            setButtonsEnabled(manager.hasAccessToken());
+        }
+    };
+
+    private final View.OnClickListener onAuthorizeButtonClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Toast.makeText(AuthenticationActivity.this, "Opening Browser", Toast.LENGTH_SHORT).show();
+            manager.authenticate();
+        }
+    };
+
+    private final View.OnClickListener onAndroidDevTweetsButtonClicked = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(ANDROID_DEV_TWEETS_INTENT);
+            startActivity(intent);
+        }
+    };
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -48,39 +73,14 @@ public class AuthenticationActivity extends Activity {
         return true;
     }
 
-    private void setButtonsEnabled(boolean hasAccess) {
-        findViewById(R.id.button_android_dev_tweets).setEnabled(hasAccess);
-        findViewById(R.id.button_my_stream).setEnabled(hasAccess);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         manager.onActivityResult(requestCode, resultCode, data);
     }
 
-    private final View.OnClickListener onAuthorizeButtonClicked = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Toast.makeText(AuthenticationActivity.this, "Opening Browser", Toast.LENGTH_SHORT).show();
-            manager.authenticate();
-        }
-    };
-
-    private final View.OnClickListener onAndroidDevTweetsButtonClicked = new View.OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(ANDROID_DEV_TWEETS_INTENT);
-            startActivity(intent);
-        }
-    };
-
-    private final AuthenticationManager.Callback onAccessTokenSaved = new AuthenticationManager.Callback() {
-
-        @Override
-        public void onAuthenticated() {
-            setButtonsEnabled(manager.hasAccessToken());
-        }
-    };
+    private void setButtonsEnabled(boolean hasAccess) {
+        findViewById(R.id.button_android_dev_tweets).setEnabled(hasAccess);
+        findViewById(R.id.button_my_stream).setEnabled(hasAccess);
+    }
 }
