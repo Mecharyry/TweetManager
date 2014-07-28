@@ -21,7 +21,8 @@ public class TweetAdapter extends BaseAdapter {
     private final Resources resources;
 
     public static TweetAdapter newInstance(Context context) {
-        return new TweetAdapter(LayoutInflater.from(context), new ArrayList<Tweet>(), context.getResources());
+        ArrayList<Tweet> tweetArrayList = new ArrayList<Tweet>();
+        return new TweetAdapter(LayoutInflater.from(context), tweetArrayList, context.getResources());
     }
 
     private TweetAdapter(LayoutInflater layoutInflater, List<Tweet> tweets, Resources resources) {
@@ -54,7 +55,7 @@ public class TweetAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
-        TweetHolder holder = null;
+        TweetHolder holder;
 
         if (row == null) {
             row = layoutInflater.inflate(R.layout.tweets_list_item, parent, false);

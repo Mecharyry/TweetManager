@@ -48,7 +48,7 @@ public class ImageRetriever {
     }
 
     public static class ImageRetrieverException extends RuntimeException {
-        public ImageRetrieverException (Exception e) {
+        public ImageRetrieverException(Exception e) {
             super(e);
         }
     }
