@@ -25,9 +25,8 @@ public class TwitterArrayRequester implements Request<JSONArray> {
         HttpClient client = new DefaultHttpClient();
         HttpGet get = new HttpGet(signedUrl);
 
-        HttpResponse response;
         try {
-            response = client.execute(get);
+            HttpResponse response = client.execute(get);
 
             HttpEntity entity = response.getEntity();
 
@@ -43,7 +42,7 @@ public class TwitterArrayRequester implements Request<JSONArray> {
             Log.e(TAG, "IOException", e);
         }
 
-        return null;
+        return new JSONArray();
     }
 
     private static String inputStreamToString(InputStream inputStream) {
@@ -67,7 +66,7 @@ public class TwitterArrayRequester implements Request<JSONArray> {
         } catch (JSONException e) {
             Log.e(TAG, "JSONException", e);
         }
-        return null;
+        return new JSONArray();
     }
 
 }

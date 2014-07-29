@@ -50,6 +50,6 @@ public class TweetsMyStreamParser implements Parser<List<Tweet>, JSONArray> {
         } catch (JSONException e) {
             Log.e(TAG, "JSONException", e);
         }
-        return null;
+        return new ArrayList<Tweet>();
     }
 }

@@ -26,9 +26,8 @@ public class TwitterObjectRequester implements Request<JSONObject> {
         HttpClient client = new DefaultHttpClient();
         HttpGet get = new HttpGet(signedUrl);
 
-        HttpResponse response;
         try {
-            response = client.execute(get);
+            HttpResponse response = client.execute(get);
 
             HttpEntity entity = response.getEntity();
 
@@ -44,7 +43,7 @@ public class TwitterObjectRequester implements Request<JSONObject> {
             Log.e(TAG, "IOException", e);
         }
 
-        return null;
+        return new JSONObject();
     }
 
     private static String inputStreamToString(InputStream inputStream) {
@@ -68,7 +67,7 @@ public class TwitterObjectRequester implements Request<JSONObject> {
         } catch (JSONException e) {
             Log.e(TAG, "JSONException", e);
         }
-        return null;
+        return new JSONObject();
     }
 
 
