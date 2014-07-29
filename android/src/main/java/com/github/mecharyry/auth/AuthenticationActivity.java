@@ -13,9 +13,9 @@ import com.github.mecharyry.R;
 public class AuthenticationActivity extends Activity {
 
     private static final String TAG = "AuthenticationActivity";
-    public static final String MENU_ITEM_EXCEPTION = TAG + ": Menu item not handled.";
     private static final String ANDROID_DEV_TWEETS_INTENT = "com.github.mecharyry.ANDROID_TWEETS_INTENT";
-    public static final String MY_STREAM_TWEETS_INTENT = "com.github.mecharyry.MY_STREAM_INTENT";
+    private static final String MENU_ITEM_EXCEPTION = TAG + ": Menu item not handled.";
+    private static final String MY_STREAM_TWEETS_INTENT = "com.github.mecharyry.MY_STREAM_INTENT";
     private AuthenticationManager manager;
 
     @Override

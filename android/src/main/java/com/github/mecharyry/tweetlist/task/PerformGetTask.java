@@ -9,7 +9,7 @@ import java.lang.ref.WeakReference;
 
 public class PerformGetTask<T, F> extends AsyncTask<String, Void, T> {
 
-    private final Parser<T,F> parser;
+    private final Parser<T, F> parser;
     private final WeakReference<Callback> callbackWeakReference;
     private final Request<F> requester;
 
