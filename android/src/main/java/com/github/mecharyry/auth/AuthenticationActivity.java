@@ -14,6 +14,7 @@ import com.github.mecharyry.R;
 public class AuthenticationActivity extends Activity {
 
     private static final String TAG = "AuthenticationActivity";
+    public static final String MENU_ITEM_EXCEPTION = TAG + ": Menu item not handled.";
     private static final String ANDROID_DEV_TWEETS_INTENT = "com.github.mecharyry.ANDROID_TWEETS_INTENT";
     private AuthenticationManager manager;
 
@@ -67,7 +68,7 @@ public class AuthenticationActivity extends Activity {
                 setButtonsEnabled(manager.hasAccessToken());
                 break;
             default:
-                Log.e(TAG, "Menu item not handled.");
+                throw new RuntimeException(MENU_ITEM_EXCEPTION);
 
         }
         return true;
