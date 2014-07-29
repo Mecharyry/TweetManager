@@ -15,6 +15,7 @@ import java.util.List;
 
 public class MyStreamActivity extends Activity {
 
+    public static final String MY_STREAM_TWEETS_INTENT = "com.github.mecharyry.MY_STREAM_INTENT";
     private TweetAdapter tweetArrayAdapter;
     private RequestManager requestManager;
     private ListView listView;

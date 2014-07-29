@@ -15,6 +15,7 @@ import java.util.List;
 
 public class AndroidDevTweetsActivity extends Activity {
 
+    public static final String ANDROID_DEV_TWEETS_INTENT = "com.github.mecharyry.ANDROID_TWEETS_INTENT";
     private TweetAdapter tweetArrayAdapter;
     private RequestManager requestManager;
     private ListView listView;

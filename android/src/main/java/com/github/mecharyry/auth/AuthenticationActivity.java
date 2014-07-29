@@ -9,13 +9,13 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.github.mecharyry.R;
+import com.github.mecharyry.tweetlist.AndroidDevTweetsActivity;
+import com.github.mecharyry.tweetlist.MyStreamActivity;
 
 public class AuthenticationActivity extends Activity {
 
     private static final String TAG = "AuthenticationActivity";
-    private static final String ANDROID_DEV_TWEETS_INTENT = "com.github.mecharyry.ANDROID_TWEETS_INTENT";
     private static final String MENU_ITEM_EXCEPTION = TAG + ": Menu item not handled.";
-    private static final String MY_STREAM_TWEETS_INTENT = "com.github.mecharyry.MY_STREAM_INTENT";
     private AuthenticationManager manager;
 
     @Override
@@ -49,7 +49,7 @@ public class AuthenticationActivity extends Activity {
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(ANDROID_DEV_TWEETS_INTENT);
+            Intent intent = new Intent(AndroidDevTweetsActivity.ANDROID_DEV_TWEETS_INTENT);
             startActivity(intent);
         }
     };
@@ -58,7 +58,7 @@ public class AuthenticationActivity extends Activity {
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(MY_STREAM_TWEETS_INTENT);
+            Intent intent = new Intent(MyStreamActivity.MY_STREAM_TWEETS_INTENT);
             startActivity(intent);
         }
     };
