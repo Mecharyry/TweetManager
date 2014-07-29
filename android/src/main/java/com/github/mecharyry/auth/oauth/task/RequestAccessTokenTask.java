@@ -39,4 +39,8 @@ public class RequestAccessTokenTask extends AsyncTask<String, Void, AccessToken>
             callback.onRetrieved(accessToken);
         }
     }
+
+    public void executeTask(String verifier){
+        this.execute(verifier);
+    }
 }

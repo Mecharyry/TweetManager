@@ -44,7 +44,7 @@ class AuthenticationManager {
     private final OAuthRequester.Callback onOAuthRequesterResult = new OAuthRequester.Callback() {
         @Override
         public void onRequesterResult(String result) {
-            RequestAccessTokenTask.newInstance(accessTokenCallback, oAuthAuthentication).execute(result);
+            RequestAccessTokenTask.newInstance(accessTokenCallback, oAuthAuthentication).executeTask(result);
         }
     };
 

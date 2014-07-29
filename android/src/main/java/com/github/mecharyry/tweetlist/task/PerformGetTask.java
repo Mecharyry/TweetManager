@@ -48,4 +48,8 @@ public class PerformGetTask extends AsyncTask<String, Void, List<Tweet>> {
             callback.onGetResponse(response);
         }
     }
+
+    public void executeTask(String url){
+        this.execute(url);
+    }
 }

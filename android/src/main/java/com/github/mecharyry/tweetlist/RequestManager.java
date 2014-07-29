@@ -26,7 +26,7 @@ public class RequestManager {
     public void requestAndroidDevTweets(PerformGetTask.Callback callback) {
         String unsignedUrl = "https://api.twitter.com/1.1/search/tweets.json?q=%23AndroidDev&count=50";
         String signedUrl = signUrl(unsignedUrl);
-        PerformGetTask.newInstance(callback).execute(signedUrl);
+        PerformGetTask.newInstance(callback).executeTask(signedUrl);
     }
 
     private String signUrl(String unsignedUrl) {
