@@ -28,7 +28,6 @@ public class ImageRetriever {
             HttpEntity entity = response.getEntity();
 
             if (entity != null) {
-                Log.i(TAG, "Retrieved Response!");
                 InputStream inputStream = entity.getContent();
                 return BitmapFactory.decodeStream(inputStream);
             }

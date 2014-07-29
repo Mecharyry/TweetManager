@@ -75,6 +75,7 @@ public class TweetAdapter extends BaseAdapter {
         holder.textScreenName.setText(String.format(resources.getString(R.string.screen_name_label), tweet.getScreenName()));
         holder.textTweet.setText(tweet.getText());
         holder.textLocation.setText(String.format(resources.getString(R.string.location_label), tweet.getLocation()));
+        holder.imageThumbnail.setImageBitmap(tweet.getThumbImage());
 
         return row;
     }
