@@ -40,7 +40,7 @@ public class RequestAccessTokenTask extends AsyncTask<String, Void, AccessToken>
         }
     }
 
-    public void executeTask(String verifier){
+    public void executeTask(String verifier) {
         this.execute(verifier);
     }
 }

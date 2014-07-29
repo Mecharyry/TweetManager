@@ -29,6 +29,12 @@ public class RequestManager {
         PerformGetTask.newInstance(callback).executeTask(signedUrl);
     }
 
+    public void requestMyStreamTweets(PerformGetTask.Callback callback){
+        String unsignedUrl = "https://api.twitter.com/1.1/statuses/home_timeline.json?count=50";
+        String signedUrl = signUrl(unsignedUrl);
+        PerformGetTask.newInstance(callback).executeTask(signedUrl);
+    }
+
     private String signUrl(String unsignedUrl) {
         String signedUrl = null;
         try {

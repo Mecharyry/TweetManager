@@ -49,7 +49,7 @@ public class PerformGetTask extends AsyncTask<String, Void, List<Tweet>> {
         }
     }
 
-    public void executeTask(String url){
+    public void executeTask(String url) {
         this.execute(url);
     }
 }
