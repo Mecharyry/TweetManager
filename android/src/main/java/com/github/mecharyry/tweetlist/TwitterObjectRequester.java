@@ -16,10 +16,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class TwitterRequester {
+
+public class TwitterObjectRequester implements Request<JSONObject> {
 
     private static final String TAG = "TwitterRequester";
 
+    @Override
     public JSONObject request(String signedUrl) {
         HttpClient client = new DefaultHttpClient();
         HttpGet get = new HttpGet(signedUrl);
@@ -62,7 +64,6 @@ public class TwitterRequester {
 
     private static JSONObject convertStringToJson(String input) {
         try {
-            Log.i(TAG, new JSONObject(input).toString());
             return new JSONObject(input);
         } catch (JSONException e) {
             Log.e(TAG, "JSONException", e);

@@ -2,7 +2,13 @@ package com.github.mecharyry.tweetlist;
 
 import com.github.mecharyry.auth.oauth.AccessToken;
 import com.github.mecharyry.auth.oauth.OAuthAuthenticator;
+import com.github.mecharyry.tweetlist.adapter.mapping.Tweet;
 import com.github.mecharyry.tweetlist.task.PerformGetTask;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.List;
 
 import oauth.signpost.OAuthConsumer;
 import oauth.signpost.exception.OAuthCommunicationException;
@@ -23,16 +29,20 @@ public class RequestManager {
         this.consumer = consumer;
     }
 
-    public void requestAndroidDevTweets(PerformGetTask.Callback callback) {
+    public void requestAndroidDevTweets(PerformGetTask.Callback<List<Tweet>> callback) {
         String unsignedUrl = "https://api.twitter.com/1.1/search/tweets.json?q=%23AndroidDev&count=50";
         String signedUrl = signUrl(unsignedUrl);
-        PerformGetTask.newInstance(callback).executeTask(signedUrl);
+        Parser<List<Tweet>, JSONObject> parser = new TweetsHashTagParser(new ImageRetriever());
+        TwitterObjectRequester requester = new TwitterObjectRequester();
+        PerformGetTask.newInstance(callback, parser, requester).executeTask(signedUrl);
     }
 
-    public void requestMyStreamTweets(PerformGetTask.Callback callback){
+    public void requestMyStreamTweets(PerformGetTask.Callback<List<Tweet>> callback) {
         String unsignedUrl = "https://api.twitter.com/1.1/statuses/home_timeline.json?count=50";
         String signedUrl = signUrl(unsignedUrl);
-        PerformGetTask.newInstance(callback).executeTask(signedUrl);
+        Parser<List<Tweet>, JSONArray> parser = new TweetsMyStreamParser(new ImageRetriever());
+        TwitterArrayRequester requester = new TwitterArrayRequester();
+        PerformGetTask.newInstance(callback, parser, requester).executeTask(signedUrl);
     }
 
     private String signUrl(String unsignedUrl) {

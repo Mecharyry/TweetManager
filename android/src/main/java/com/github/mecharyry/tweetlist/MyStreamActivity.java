@@ -31,11 +31,11 @@ public class MyStreamActivity extends Activity {
         this.tweetArrayAdapter = TweetAdapter.newInstance(this);
         listView = (ListView) findViewById(R.id.listview_mystream);
         listView.setAdapter(tweetArrayAdapter);
-        requestManager.requestAndroidDevTweets(updateListCallback);
+        requestManager.requestMyStreamTweets(updateListCallback);
 
     }
 
-    private final PerformGetTask.Callback updateListCallback = new PerformGetTask.Callback(){
+    private final PerformGetTask.Callback updateListCallback = new PerformGetTask.Callback<List<Tweet>>() {
 
         @Override
         public void onGetResponse(List<Tweet> tweets) {

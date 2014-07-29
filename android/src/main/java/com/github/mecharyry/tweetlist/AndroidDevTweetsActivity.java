@@ -19,7 +19,7 @@ public class AndroidDevTweetsActivity extends Activity {
     private RequestManager requestManager;
     private ListView listView;
 
-    private final PerformGetTask.Callback updateListCallback = new PerformGetTask.Callback() {
+    private final PerformGetTask.Callback updateListCallback = new PerformGetTask.Callback<List<Tweet>>() {
         @Override
         public void onGetResponse(List<Tweet> tweets) {
             tweetArrayAdapter.updateTweets(tweets);

@@ -12,7 +12,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JsonParsing {
+public class TweetsHashTagParser implements Parser<List<Tweet>, JSONObject> {
+
     private static final String TAG = "PerformJsonParsingTask";
     private static final String KEY_STATUSES = "statuses";
     private static final String KEY_TEXT = "text";
@@ -20,19 +21,14 @@ public class JsonParsing {
     private static final String KEY_SCREEN_NAME = "screen_name";
     private static final String KEY_LOCATION = "location";
     private static final String KEY_THUMB_IMAGE = "profile_image_url";
+    private ImageRetriever imageRetriever;
 
-    private final ImageRetriever imageRetriever;
-
-    public static JsonParsing newInstance() {
-        ImageRetriever imageRetriever = new ImageRetriever();
-        return new JsonParsing(imageRetriever);
-    }
-
-    private JsonParsing(ImageRetriever imageRetriever) {
+    public TweetsHashTagParser(ImageRetriever imageRetriever) {
         this.imageRetriever = imageRetriever;
     }
 
-    public List<Tweet> TweetsByHashTag(JSONObject jsonObject) {
+    @Override
+    public List<Tweet> parse(JSONObject jsonObject) {
         try {
             ArrayList<Tweet> tweets = new ArrayList<Tweet>();
             JSONArray statuses = jsonObject.getJSONArray(KEY_STATUSES);
@@ -57,6 +53,4 @@ public class JsonParsing {
         }
         return null;
     }
-
-
 }

@@ -2,46 +2,40 @@ package com.github.mecharyry.tweetlist.task;
 
 import android.os.AsyncTask;
 
-import com.github.mecharyry.tweetlist.JsonParsing;
-import com.github.mecharyry.tweetlist.TwitterRequester;
-import com.github.mecharyry.tweetlist.adapter.mapping.Tweet;
-
-import org.json.JSONObject;
+import com.github.mecharyry.tweetlist.Parser;
+import com.github.mecharyry.tweetlist.Request;
 
 import java.lang.ref.WeakReference;
-import java.util.List;
 
-public class PerformGetTask extends AsyncTask<String, Void, List<Tweet>> {
+public class PerformGetTask<T, F> extends AsyncTask<String, Void, T> {
 
+    private final Parser<T,F> parser;
     private final WeakReference<Callback> callbackWeakReference;
-    private final TwitterRequester twitterRequester;
-    private final JsonParsing jsonParsing;
+    private final Request<F> requester;
 
-    public interface Callback {
-        void onGetResponse(List<Tweet> tweets);
+    public interface Callback<T> {
+        void onGetResponse(T tweets);
     }
 
-    public static PerformGetTask newInstance(Callback callback) {
+    public static <T, F> PerformGetTask newInstance(Callback callback, Parser<T, F> parser, Request<F> request) {
         WeakReference<Callback> callbackWeakReference = new WeakReference<Callback>(callback);
-        TwitterRequester twitterRequester = new TwitterRequester();
-        JsonParsing jsonParsing = JsonParsing.newInstance();
-        return new PerformGetTask(callbackWeakReference, twitterRequester, jsonParsing);
+        return new PerformGetTask(callbackWeakReference, parser, request);
     }
 
-    private PerformGetTask(WeakReference<Callback> callbackWeakReference, TwitterRequester twitterRequester, JsonParsing jsonParsing) {
+    private PerformGetTask(WeakReference<Callback> callbackWeakReference, Parser<T, F> parser, Request<F> requester) {
+        this.parser = parser;
         this.callbackWeakReference = callbackWeakReference;
-        this.twitterRequester = twitterRequester;
-        this.jsonParsing = jsonParsing;
+        this.requester = requester;
     }
 
     @Override
-    protected List<Tweet> doInBackground(String... urls) {
-        JSONObject jsonObject = twitterRequester.request(urls[0]);
-        return jsonParsing.TweetsByHashTag(jsonObject);
+    protected T doInBackground(String... urls) {
+        F jsonObject = requester.request(urls[0]);
+        return parser.parse(jsonObject);
     }
 
     @Override
-    protected void onPostExecute(List<Tweet> response) {
+    protected void onPostExecute(T response) {
         super.onPostExecute(response);
         Callback callback = callbackWeakReference.get();
         if (callback != null) {
