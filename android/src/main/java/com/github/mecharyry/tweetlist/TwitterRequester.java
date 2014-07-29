@@ -41,17 +41,22 @@ public class TwitterRequester {
         } catch (IOException e) {
             Log.e(TAG, "IOException", e);
         }
+
         return null;
     }
 
-    private static String inputStreamToString(InputStream inputStream) throws IOException {
+    private static String inputStreamToString(InputStream inputStream) {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         StringBuilder stringBuilder = new StringBuilder();
         String line;
-        while ((line = bufferedReader.readLine()) != null) {
-            stringBuilder.append(line);
+        try {
+            while ((line = bufferedReader.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+            inputStream.close();
+        } catch (IOException e) {
+            Log.e(TAG, "IOException", e);
         }
-        inputStream.close();
         return stringBuilder.toString();
     }
 
