@@ -2,8 +2,8 @@ package com.github.mecharyry.tweetlist.task;
 
 import android.os.AsyncTask;
 
-import com.github.mecharyry.tweetlist.Parser;
-import com.github.mecharyry.tweetlist.Request;
+import com.github.mecharyry.tweetlist.parser.Parser;
+import com.github.mecharyry.tweetlist.requester.Request;
 
 import java.lang.ref.WeakReference;
 

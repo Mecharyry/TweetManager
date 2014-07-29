@@ -3,6 +3,11 @@ package com.github.mecharyry.tweetlist;
 import com.github.mecharyry.auth.oauth.AccessToken;
 import com.github.mecharyry.auth.oauth.OAuthAuthenticator;
 import com.github.mecharyry.tweetlist.adapter.mapping.Tweet;
+import com.github.mecharyry.tweetlist.parser.Parser;
+import com.github.mecharyry.tweetlist.parser.TweetsHashTagParser;
+import com.github.mecharyry.tweetlist.parser.TweetsMyStreamParser;
+import com.github.mecharyry.tweetlist.requester.TwitterArrayRequester;
+import com.github.mecharyry.tweetlist.requester.TwitterObjectRequester;
 import com.github.mecharyry.tweetlist.task.PerformGetTask;
 
 import org.json.JSONArray;

@@ -1,4 +1,4 @@
-package com.github.mecharyry.tweetlist;
+package com.github.mecharyry.tweetlist.requester;
 
 import android.util.Log;
 
@@ -8,21 +8,20 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+public class TwitterArrayRequester implements Request<JSONArray> {
 
-public class TwitterObjectRequester implements Request<JSONObject> {
-
-    private static final String TAG = "TwitterRequester";
+    private static final String TAG = "TwitterArrayRequester";
 
     @Override
-    public JSONObject request(String signedUrl) {
+    public JSONArray request(String signedUrl) {
         HttpClient client = new DefaultHttpClient();
         HttpGet get = new HttpGet(signedUrl);
 
@@ -62,14 +61,13 @@ public class TwitterObjectRequester implements Request<JSONObject> {
         return stringBuilder.toString();
     }
 
-    private static JSONObject convertStringToJson(String input) {
+    private static JSONArray convertStringToJson(String input) {
         try {
-            return new JSONObject(input);
+            return new JSONArray(input);
         } catch (JSONException e) {
             Log.e(TAG, "JSONException", e);
         }
         return null;
     }
-
 
 }

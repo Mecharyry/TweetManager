@@ -1,8 +1,9 @@
-package com.github.mecharyry.tweetlist;
+package com.github.mecharyry.tweetlist.parser;
 
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import com.github.mecharyry.tweetlist.ImageRetriever;
 import com.github.mecharyry.tweetlist.adapter.mapping.Tweet;
 
 import org.json.JSONArray;
