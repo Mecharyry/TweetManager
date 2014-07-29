@@ -37,9 +37,9 @@ public class TwitterArrayRequester implements Request<JSONArray> {
                 return convertStringToJson(inputStreamString);
             }
         } catch (ClientProtocolException e) {
-            Log.e(TAG, "ClientProtocolException", e);
+            Log.e(TAG, "While reading stream.", e);
         } catch (IOException e) {
-            Log.e(TAG, "IOException", e);
+            Log.e(TAG, "While reading stream.", e);
         }
 
         return new JSONArray();
@@ -55,7 +55,7 @@ public class TwitterArrayRequester implements Request<JSONArray> {
             }
             inputStream.close();
         } catch (IOException e) {
-            Log.e(TAG, "IOException", e);
+            Log.e(TAG, "While reading stream.", e);
         }
         return stringBuilder.toString();
     }
@@ -64,7 +64,7 @@ public class TwitterArrayRequester implements Request<JSONArray> {
         try {
             return new JSONArray(input);
         } catch (JSONException e) {
-            Log.e(TAG, "JSONException", e);
+            Log.e(TAG, "While converting string to json array.", e);
         }
         return new JSONArray();
     }

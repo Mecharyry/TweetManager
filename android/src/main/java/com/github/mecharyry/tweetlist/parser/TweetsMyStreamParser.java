@@ -48,7 +48,7 @@ public class TweetsMyStreamParser implements Parser<List<Tweet>, JSONArray> {
             }
             return tweets;
         } catch (JSONException e) {
-            Log.e(TAG, "JSONException", e);
+            Log.e(TAG, "While parsing json array to list of tweets.", e);
         }
         return new ArrayList<Tweet>();
     }

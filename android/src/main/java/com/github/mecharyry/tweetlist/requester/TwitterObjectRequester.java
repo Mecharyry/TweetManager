@@ -38,9 +38,9 @@ public class TwitterObjectRequester implements Request<JSONObject> {
                 return convertStringToJson(inputStreamString);
             }
         } catch (ClientProtocolException e) {
-            Log.e(TAG, "ClientProtocolException", e);
+            Log.e(TAG, "While reading stream.", e);
         } catch (IOException e) {
-            Log.e(TAG, "IOException", e);
+            Log.e(TAG, "While reading stream.", e);
         }
 
         return new JSONObject();
@@ -56,7 +56,7 @@ public class TwitterObjectRequester implements Request<JSONObject> {
             }
             inputStream.close();
         } catch (IOException e) {
-            Log.e(TAG, "IOException", e);
+            Log.e(TAG, "While transforming stream to string.", e);
         }
         return stringBuilder.toString();
     }
@@ -65,7 +65,7 @@ public class TwitterObjectRequester implements Request<JSONObject> {
         try {
             return new JSONObject(input);
         } catch (JSONException e) {
-            Log.e(TAG, "JSONException", e);
+            Log.e(TAG, "While transforming string to json object.", e);
         }
         return new JSONObject();
     }

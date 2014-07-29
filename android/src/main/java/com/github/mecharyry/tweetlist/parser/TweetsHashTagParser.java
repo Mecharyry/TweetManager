@@ -50,7 +50,7 @@ public class TweetsHashTagParser implements Parser<List<Tweet>, JSONObject> {
             }
             return tweets;
         } catch (JSONException e) {
-            Log.e(TAG, "JSONException", e);
+            Log.e(TAG, "While parsing json object to list of tweets.", e);
         }
         return new ArrayList<Tweet>();
     }

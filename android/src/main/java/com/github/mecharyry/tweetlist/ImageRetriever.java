@@ -32,11 +32,11 @@ public class ImageRetriever {
                 return BitmapFactory.decodeStream(inputStream);
             }
         } catch (ClientProtocolException e) {
-            Log.e(TAG, "ClientProtocolException", e);
+            Log.e(TAG, "While reading bitmap stream.", e);
             throwImageRetrieverException(e);
 
         } catch (IOException e) {
-            Log.e(TAG, "IOException", e);
+            Log.e(TAG, "While reading bitmap stream.", e);
             throwImageRetrieverException(e);
         }
         return null;
