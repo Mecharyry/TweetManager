@@ -10,28 +10,41 @@ import com.github.mecharyry.auth.oauth.OAuthRequester;
 import com.github.mecharyry.auth.oauth.task.RequestAccessTokenTask;
 import com.github.mecharyry.auth.oauth.task.RequestTokenTask;
 
+import java.lang.ref.WeakReference;
+
 class AuthenticationManager {
 
     private final OAuthAuthenticator oAuthAuthentication;
     private final OAuthRequester oAuthRequester;
     private final Activity activity;
     private final AccessTokenPreferences accessTokenPreferences;
+    private static WeakReference<Callback> callbackWeakReference;
 
-    public static AuthenticationManager newInstance(Activity activity) {
-        return new AuthenticationManager(OAuthAuthenticator.newInstance(), activity, AccessTokenPreferences.newInstance(activity));
+    public interface Callback {
+        void onAuthenticated();
     }
 
-    private AuthenticationManager(OAuthAuthenticator oAuthAuthentication, Activity activity, AccessTokenPreferences accessTokenPreferences) {
+    public static AuthenticationManager newInstance(Activity activity, Callback callback) {
+        OAuthAuthenticator oAuthAuthenticator = OAuthAuthenticator.newInstance();
+        AccessTokenPreferences accessTokenPreferences = AccessTokenPreferences.newInstance(activity);
+        WeakReference<Callback> callbackWeakReference = new WeakReference<Callback>(callback);
+
+        return new AuthenticationManager(oAuthAuthenticator, activity, accessTokenPreferences, callbackWeakReference);
+    }
+
+    private AuthenticationManager(OAuthAuthenticator oAuthAuthentication, Activity activity, AccessTokenPreferences accessTokenPreferences, WeakReference<Callback> callbackWeakReference) {
         this.oAuthAuthentication = oAuthAuthentication;
-        this.oAuthRequester = new OAuthRequester(onOAuthRequesterResult);
         this.activity = activity;
         this.accessTokenPreferences = accessTokenPreferences;
+        this.callbackWeakReference = callbackWeakReference;
+
+        this.oAuthRequester = OAuthRequester.newInstance(onOAuthRequesterResult);
     }
 
-    private final OAuthRequester.AuthenticatorRequesterResult onOAuthRequesterResult = new OAuthRequester.AuthenticatorRequesterResult() {
+    private final OAuthRequester.Callback onOAuthRequesterResult = new OAuthRequester.Callback() {
         @Override
         public void onRequesterResult(String result) {
-            new RequestAccessTokenTask(accessTokenCallback, oAuthAuthentication).execute(result);
+            RequestAccessTokenTask.newInstance(accessTokenCallback, oAuthAuthentication).executeTask(result);
         }
     };
 
@@ -39,8 +52,16 @@ class AuthenticationManager {
         @Override
         public void onRetrieved(AccessToken response) {
             accessTokenPreferences.saveAccessToken(response);
+            Callback callback = callbackWeakReference.get();
+            if (callback != null) {
+                callback.onAuthenticated();
+            }
         }
     };
+
+    public void authenticate() {
+        RequestTokenTask.newInstance(requestTokenCallback, oAuthAuthentication).execute();
+    }
 
     private final RequestTokenTask.Callback requestTokenCallback = new RequestTokenTask.Callback() {
         @Override
@@ -49,15 +70,15 @@ class AuthenticationManager {
         }
     };
 
-    public void authenticate() {
-        new RequestTokenTask(requestTokenCallback, oAuthAuthentication).execute();
-    }
-
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         oAuthRequester.onOAuthRequesterResult(requestCode, resultCode, data);
     }
 
     public boolean hasAccessToken() {
         return accessTokenPreferences.hasAccess();
+    }
+
+    public void removeAccessToken() {
+        accessTokenPreferences.removeAccessToken();
     }
 }

@@ -14,19 +14,30 @@ import java.util.List;
 public class PerformGetTask extends AsyncTask<String, Void, List<Tweet>> {
 
     private final WeakReference<Callback> callbackWeakReference;
+    private final TwitterRequester twitterRequester;
+    private final JsonParsing jsonParsing;
 
     public interface Callback {
         void onGetResponse(List<Tweet> tweets);
     }
 
-    public PerformGetTask(Callback callback) {
-        callbackWeakReference = new WeakReference<Callback>(callback);
+    public static PerformGetTask newInstance(Callback callback) {
+        WeakReference<Callback> callbackWeakReference = new WeakReference<Callback>(callback);
+        TwitterRequester twitterRequester = new TwitterRequester();
+        JsonParsing jsonParsing = JsonParsing.newInstance();
+        return new PerformGetTask(callbackWeakReference, twitterRequester, jsonParsing);
+    }
+
+    private PerformGetTask(WeakReference<Callback> callbackWeakReference, TwitterRequester twitterRequester, JsonParsing jsonParsing) {
+        this.callbackWeakReference = callbackWeakReference;
+        this.twitterRequester = twitterRequester;
+        this.jsonParsing = jsonParsing;
     }
 
     @Override
     protected List<Tweet> doInBackground(String... urls) {
-        JSONObject jsonObject = TwitterRequester.newInstance().request(urls[0]);
-        return JsonParsing.newInstance().TweetsByHashTag(jsonObject);
+        JSONObject jsonObject = twitterRequester.request(urls[0]);
+        return jsonParsing.TweetsByHashTag(jsonObject);
     }
 
     @Override
@@ -36,5 +47,9 @@ public class PerformGetTask extends AsyncTask<String, Void, List<Tweet>> {
         if (callback != null) {
             callback.onGetResponse(response);
         }
+    }
+
+    public void executeTask(String url){
+        this.execute(url);
     }
 }

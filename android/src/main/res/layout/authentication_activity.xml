@@ -1,8 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<Button xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/button_authorize"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:text="@string/button_authorize" />
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/image_view_twitter_logo"
+        android:layout_width="@dimen/logo_width"
+        android:layout_height="@dimen/logo_height"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/logo_margin"
+        android:src="@drawable/twitter_dark"
+        android:contentDescription="@string/application_logo_content_description" />
+
+    <Button
+        android:id="@+id/button_authorize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/image_view_twitter_logo"
+        android:layout_centerHorizontal="true"
+        android:text="@string/authenticate"
+        android:padding="@dimen/menu_button_padding" />
+
+    <Button
+        android:id="@+id/button_android_dev_tweets"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_authorize"
+        android:layout_centerHorizontal="true"
+        android:text="@string/android_dev_tweets"
+        android:padding="@dimen/menu_button_padding" />
+
+    <Button
+        android:id="@+id/button_my_stream"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_android_dev_tweets"
+        android:layout_centerHorizontal="true"
+        android:text="@string/my_stream"
+        android:padding="@dimen/menu_button_padding" />
+
+</RelativeLayout>
+

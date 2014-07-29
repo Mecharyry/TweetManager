@@ -2,8 +2,6 @@ package com.github.mecharyry.tweetlist;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.github.mecharyry.AccessTokenPreferences;
@@ -15,9 +13,8 @@ import com.github.mecharyry.tweetlist.task.PerformGetTask;
 
 import java.util.List;
 
-public class ListViewActivity extends Activity {
+public class AndroidDevTweetsActivity extends Activity {
 
-    private static final String TAG = "ListViewActivity";
     private TweetAdapter tweetArrayAdapter;
     private RequestManager requestManager;
     private ListView listView;
@@ -32,28 +29,14 @@ public class ListViewActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_android_dev_tweets);
+
         AccessTokenPreferences accessTokenPreferences = AccessTokenPreferences.newInstance(this);
         AccessToken accessToken = accessTokenPreferences.retrieveAccessToken();
         requestManager = RequestManager.newInstance(accessToken);
         this.tweetArrayAdapter = TweetAdapter.newInstance(this);
-        setContentView(R.layout.activity_list_view);
-        listView = (ListView) findViewById(R.id.listview_tweets);
+        listView = (ListView) findViewById(R.id.listview_androiddev_tweets);
         listView.setAdapter(tweetArrayAdapter);
         requestManager.requestAndroidDevTweets(updateListCallback);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.list_view, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

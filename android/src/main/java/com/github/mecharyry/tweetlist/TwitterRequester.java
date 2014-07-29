@@ -20,13 +20,6 @@ public class TwitterRequester {
 
     private static final String TAG = "TwitterRequester";
 
-    public static TwitterRequester newInstance() {
-        return new TwitterRequester();
-    }
-
-    private TwitterRequester() {
-    }
-
     public JSONObject request(String signedUrl) {
         HttpClient client = new DefaultHttpClient();
         HttpGet get = new HttpGet(signedUrl);
@@ -48,21 +41,26 @@ public class TwitterRequester {
         } catch (IOException e) {
             Log.e(TAG, "IOException", e);
         }
+
         return null;
     }
 
-    protected static String inputStreamToString(InputStream inputStream) throws IOException {
+    private static String inputStreamToString(InputStream inputStream) {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         StringBuilder stringBuilder = new StringBuilder();
         String line;
-        while ((line = bufferedReader.readLine()) != null) {
-            stringBuilder.append(line);
+        try {
+            while ((line = bufferedReader.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+            inputStream.close();
+        } catch (IOException e) {
+            Log.e(TAG, "IOException", e);
         }
-        inputStream.close();
         return stringBuilder.toString();
     }
 
-    protected static JSONObject convertStringToJson(String input) {
+    private static JSONObject convertStringToJson(String input) {
         try {
             Log.i(TAG, new JSONObject(input).toString());
             return new JSONObject(input);
@@ -71,4 +69,6 @@ public class TwitterRequester {
         }
         return null;
     }
+
+
 }

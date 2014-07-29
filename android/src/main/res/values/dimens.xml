@@ -2,13 +2,25 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="list_view_item_padding">12dp</dimen>
+    <dimen name="list_view_item_padding">25dp</dimen>
     <dimen name="list_view_padding">10dp</dimen>
-    <dimen name="list_view_divider_height">10.0sp</dimen>
+    <dimen name="list_view_divider_height">5.0sp</dimen>
     <dimen name="rounded_edges_left_padding">5dp</dimen>
     <dimen name="rounded_edges_top_padding">5dp</dimen>
     <dimen name="rounded_edges_right_padding">5dp</dimen>
     <dimen name="rounded_edges_bottom_padding">5dp</dimen>
     <dimen name="rounded_edges_radius">24dp</dimen>
     <dimen name="rounded_edges_border_width">4dp</dimen>
+    <dimen name="logo_width">96dp</dimen>
+    <dimen name="logo_height">96dp</dimen>
+    <dimen name="logo_margin">20dp</dimen>
+    <dimen name="menu_button_padding">10dp</dimen>
+    <dimen name="thumb_info_top_margin">5dp</dimen>
+    <dimen name="thumb_image_width">48dp</dimen>
+    <dimen name="thumb_image_height">48dp</dimen>
+    <dimen name="shadow_top_padding">0dp</dimen>
+    <dimen name="shadow_right_padding">3dp</dimen>
+    <dimen name="shadow_bottom_padding">3dp</dimen>
+    <dimen name="shadow_left_padding">0dp</dimen>
+    <dimen name="thumb_info_left_margin">5dp</dimen>
 </resources>

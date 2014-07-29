@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="button_authorize">loginNewUser</string>
-    <string name="action_settings">Twitter App</string>
-    <string name="button_dev_tweets">Retrieve Dev Tweets</string>
-    <string name="title_activity_list_view">ListViewActivity</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_my_stream">Home Stream</string>
+    <string name="title_activity_list_view">Android Dev Tweets</string>
+
+    <string name="authenticate">Authenticate</string>
+    <string name="clear_credentials">Clear Credentials</string>
+    <string name="android_dev_tweets">Retrieve Dev Tweets</string>
+    <string name="my_stream">My Stream</string>
+
+
     <string name="screen_name_label">Screen Name: %1$s</string>
     <string name="location_label">Location: %1$s</string>
+    <string name="title_activity_authentication">Authentication</string>
+    <string name="user_thumbnail_image_content_description">user thumbnail image</string>
+    <string name="application_logo_content_description">Application logo</string>
+    <string name="toast_notification">Opening Browser</string>
 
 </resources>

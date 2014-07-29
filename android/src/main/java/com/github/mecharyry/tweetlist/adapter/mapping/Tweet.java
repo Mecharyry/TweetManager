@@ -1,14 +1,18 @@
 package com.github.mecharyry.tweetlist.adapter.mapping;
 
+import android.graphics.Bitmap;
+
 public class Tweet {
     private final String screenName;
     private final String location;
     private final String text;
+    private final Bitmap thumbImage;
 
-    public Tweet(String screenName, String location, String text) {
+    public Tweet(String screenName, String location, String text, Bitmap thumbImage) {
         this.screenName = screenName;
         this.location = location;
         this.text = text;
+        this.thumbImage = thumbImage;
     }
 
     public String getScreenName() {
@@ -21,5 +25,9 @@ public class Tweet {
 
     public String getText() {
         return text;
+    }
+
+    public Bitmap getThumbImage() {
+        return thumbImage;
     }
 }

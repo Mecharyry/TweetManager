@@ -16,8 +16,13 @@ public class RequestAccessTokenTask extends AsyncTask<String, Void, AccessToken>
         void onRetrieved(AccessToken response);
     }
 
-    public RequestAccessTokenTask(Callback callback, OAuthAuthenticator oAuthAuthenticator) {
-        callbackWeakReference = new WeakReference<Callback>(callback);
+    public static RequestAccessTokenTask newInstance(Callback callback, OAuthAuthenticator oAuthAuthenticator) {
+        WeakReference<Callback> weakReference = new WeakReference<Callback>(callback);
+        return new RequestAccessTokenTask(weakReference, oAuthAuthenticator);
+    }
+
+    private RequestAccessTokenTask(WeakReference<Callback> callbackWeakReference, OAuthAuthenticator oAuthAuthenticator) {
+        this.callbackWeakReference = callbackWeakReference;
         this.oAuthAuthenticator = oAuthAuthenticator;
     }
 
@@ -33,5 +38,9 @@ public class RequestAccessTokenTask extends AsyncTask<String, Void, AccessToken>
         if (callback != null) {
             callback.onRetrieved(accessToken);
         }
+    }
+
+    public void executeTask(String verifier){
+        this.execute(verifier);
     }
 }

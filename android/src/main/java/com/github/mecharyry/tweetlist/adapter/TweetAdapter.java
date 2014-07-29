@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.mecharyry.R;
@@ -20,7 +21,8 @@ public class TweetAdapter extends BaseAdapter {
     private final Resources resources;
 
     public static TweetAdapter newInstance(Context context) {
-        return new TweetAdapter(LayoutInflater.from(context), new ArrayList<Tweet>(), context.getResources());
+        ArrayList<Tweet> tweetArrayList = new ArrayList<Tweet>();
+        return new TweetAdapter(LayoutInflater.from(context), tweetArrayList, context.getResources());
     }
 
     private TweetAdapter(LayoutInflater layoutInflater, List<Tweet> tweets, Resources resources) {
@@ -53,7 +55,7 @@ public class TweetAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
-        TweetHolder holder = null;
+        TweetHolder holder;
 
         if (row == null) {
             row = layoutInflater.inflate(R.layout.tweets_list_item, parent, false);
@@ -62,6 +64,7 @@ public class TweetAdapter extends BaseAdapter {
             holder.textScreenName = (TextView) row.findViewById(R.id.text_screen_name);
             holder.textTweet = (TextView) row.findViewById(R.id.text_tweet);
             holder.textLocation = (TextView) row.findViewById(R.id.text_location);
+            holder.imageThumbnail = (ImageView) row.findViewById(R.id.user_thumb_image);
 
             row.setTag(holder);
         } else {
@@ -72,6 +75,7 @@ public class TweetAdapter extends BaseAdapter {
         holder.textScreenName.setText(String.format(resources.getString(R.string.screen_name_label), tweet.getScreenName()));
         holder.textTweet.setText(tweet.getText());
         holder.textLocation.setText(String.format(resources.getString(R.string.location_label), tweet.getLocation()));
+        holder.imageThumbnail.setImageBitmap(tweet.getThumbImage());
 
         return row;
     }
@@ -80,5 +84,6 @@ public class TweetAdapter extends BaseAdapter {
         TextView textScreenName;
         TextView textTweet;
         TextView textLocation;
+        ImageView imageThumbnail;
     }
 }
