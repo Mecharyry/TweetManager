@@ -21,7 +21,7 @@ public class TweetsMyStreamParser implements Parser<List<Tweet>, JSONArray> {
     private static final String KEY_SCREEN_NAME = "screen_name";
     private static final String KEY_LOCATION = "location";
     private static final String KEY_THUMB_IMAGE = "profile_image_url";
-    private ImageRetriever imageRetriever;
+    private final ImageRetriever imageRetriever;
 
     public TweetsMyStreamParser(ImageRetriever imageRetriever) {
         this.imageRetriever = imageRetriever;
