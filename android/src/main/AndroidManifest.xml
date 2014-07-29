@@ -43,7 +43,14 @@
         </activity>
         <activity
             android:name="com.github.mecharyry.tweetlist.MyStreamActivity"
-            android:label="@string/title_activity_my_stream" />
+            android:label="@string/title_activity_my_stream">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="com.github.mecharyry.MY_STREAM_INTENT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

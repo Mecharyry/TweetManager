@@ -16,6 +16,7 @@ public class AuthenticationActivity extends Activity {
     private static final String TAG = "AuthenticationActivity";
     public static final String MENU_ITEM_EXCEPTION = TAG + ": Menu item not handled.";
     private static final String ANDROID_DEV_TWEETS_INTENT = "com.github.mecharyry.ANDROID_TWEETS_INTENT";
+    public static final String MY_STREAM_TWEETS_INTENT = "com.github.mecharyry.MY_STREAM_INTENT";
     private AuthenticationManager manager;
 
     @Override
@@ -26,6 +27,7 @@ public class AuthenticationActivity extends Activity {
         manager = AuthenticationManager.newInstance(this, onAccessTokenSaved);
         findViewById(R.id.button_authorize).setOnClickListener(onAuthorizeButtonClicked);
         findViewById(R.id.button_android_dev_tweets).setOnClickListener(onAndroidDevTweetsButtonClicked);
+        findViewById(R.id.button_my_stream).setOnClickListener(onMyStreamTweetsButtonClicked);
     }
 
     private final AuthenticationManager.Callback onAccessTokenSaved = new AuthenticationManager.Callback() {
@@ -49,6 +51,15 @@ public class AuthenticationActivity extends Activity {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(ANDROID_DEV_TWEETS_INTENT);
+            startActivity(intent);
+        }
+    };
+
+    private final View.OnClickListener onMyStreamTweetsButtonClicked = new View.OnClickListener(){
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(MY_STREAM_TWEETS_INTENT);
             startActivity(intent);
         }
     };
