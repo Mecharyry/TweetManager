@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.ListView;
 
 import com.github.mecharyry.AccessTokenPreferences;
+import com.github.mecharyry.BuildConfig;
 import com.github.mecharyry.R;
 import com.github.mecharyry.auth.oauth.AccessToken;
 import com.github.mecharyry.tweetlist.adapter.TweetAdapter;
@@ -15,7 +16,7 @@ import java.util.List;
 
 public class MyStreamActivity extends Activity {
 
-    public static final String MY_STREAM_TWEETS_INTENT = "com.github.mecharyry.MY_STREAM_INTENT";
+    public static final String ACTION_VIEW_MY_STREAM_TWEETS = BuildConfig.PACKAGE_NAME + ".ACTION_VIEW_MY_STREAM_TWEETS";
     private TweetAdapter tweetAdapter;
     private RequestFactory requestFactory;
     private ListView listView;

@@ -53,7 +53,7 @@ public class AuthenticationActivity extends Activity {
         }
 
         private void createShowDevTweetsIntent() {
-            Intent intent = new Intent(AndroidDevTweetsActivity.ANDROID_DEV_TWEETS_INTENT);
+            Intent intent = new Intent(AndroidDevTweetsActivity.ACTION_VIEW_ANDROID_DEV_TWEETS);
             startActivity(intent);
         }
     };
@@ -66,7 +66,7 @@ public class AuthenticationActivity extends Activity {
         }
 
         private void createShowMyStreamIntent() {
-            Intent intent = new Intent(MyStreamActivity.MY_STREAM_TWEETS_INTENT);
+            Intent intent = new Intent(MyStreamActivity.ACTION_VIEW_MY_STREAM_TWEETS);
             startActivity(intent);
         }
     };
