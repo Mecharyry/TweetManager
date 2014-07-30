@@ -29,9 +29,8 @@ public class TweetsMyStreamParser implements Parser<List<Tweet>, JSONArray> {
 
     @Override
     public List<Tweet> parse(JSONArray jsonArray) {
+        List<Tweet> tweets = new ArrayList<Tweet>();
         try {
-            ArrayList<Tweet> tweets = new ArrayList<Tweet>();
-
             for (int tweetIndex = 0; tweetIndex < jsonArray.length(); tweetIndex++) {
                 JSONObject innerJsonObject = jsonArray.getJSONObject(tweetIndex);
                 JSONObject user = innerJsonObject.getJSONObject(KEY_USER);
@@ -46,10 +45,9 @@ public class TweetsMyStreamParser implements Parser<List<Tweet>, JSONArray> {
 
                 tweets.add(tweet);
             }
-            return tweets;
         } catch (JSONException e) {
             Log.e(TAG, "While parsing json array to list of tweets.", e);
         }
-        return new ArrayList<Tweet>();
+        return tweets;
     }
 }

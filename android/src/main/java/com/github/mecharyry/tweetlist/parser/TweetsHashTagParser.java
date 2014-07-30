@@ -30,8 +30,8 @@ public class TweetsHashtagParser implements Parser<List<Tweet>, JSONObject> {
 
     @Override
     public List<Tweet> parse(JSONObject jsonObject) {
+        List<Tweet> tweets = new ArrayList<Tweet>();
         try {
-            ArrayList<Tweet> tweets = new ArrayList<Tweet>();
             JSONArray statuses = jsonObject.getJSONArray(KEY_STATUSES);
 
             for (int statusIndex = 0; statusIndex < statuses.length(); statusIndex++) {
@@ -48,10 +48,9 @@ public class TweetsHashtagParser implements Parser<List<Tweet>, JSONObject> {
 
                 tweets.add(tweet);
             }
-            return tweets;
         } catch (JSONException e) {
             Log.e(TAG, "While parsing json object to list of tweets.", e);
         }
-        return new ArrayList<Tweet>();
+        return tweets;
     }
 }
