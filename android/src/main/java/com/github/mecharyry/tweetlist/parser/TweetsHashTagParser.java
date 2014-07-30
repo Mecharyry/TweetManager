@@ -15,7 +15,7 @@ import java.util.List;
 
 public class TweetsHashtagParser implements Parser<JSONObject, List<Tweet>> {
 
-    private static final String TAG = "PerformJsonParsingTask";
+    private static final String TAG = TweetsHashtagParser.class.getSimpleName();
     private static final String KEY_STATUSES = "statuses";
     private static final String KEY_TEXT = "text";
     private static final String KEY_USER = "user";

@@ -14,7 +14,7 @@ import com.github.mecharyry.tweetlist.MyStreamActivity;
 
 public class AuthenticationActivity extends Activity {
 
-    private static final String TAG = "AuthenticationActivity";
+    private static final String TAG = AuthenticationActivity.class.getSimpleName();
     private static final String MENU_ITEM_EXCEPTION = TAG + ": Menu item not handled.";
     private AuthenticationManager manager;
 

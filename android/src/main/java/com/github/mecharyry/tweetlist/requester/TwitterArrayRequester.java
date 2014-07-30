@@ -19,7 +19,7 @@ import java.net.URL;
 
 public class TwitterArrayRequester implements Request<JSONArray> {
 
-    private static final String TAG = "TwitterArrayRequester";
+    private static final String TAG = TwitterArrayRequester.class.getSimpleName();
 
     @Override
     public JSONArray request(URL signedUrl) {

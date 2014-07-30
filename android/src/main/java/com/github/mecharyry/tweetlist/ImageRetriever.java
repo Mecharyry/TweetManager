@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class ImageRetriever {
-    private static final String TAG = "ImageRetriever";
+    private static final String TAG = ImageRetriever.class.getSimpleName();
 
     public Bitmap retrieveBitmap(String imageUrl) {
         HttpClient client = new DefaultHttpClient();

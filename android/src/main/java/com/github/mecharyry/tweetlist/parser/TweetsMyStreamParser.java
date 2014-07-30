@@ -15,7 +15,7 @@ import java.util.List;
 
 public class TweetsMyStreamParser implements Parser<JSONArray, List<Tweet>> {
 
-    private static final String TAG = "PerformJsonParsingTask";
+    private static final String TAG = TweetsMyStreamParser.class.getSimpleName();
     private static final String KEY_TEXT = "text";
     private static final String KEY_USER = "user";
     private static final String KEY_SCREEN_NAME = "screen_name";

@@ -20,7 +20,7 @@ import java.net.URL;
 
 public class TwitterObjectRequester implements Request<JSONObject> {
 
-    private static final String TAG = "TwitterRequester";
+    private static final String TAG = TwitterObjectRequester.class.getSimpleName();
 
     @Override
     public JSONObject request(URL signedUrl) {
