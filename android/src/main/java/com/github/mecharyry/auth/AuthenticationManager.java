@@ -16,9 +16,8 @@ class AuthenticationManager {
 
     private final OAuthAuthenticator oAuthAuthentication;
     private final OAuthRequester oAuthRequester;
-    private final Activity activity;
     private final AccessTokenPreferences accessTokenPreferences;
-    private static WeakReference<Callback> callbackWeakReference;
+    private final WeakReference<Callback> callbackWeakReference;
 
     public interface Callback {
         void onAuthenticated();
@@ -28,17 +27,15 @@ class AuthenticationManager {
         OAuthAuthenticator oAuthAuthenticator = OAuthAuthenticator.newInstance();
         AccessTokenPreferences accessTokenPreferences = AccessTokenPreferences.newInstance(activity);
         WeakReference<Callback> callbackWeakReference = new WeakReference<Callback>(callback);
-
-        return new AuthenticationManager(oAuthAuthenticator, activity, accessTokenPreferences, callbackWeakReference);
+        OAuthRequester oAuthRequester = OAuthRequester.newInstance(activity);
+        return new AuthenticationManager(oAuthAuthenticator, oAuthRequester, accessTokenPreferences, callbackWeakReference);
     }
 
-    AuthenticationManager(OAuthAuthenticator oAuthAuthentication, Activity activity, AccessTokenPreferences accessTokenPreferences, WeakReference<Callback> callbackWeakReference) {
+    private AuthenticationManager(OAuthAuthenticator oAuthAuthentication, OAuthRequester oAuthRequester, AccessTokenPreferences accessTokenPreferences, WeakReference<Callback> callbackWeakReference) {
         this.oAuthAuthentication = oAuthAuthentication;
-        this.activity = activity;
         this.accessTokenPreferences = accessTokenPreferences;
         this.callbackWeakReference = callbackWeakReference;
-
-        this.oAuthRequester = OAuthRequester.newInstance(onOAuthRequesterResult);
+        this.oAuthRequester = oAuthRequester;
     }
 
     private final OAuthRequester.Callback onOAuthRequesterResult = new OAuthRequester.Callback() {
@@ -66,12 +63,12 @@ class AuthenticationManager {
     private final RequestTokenTask.Callback requestTokenCallback = new RequestTokenTask.Callback() {
         @Override
         public void onRetrieved(String response) {
-            oAuthRequester.request(activity, response);
+            oAuthRequester.request(response);
         }
     };
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        oAuthRequester.onOAuthRequesterResult(requestCode, resultCode, data);
+        oAuthRequester.onOAuthRequesterResult(requestCode, resultCode, data, onOAuthRequesterResult);
     }
 
     public boolean hasAccessToken() {

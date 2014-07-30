@@ -1,42 +1,40 @@
 package com.github.mecharyry.auth.oauth;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 
 import java.lang.ref.WeakReference;
 
 public class OAuthRequester {
+
     private static final String OAUTH_VERIFIER = "OAUTH_VERIFIER";
     private static final int REQUEST_CODE = 100;
-    private final WeakReference<Callback> callbackWeakReference;
+    private final Activity activity;
 
     public interface Callback {
         void onRequesterResult(String result);
     }
 
-    public static OAuthRequester newInstance(Callback callback) {
-        WeakReference<Callback> weakReference = new WeakReference<Callback>(callback);
-        return new OAuthRequester(weakReference);
+    public static OAuthRequester newInstance(Activity activity) {
+        return new OAuthRequester(activity);
     }
 
-    OAuthRequester(WeakReference<Callback> callbackWeakReference) {
-        this.callbackWeakReference = callbackWeakReference;
+    OAuthRequester(Activity activity) {
+        this.activity = activity;
     }
 
-    public void request(Activity activity, String url) {
+    public void request(String url) {
         Intent intent = new Intent(activity, OAuthRequesterActivity.class);
+
         intent.putExtra("URL", url);
         activity.startActivityForResult(intent, REQUEST_CODE);
     }
 
-    public void onOAuthRequesterResult(int requestCode, int resultCode, Intent data) {
+    public void onOAuthRequesterResult(int requestCode, int resultCode, Intent data, Callback callback) {
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
             String verifier = data.getStringExtra(OAUTH_VERIFIER);
-
-            Callback callback = callbackWeakReference.get();
-            if (callback != null) {
-                callback.onRequesterResult(verifier);
-            }
+            callback.onRequesterResult(verifier);
         }
     }
 }
