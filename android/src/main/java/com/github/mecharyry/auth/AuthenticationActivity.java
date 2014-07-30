@@ -24,9 +24,9 @@ public class AuthenticationActivity extends Activity {
         setContentView(R.layout.authentication_activity);
 
         manager = AuthenticationManager.newInstance(this, onAccessTokenSaved);
-        findViewById(R.id.button_authorize).setOnClickListener(onAuthorizeButtonClicked);
-        findViewById(R.id.button_android_dev_tweets).setOnClickListener(onAndroidDevTweetsButtonClicked);
-        findViewById(R.id.button_my_stream).setOnClickListener(onMyStreamTweetsButtonClicked);
+        findViewById(R.id.button_authorize).setOnClickListener(onAuthorizeButtonClick);
+        findViewById(R.id.button_android_dev_tweets).setOnClickListener(onAndroidDevTweetsButtonClick);
+        findViewById(R.id.button_my_stream).setOnClickListener(onMyStreamTweetsButtonClick);
     }
 
     private final AuthenticationManager.Callback onAccessTokenSaved = new AuthenticationManager.Callback() {
@@ -37,7 +37,7 @@ public class AuthenticationActivity extends Activity {
         }
     };
 
-    private final View.OnClickListener onAuthorizeButtonClicked = new View.OnClickListener() {
+    private final View.OnClickListener onAuthorizeButtonClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             Toast.makeText(AuthenticationActivity.this, getString(R.string.toast_notification), Toast.LENGTH_SHORT).show();
@@ -45,7 +45,7 @@ public class AuthenticationActivity extends Activity {
         }
     };
 
-    private final View.OnClickListener onAndroidDevTweetsButtonClicked = new View.OnClickListener() {
+    private final View.OnClickListener onAndroidDevTweetsButtonClick = new View.OnClickListener() {
 
         @Override
         public void onClick(View v) {
@@ -58,7 +58,7 @@ public class AuthenticationActivity extends Activity {
         }
     };
 
-    private final View.OnClickListener onMyStreamTweetsButtonClicked = new View.OnClickListener() {
+    private final View.OnClickListener onMyStreamTweetsButtonClick = new View.OnClickListener() {
 
         @Override
         public void onClick(View v) {

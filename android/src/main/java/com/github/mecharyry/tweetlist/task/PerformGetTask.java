@@ -30,7 +30,7 @@ public class PerformGetTask<F, T> extends AsyncTask<URL, Void, T> {
     }
 
     public void executeTask(URL url) {
-        this.execute(url);
+        execute(url);
     }
 
     @Override
