@@ -13,7 +13,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TweetsMyStreamParser implements Parser<List<Tweet>, JSONArray> {
+public class TweetsMyStreamParser implements Parser<JSONArray, List<Tweet>> {
 
     private static final String TAG = "PerformJsonParsingTask";
     private static final String KEY_TEXT = "text";

@@ -26,8 +26,8 @@ public class RequestFactory {
     public static final String ANDROID_DEV_TWEETS = "https://api.twitter.com/1.1/search/tweets.json?q=%23AndroidDev&count=50";
     public static final String MY_STREAM_TWEETS = "https://api.twitter.com/1.1/statuses/home_timeline.json?count=50";
     private final OAuthConsumer consumer;
-    private final Parser<List<Tweet>, JSONObject> hashtagParser;
-    private final Parser<List<Tweet>, JSONArray> myStreamParser;
+    private final Parser<JSONObject, List<Tweet>> hashtagParser;
+    private final Parser<JSONArray, List<Tweet>> myStreamParser;
     private final TwitterObjectRequester objectRequester;
     private final TwitterArrayRequester arrayRequester;
 
@@ -36,15 +36,15 @@ public class RequestFactory {
         OAuthAuthenticator oAuthAuthenticator = OAuthAuthenticator.newInstance();
         OAuthConsumer oAuthConsumer = oAuthAuthenticator.getConsumer(accessToken);
         ImageRetriever imageRetriever = new ImageRetriever();
-        Parser<List<Tweet>, JSONObject> hashtagParser = new TweetsHashtagParser(imageRetriever);
-        Parser<List<Tweet>, JSONArray> myStreamParser = new TweetsMyStreamParser(imageRetriever);
+        Parser<JSONObject, List<Tweet>> hashtagParser = new TweetsHashtagParser(imageRetriever);
+        Parser<JSONArray, List<Tweet>> myStreamParser = new TweetsMyStreamParser(imageRetriever);
         TwitterObjectRequester objectRequester = new TwitterObjectRequester();
         TwitterArrayRequester arrayRequester = new TwitterArrayRequester();
         return new RequestFactory(oAuthConsumer, myStreamParser, arrayRequester, hashtagParser, objectRequester);
     }
 
-    RequestFactory(OAuthConsumer consumer, Parser<List<Tweet>, JSONArray> myStreamParser,
-                   TwitterArrayRequester arrayRequester, Parser<List<Tweet>, JSONObject> hashtagParser, TwitterObjectRequester objectRequester) {
+    RequestFactory(OAuthConsumer consumer, Parser<JSONArray, List<Tweet>> myStreamParser,
+                   TwitterArrayRequester arrayRequester, Parser<JSONObject, List<Tweet>> hashtagParser, TwitterObjectRequester objectRequester) {
         this.consumer = consumer;
         this.hashtagParser = hashtagParser;
         this.myStreamParser = myStreamParser;

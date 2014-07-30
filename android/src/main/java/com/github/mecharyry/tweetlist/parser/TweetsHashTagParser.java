@@ -13,7 +13,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TweetsHashtagParser implements Parser<List<Tweet>, JSONObject> {
+public class TweetsHashtagParser implements Parser<JSONObject, List<Tweet>> {
 
     private static final String TAG = "PerformJsonParsingTask";
     private static final String KEY_STATUSES = "statuses";

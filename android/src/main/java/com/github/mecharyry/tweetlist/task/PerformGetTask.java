@@ -8,9 +8,9 @@ import com.github.mecharyry.tweetlist.requester.Request;
 import java.lang.ref.WeakReference;
 import java.net.URL;
 
-public class PerformGetTask<T, F> extends AsyncTask<URL, Void, T> {
+public class PerformGetTask<F, T> extends AsyncTask<URL, Void, T> {
 
-    private final Parser<T, F> parser;
+    private final Parser<F, T> parser;
     private final WeakReference<Callback> callbackWeakReference;
     private final Request<F> requester;
 
@@ -18,12 +18,12 @@ public class PerformGetTask<T, F> extends AsyncTask<URL, Void, T> {
         void onGetResponse(T tweets);
     }
 
-    public static <T, F> PerformGetTask newInstance(Callback callback, Parser<T, F> parser, Request<F> request) {
+    public static <F, T> PerformGetTask newInstance(Callback callback, Parser<F, T> parser, Request<F> request) {
         WeakReference<Callback> callbackWeakReference = new WeakReference<Callback>(callback);
         return new PerformGetTask(callbackWeakReference, parser, request);
     }
 
-    private PerformGetTask(WeakReference<Callback> callbackWeakReference, Parser<T, F> parser, Request<F> requester) {
+    private PerformGetTask(WeakReference<Callback> callbackWeakReference, Parser<F, T> parser, Request<F> requester) {
         this.parser = parser;
         this.callbackWeakReference = callbackWeakReference;
         this.requester = requester;
