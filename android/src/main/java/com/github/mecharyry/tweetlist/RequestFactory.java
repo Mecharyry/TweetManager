@@ -75,16 +75,16 @@ public class RequestFactory {
         try {
             signedUrl = consumer.sign(unsignedUrl);
         } catch (OAuthMessageSignerException e) {
-            throwAuthException(e);
+            throwAuthException("While signing URL.", e);
         } catch (OAuthExpectationFailedException e) {
-            throwAuthException(e);
+            throwAuthException("While signing URL.", e);
         } catch (OAuthCommunicationException e) {
-            throwAuthException(e);
+            throwAuthException("While signing URL.", e);
         }
         return signedUrl;
     }
 
-    private void throwAuthException(Exception e) {
-        throw new OAuthAuthenticator.OAuthException(e);
+    private void throwAuthException(String reason, Exception exception) {
+        throw OAuthAuthenticator.OAuthException.because(reason, exception);
     }
 }
