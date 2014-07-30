@@ -6,8 +6,9 @@ import com.github.mecharyry.tweetlist.parser.Parser;
 import com.github.mecharyry.tweetlist.requester.Request;
 
 import java.lang.ref.WeakReference;
+import java.net.URL;
 
-public class PerformGetTask<T, F> extends AsyncTask<String, Void, T> {
+public class PerformGetTask<T, F> extends AsyncTask<URL, Void, T> {
 
     private final Parser<T, F> parser;
     private final WeakReference<Callback> callbackWeakReference;
@@ -29,7 +30,7 @@ public class PerformGetTask<T, F> extends AsyncTask<String, Void, T> {
     }
 
     @Override
-    protected T doInBackground(String... urls) {
+    protected T doInBackground(URL... urls) {
         F jsonObject = requester.request(urls[0]);
         return parser.parse(jsonObject);
     }
@@ -43,7 +44,7 @@ public class PerformGetTask<T, F> extends AsyncTask<String, Void, T> {
         }
     }
 
-    public void executeTask(String url) {
+    public void executeTask(URL url) {
         this.execute(url);
     }
 }

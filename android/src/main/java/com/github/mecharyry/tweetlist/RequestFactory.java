@@ -13,6 +13,8 @@ import com.github.mecharyry.tweetlist.task.PerformGetTask;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 import oauth.signpost.OAuthConsumer;
@@ -42,7 +44,7 @@ public class RequestFactory {
     }
 
     RequestFactory(OAuthConsumer consumer, Parser<List<Tweet>, JSONArray> myStreamParser,
-                           TwitterArrayRequester arrayRequester, Parser<List<Tweet>, JSONObject> hashtagParser, TwitterObjectRequester objectRequester) {
+                   TwitterArrayRequester arrayRequester, Parser<List<Tweet>, JSONObject> hashtagParser, TwitterObjectRequester objectRequester) {
         this.consumer = consumer;
         this.hashtagParser = hashtagParser;
         this.myStreamParser = myStreamParser;
@@ -51,13 +53,21 @@ public class RequestFactory {
     }
 
     public void requestAndroidDevTweets(PerformGetTask.Callback<List<Tweet>> callback) {
-        String signedUrl = signUrl(ANDROID_DEV_TWEETS);
-        PerformGetTask.newInstance(callback, hashtagParser, objectRequester).executeTask(signedUrl);
+        try {
+            URL signedUrl = new URL(signUrl(ANDROID_DEV_TWEETS));
+            PerformGetTask.newInstance(callback, hashtagParser, objectRequester).executeTask(signedUrl);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void requestMyStreamTweets(PerformGetTask.Callback<List<Tweet>> callback) {
-        String signedUrl = signUrl(MY_STREAM_TWEETS);
-        PerformGetTask.newInstance(callback, myStreamParser, arrayRequester).executeTask(signedUrl);
+        try {
+            URL signedUrl = new URL(signUrl(MY_STREAM_TWEETS));
+            PerformGetTask.newInstance(callback, myStreamParser, arrayRequester).executeTask(signedUrl);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
     }
 
     private String signUrl(String unsignedUrl) {

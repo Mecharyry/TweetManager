@@ -15,15 +15,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 
 public class TwitterArrayRequester implements Request<JSONArray> {
 
     private static final String TAG = "TwitterArrayRequester";
 
     @Override
-    public JSONArray request(String signedUrl) {
+    public JSONArray request(URL signedUrl) {
         HttpClient client = new DefaultHttpClient();
-        HttpGet get = new HttpGet(signedUrl);
+        HttpGet get = new HttpGet(signedUrl.toString());
 
         try {
             HttpResponse response = client.execute(get);

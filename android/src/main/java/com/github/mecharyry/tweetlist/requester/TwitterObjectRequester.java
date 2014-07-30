@@ -15,6 +15,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 
 
 public class TwitterObjectRequester implements Request<JSONObject> {
@@ -22,9 +23,9 @@ public class TwitterObjectRequester implements Request<JSONObject> {
     private static final String TAG = "TwitterRequester";
 
     @Override
-    public JSONObject request(String signedUrl) {
+    public JSONObject request(URL signedUrl) {
         HttpClient client = new DefaultHttpClient();
-        HttpGet get = new HttpGet(signedUrl);
+        HttpGet get = new HttpGet(signedUrl.toString());
 
         try {
             HttpResponse response = client.execute(get);
