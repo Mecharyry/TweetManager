@@ -17,7 +17,7 @@ public class MyStreamActivity extends Activity {
 
     public static final String MY_STREAM_TWEETS_INTENT = "com.github.mecharyry.MY_STREAM_INTENT";
     private TweetAdapter tweetArrayAdapter;
-    private RequestManager requestManager;
+    private RequestFactory requestFactory;
     private ListView listView;
 
     @Override
@@ -27,12 +27,12 @@ public class MyStreamActivity extends Activity {
 
         AccessTokenPreferences accessTokenPreferences = AccessTokenPreferences.newInstance(this);
         AccessToken accessToken = accessTokenPreferences.retrieveAccessToken();
-        this.requestManager = RequestManager.newInstance(accessToken);
+        this.requestFactory = RequestFactory.newInstance(accessToken);
 
         this.tweetArrayAdapter = TweetAdapter.newInstance(this);
         listView = (ListView) findViewById(R.id.listview_mystream);
         listView.setAdapter(tweetArrayAdapter);
-        requestManager.requestMyStreamTweets(updateListCallback);
+        requestFactory.requestMyStreamTweets(updateListCallback);
 
     }
 

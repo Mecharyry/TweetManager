@@ -17,7 +17,7 @@ public class AndroidDevTweetsActivity extends Activity {
 
     public static final String ANDROID_DEV_TWEETS_INTENT = "com.github.mecharyry.ANDROID_TWEETS_INTENT";
     private TweetAdapter tweetArrayAdapter;
-    private RequestManager requestManager;
+    private RequestFactory requestFactory;
     private ListView listView;
 
     private final PerformGetTask.Callback updateListCallback = new PerformGetTask.Callback<List<Tweet>>() {
@@ -34,10 +34,10 @@ public class AndroidDevTweetsActivity extends Activity {
 
         AccessTokenPreferences accessTokenPreferences = AccessTokenPreferences.newInstance(this);
         AccessToken accessToken = accessTokenPreferences.retrieveAccessToken();
-        requestManager = RequestManager.newInstance(accessToken);
+        requestFactory = RequestFactory.newInstance(accessToken);
         this.tweetArrayAdapter = TweetAdapter.newInstance(this);
         listView = (ListView) findViewById(R.id.listview_androiddev_tweets);
         listView.setAdapter(tweetArrayAdapter);
-        requestManager.requestAndroidDevTweets(updateListCallback);
+        requestFactory.requestAndroidDevTweets(updateListCallback);
     }
 }
