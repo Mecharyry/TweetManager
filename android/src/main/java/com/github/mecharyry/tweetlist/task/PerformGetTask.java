@@ -29,6 +29,10 @@ public class PerformGetTask<T, F> extends AsyncTask<URL, Void, T> {
         this.requester = requester;
     }
 
+    public void executeTask(URL url) {
+        this.execute(url);
+    }
+
     @Override
     protected T doInBackground(URL... urls) {
         F jsonObject = requester.request(urls[0]);
@@ -44,7 +48,4 @@ public class PerformGetTask<T, F> extends AsyncTask<URL, Void, T> {
         }
     }
 
-    public void executeTask(URL url) {
-        this.execute(url);
-    }
 }

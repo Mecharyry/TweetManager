@@ -27,9 +27,9 @@ public class MyStreamActivity extends Activity {
 
         AccessTokenPreferences accessTokenPreferences = AccessTokenPreferences.newInstance(this);
         AccessToken accessToken = accessTokenPreferences.retrieveAccessToken();
-        this.requestFactory = RequestFactory.newInstance(accessToken);
+        requestFactory = RequestFactory.newInstance(accessToken);
 
-        this.tweetAdapter = TweetAdapter.newInstance(this);
+        tweetAdapter = TweetAdapter.newInstance(this);
         listView = (ListView) findViewById(R.id.listview_mystream);
         listView.setAdapter(tweetAdapter);
         requestFactory.requestMyStreamTweets(updateListCallback);

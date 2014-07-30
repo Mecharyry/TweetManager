@@ -32,22 +32,24 @@ public class TweetsMyStreamParser implements Parser<List<Tweet>, JSONArray> {
         List<Tweet> tweets = new ArrayList<Tweet>();
         try {
             for (int tweetIndex = 0; tweetIndex < jsonArray.length(); tweetIndex++) {
-                JSONObject innerJsonObject = jsonArray.getJSONObject(tweetIndex);
-                JSONObject user = innerJsonObject.getJSONObject(KEY_USER);
-                String screenName = user.getString(KEY_SCREEN_NAME);
-                String location = user.getString(KEY_LOCATION);
-                String text = innerJsonObject.getString(KEY_TEXT);
-                String imgUrl = user.getString(KEY_THUMB_IMAGE);
-
-                Bitmap bitmap = imageRetriever.retrieveBitmap(imgUrl);
-
-                Tweet tweet = new Tweet(screenName, location, text, bitmap);
-
+                JSONObject jsonObject = jsonArray.getJSONObject(tweetIndex);
+                Tweet tweet = extractTweet(jsonObject);
                 tweets.add(tweet);
             }
         } catch (JSONException e) {
             Log.e(TAG, "While parsing json array to list of tweets.", e);
         }
         return tweets;
+    }
+
+    private Tweet extractTweet(JSONObject jsonObject) throws JSONException {
+        JSONObject user = jsonObject.getJSONObject(KEY_USER);
+        String screenName = user.getString(KEY_SCREEN_NAME);
+        String location = user.getString(KEY_LOCATION);
+        String text = jsonObject.getString(KEY_TEXT);
+        String imgUrl = user.getString(KEY_THUMB_IMAGE);
+        Bitmap bitmap = imageRetriever.retrieveBitmap(imgUrl);
+
+        return new Tweet(screenName, location, text, bitmap);
     }
 }

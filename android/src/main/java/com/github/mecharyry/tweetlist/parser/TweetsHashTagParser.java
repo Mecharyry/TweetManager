@@ -36,21 +36,23 @@ public class TweetsHashtagParser implements Parser<List<Tweet>, JSONObject> {
 
             for (int statusIndex = 0; statusIndex < statuses.length(); statusIndex++) {
                 JSONObject innerJsonObject = statuses.getJSONObject(statusIndex);
-                JSONObject user = innerJsonObject.getJSONObject(KEY_USER);
-                String screenName = user.getString(KEY_SCREEN_NAME);
-                String location = user.getString(KEY_LOCATION);
-                String text = innerJsonObject.getString(KEY_TEXT);
-                String imgUrl = user.getString(KEY_THUMB_IMAGE);
-
-                Bitmap bitmap = imageRetriever.retrieveBitmap(imgUrl);
-
-                Tweet tweet = new Tweet(screenName, location, text, bitmap);
-
+                Tweet tweet = extractTweet(innerJsonObject);
                 tweets.add(tweet);
             }
         } catch (JSONException e) {
             Log.e(TAG, "While parsing json object to list of tweets.", e);
         }
         return tweets;
+    }
+
+    private Tweet extractTweet(JSONObject jsonObject) throws JSONException {
+        JSONObject user = jsonObject.getJSONObject(KEY_USER);
+        String screenName = user.getString(KEY_SCREEN_NAME);
+        String location = user.getString(KEY_LOCATION);
+        String text = jsonObject.getString(KEY_TEXT);
+        String imgUrl = user.getString(KEY_THUMB_IMAGE);
+        Bitmap bitmap = imageRetriever.retrieveBitmap(imgUrl);
+
+        return new Tweet(screenName, location, text, bitmap);
     }
 }

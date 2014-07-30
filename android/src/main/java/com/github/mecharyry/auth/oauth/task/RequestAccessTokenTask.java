@@ -26,6 +26,10 @@ public class RequestAccessTokenTask extends AsyncTask<String, Void, AccessToken>
         this.oAuthAuthenticator = oAuthAuthenticator;
     }
 
+    public void executeTask(String verifier) {
+        this.execute(verifier);
+    }
+
     @Override
     protected AccessToken doInBackground(String... params) {
         return oAuthAuthenticator.retrieveAccessToken(params[0]);
@@ -38,9 +42,5 @@ public class RequestAccessTokenTask extends AsyncTask<String, Void, AccessToken>
         if (callback != null) {
             callback.onRetrieved(accessToken);
         }
-    }
-
-    public void executeTask(String verifier) {
-        this.execute(verifier);
     }
 }
