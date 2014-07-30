@@ -49,6 +49,10 @@ public class AuthenticationActivity extends Activity {
 
         @Override
         public void onClick(View v) {
+            createShowDevTweetsIntent();
+        }
+
+        private void createShowDevTweetsIntent() {
             Intent intent = new Intent(AndroidDevTweetsActivity.ANDROID_DEV_TWEETS_INTENT);
             startActivity(intent);
         }
@@ -58,6 +62,10 @@ public class AuthenticationActivity extends Activity {
 
         @Override
         public void onClick(View v) {
+            createShowMyStreamIntent();
+        }
+
+        private void createShowMyStreamIntent() {
             Intent intent = new Intent(MyStreamActivity.MY_STREAM_TWEETS_INTENT);
             startActivity(intent);
         }
