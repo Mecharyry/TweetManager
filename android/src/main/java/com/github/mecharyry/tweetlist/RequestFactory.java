@@ -4,7 +4,7 @@ import com.github.mecharyry.auth.oauth.AccessToken;
 import com.github.mecharyry.auth.oauth.OAuthAuthenticator;
 import com.github.mecharyry.tweetlist.adapter.mapping.Tweet;
 import com.github.mecharyry.tweetlist.parser.Parser;
-import com.github.mecharyry.tweetlist.parser.TweetsHashTagParser;
+import com.github.mecharyry.tweetlist.parser.TweetsHashtagParser;
 import com.github.mecharyry.tweetlist.parser.TweetsMyStreamParser;
 import com.github.mecharyry.tweetlist.requester.TwitterArrayRequester;
 import com.github.mecharyry.tweetlist.requester.TwitterObjectRequester;
@@ -24,8 +24,8 @@ public class RequestFactory {
     public static final String ANDROID_DEV_TWEETS = "https://api.twitter.com/1.1/search/tweets.json?q=%23AndroidDev&count=50";
     public static final String MY_STREAM_TWEETS = "https://api.twitter.com/1.1/statuses/home_timeline.json?count=50";
     private final OAuthConsumer consumer;
-    private final Parser<List<Tweet>, JSONObject> objectParser;
-    private final Parser<List<Tweet>, JSONArray> arrayParser;
+    private final Parser<List<Tweet>, JSONObject> hashtagParser;
+    private final Parser<List<Tweet>, JSONArray> myStreamParser;
     private final TwitterObjectRequester objectRequester;
     private final TwitterArrayRequester arrayRequester;
 
@@ -34,30 +34,30 @@ public class RequestFactory {
         OAuthAuthenticator oAuthAuthenticator = OAuthAuthenticator.newInstance();
         OAuthConsumer oAuthConsumer = oAuthAuthenticator.getConsumer(accessToken);
         ImageRetriever imageRetriever = new ImageRetriever();
-        Parser<List<Tweet>, JSONArray> arrayParser = new TweetsMyStreamParser(imageRetriever);
-        TwitterArrayRequester arrayRequester = new TwitterArrayRequester();
-        Parser<List<Tweet>, JSONObject> objectParser = new TweetsHashTagParser(imageRetriever);
+        Parser<List<Tweet>, JSONObject> hashtagParser = new TweetsHashtagParser(imageRetriever);
+        Parser<List<Tweet>, JSONArray> myStreamParser = new TweetsMyStreamParser(imageRetriever);
         TwitterObjectRequester objectRequester = new TwitterObjectRequester();
-        return new RequestFactory(oAuthConsumer, arrayParser, arrayRequester, objectParser, objectRequester);
+        TwitterArrayRequester arrayRequester = new TwitterArrayRequester();
+        return new RequestFactory(oAuthConsumer, myStreamParser, arrayRequester, hashtagParser, objectRequester);
     }
 
-    private RequestFactory(OAuthConsumer consumer, Parser<List<Tweet>, JSONArray> arrayParser,
-                           TwitterArrayRequester arrayRequester, Parser<List<Tweet>, JSONObject> objectParser, TwitterObjectRequester objectRequester) {
+    RequestFactory(OAuthConsumer consumer, Parser<List<Tweet>, JSONArray> myStreamParser,
+                           TwitterArrayRequester arrayRequester, Parser<List<Tweet>, JSONObject> hashtagParser, TwitterObjectRequester objectRequester) {
         this.consumer = consumer;
-        this.arrayParser = arrayParser;
-        this.arrayRequester = arrayRequester;
-        this.objectParser = objectParser;
+        this.hashtagParser = hashtagParser;
+        this.myStreamParser = myStreamParser;
         this.objectRequester = objectRequester;
+        this.arrayRequester = arrayRequester;
     }
 
     public void requestAndroidDevTweets(PerformGetTask.Callback<List<Tweet>> callback) {
         String signedUrl = signUrl(ANDROID_DEV_TWEETS);
-        PerformGetTask.newInstance(callback, objectParser, objectRequester).executeTask(signedUrl);
+        PerformGetTask.newInstance(callback, hashtagParser, objectRequester).executeTask(signedUrl);
     }
 
     public void requestMyStreamTweets(PerformGetTask.Callback<List<Tweet>> callback) {
         String signedUrl = signUrl(MY_STREAM_TWEETS);
-        PerformGetTask.newInstance(callback, arrayParser, arrayRequester).executeTask(signedUrl);
+        PerformGetTask.newInstance(callback, myStreamParser, arrayRequester).executeTask(signedUrl);
     }
 
     private String signUrl(String unsignedUrl) {

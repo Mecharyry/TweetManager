@@ -8,14 +8,14 @@ import com.github.mecharyry.auth.oauth.AccessToken;
 public class AccessTokenPreferences {
     private static final String PREF_ACCESS_TOKEN = "access_token";
     private static final String PREF_ACCESS_SECRET = "access_secret";
+    private static final String DEFAULT_VALUE = "";
     private final SharedPreferences preferences;
-    private String DEFAULT_VALUE = "";
 
     public static AccessTokenPreferences newInstance(Context context) {
         return new AccessTokenPreferences(context.getSharedPreferences(AccessTokenPreferences.class.getSimpleName(), Context.MODE_PRIVATE));
     }
 
-    private AccessTokenPreferences(SharedPreferences preferences) {
+    AccessTokenPreferences(SharedPreferences preferences) {
         this.preferences = preferences;
     }
 

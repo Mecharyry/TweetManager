@@ -19,7 +19,7 @@ public class OAuthRequester {
         return new OAuthRequester(weakReference);
     }
 
-    private OAuthRequester(WeakReference<Callback> callbackWeakReference) {
+    OAuthRequester(WeakReference<Callback> callbackWeakReference) {
         this.callbackWeakReference = callbackWeakReference;
     }
 

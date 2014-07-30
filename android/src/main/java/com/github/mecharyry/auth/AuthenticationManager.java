@@ -32,7 +32,7 @@ class AuthenticationManager {
         return new AuthenticationManager(oAuthAuthenticator, activity, accessTokenPreferences, callbackWeakReference);
     }
 
-    private AuthenticationManager(OAuthAuthenticator oAuthAuthentication, Activity activity, AccessTokenPreferences accessTokenPreferences, WeakReference<Callback> callbackWeakReference) {
+    AuthenticationManager(OAuthAuthenticator oAuthAuthentication, Activity activity, AccessTokenPreferences accessTokenPreferences, WeakReference<Callback> callbackWeakReference) {
         this.oAuthAuthentication = oAuthAuthentication;
         this.activity = activity;
         this.accessTokenPreferences = accessTokenPreferences;

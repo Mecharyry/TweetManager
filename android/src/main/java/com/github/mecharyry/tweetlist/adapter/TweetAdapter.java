@@ -25,7 +25,7 @@ public class TweetAdapter extends BaseAdapter {
         return new TweetAdapter(LayoutInflater.from(context), tweetArrayList, context.getResources());
     }
 
-    private TweetAdapter(LayoutInflater layoutInflater, List<Tweet> tweets, Resources resources) {
+    TweetAdapter(LayoutInflater layoutInflater, List<Tweet> tweets, Resources resources) {
         this.layoutInflater = layoutInflater;
         this.tweets = tweets;
         this.resources = resources;

@@ -13,7 +13,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TweetsHashTagParser implements Parser<List<Tweet>, JSONObject> {
+public class TweetsHashtagParser implements Parser<List<Tweet>, JSONObject> {
 
     private static final String TAG = "PerformJsonParsingTask";
     private static final String KEY_STATUSES = "statuses";
@@ -24,7 +24,7 @@ public class TweetsHashTagParser implements Parser<List<Tweet>, JSONObject> {
     private static final String KEY_THUMB_IMAGE = "profile_image_url";
     private final ImageRetriever imageRetriever;
 
-    public TweetsHashTagParser(ImageRetriever imageRetriever) {
+    public TweetsHashtagParser(ImageRetriever imageRetriever) {
         this.imageRetriever = imageRetriever;
     }
 
