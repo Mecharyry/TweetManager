@@ -21,7 +21,7 @@ public class ParserFactory {
         return new ParserFactory(imageRetriever);
     }
 
-    public ParserFactory(ImageRetriever imageRetriever) {
+    ParserFactory(ImageRetriever imageRetriever) {
         this.imageRetriever = imageRetriever;
     }
 

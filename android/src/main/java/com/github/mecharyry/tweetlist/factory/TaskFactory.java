@@ -22,34 +22,31 @@ public class TaskFactory {
     public static final String MY_STREAM_TWEETS = "https://api.twitter.com/1.1/statuses/home_timeline.json?count=50";
     private final OAuthConsumer consumer;
     private final ParserFactory parserFactory;
-    private final TwitterObjectRequester objectRequester;
-    private final TwitterArrayRequester arrayRequester;
+    private final RequesterFactory requesterFactory;
 
 
     public static TaskFactory newInstance(AccessToken accessToken) {
         OAuthAuthenticator oAuthAuthenticator = OAuthAuthenticator.newInstance();
         OAuthConsumer oAuthConsumer = oAuthAuthenticator.getConsumer(accessToken);
-        TwitterObjectRequester objectRequester = new TwitterObjectRequester();
-        TwitterArrayRequester arrayRequester = new TwitterArrayRequester();
         ParserFactory parserFactory = ParserFactory.newInstance();
-        return new TaskFactory(oAuthConsumer, parserFactory, arrayRequester, objectRequester);
+        RequesterFactory requesterFactory = new RequesterFactory();
+        return new TaskFactory(oAuthConsumer, parserFactory, requesterFactory);
     }
 
-    TaskFactory(OAuthConsumer consumer, ParserFactory parserFactory, TwitterArrayRequester arrayRequester, TwitterObjectRequester objectRequester) {
+    TaskFactory(OAuthConsumer consumer, ParserFactory parserFactory, RequesterFactory requesterFactory) {
         this.consumer = consumer;
         this.parserFactory = parserFactory;
-        this.objectRequester = objectRequester;
-        this.arrayRequester = arrayRequester;
+        this.requesterFactory = requesterFactory;
     }
 
     public Task<JSONObject, List<Tweet>> requestAndroidDevTweets() {
         String signedUrl = signUrl(ANDROID_DEV_TWEETS);
-        return new Task<JSONObject, List<Tweet>>(parserFactory.hashtagParser(), objectRequester, signedUrl);
+        return new Task<JSONObject, List<Tweet>>(parserFactory.hashtagParser(), requesterFactory.twitterObjectRequester(), signedUrl);
     }
 
     public Task<JSONArray, List<Tweet>> requestMyStreamTweets() {
         String signedUrl = signUrl(MY_STREAM_TWEETS);
-        return new Task<JSONArray, List<Tweet>>(parserFactory.myStreamParser(), arrayRequester, signedUrl);
+        return new Task<JSONArray, List<Tweet>>(parserFactory.myStreamParser(), requesterFactory.twitterArrayRequester(), signedUrl);
     }
 
     private String signUrl(String unsignedUrl) {
