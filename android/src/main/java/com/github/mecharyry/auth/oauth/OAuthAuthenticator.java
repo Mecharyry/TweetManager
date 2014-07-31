@@ -1,6 +1,7 @@
 package com.github.mecharyry.auth.oauth;
 
 import com.github.mecharyry.BuildConfig;
+import com.github.mecharyry.DeveloperError;
 
 import oauth.signpost.OAuthConsumer;
 import oauth.signpost.OAuthProvider;
@@ -22,6 +23,12 @@ public class OAuthAuthenticator {
 
     private final OAuthConsumer consumer;
     private final OAuthProvider provider;
+
+    static {
+        if(CONSUMER_KEY.isEmpty() || CONSUMER_SECRET.isEmpty()){
+            throw new DeveloperError();
+        }
+    }
 
     public static OAuthAuthenticator newInstance() {
         OAuthConsumer consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
@@ -89,4 +96,5 @@ public class OAuthAuthenticator {
             return new OAuthException(reason, exception);
         }
     }
+
 }
