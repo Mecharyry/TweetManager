@@ -47,53 +47,51 @@ public class OAuthAuthenticator {
     }
 
     public String retrieveAuthenticationUrl() {
+        Throwable throwable;
         try {
             return provider.retrieveRequestToken(consumer, OAUTH_CALLBACK_URL);
         } catch (OAuthMessageSignerException e) {
-            throwAuthException("While retrieving authentication Url.", e);
+            throwable = e;
         } catch (OAuthNotAuthorizedException e) {
-            throwAuthException("While retrieving authentication Url.", e);
+            throwable = e;
         } catch (OAuthExpectationFailedException e) {
-            throwAuthException("While retrieving authentication Url.", e);
+            throwable = e;
         } catch (OAuthCommunicationException e) {
-            throwAuthException("While retrieving authentication Url.", e);
+            throwable = e;
         }
-        return null;
+        throw OAuthException.because("While retrieving authentication Url.", throwable);
     }
 
     public AccessToken retrieveAccessToken(String oauthVerifier) {
+        Throwable throwable;
         try {
             provider.retrieveAccessToken(consumer, oauthVerifier);
             return new AccessToken(consumer.getToken(), consumer.getTokenSecret());
         } catch (OAuthMessageSignerException e) {
-            throwAuthException("While retrieving access token.", e);
+            throwable = e;
         } catch (OAuthNotAuthorizedException e) {
-            throwAuthException("While retrieving access token.", e);
+            throwable = e;
         } catch (OAuthExpectationFailedException e) {
-            throwAuthException("While retrieving access token.", e);
+            throwable = e;
         } catch (OAuthCommunicationException e) {
-            throwAuthException("While retrieving access token.", e);
+            throwable = e;
         }
-        return null;
-    }
-
-    private void throwAuthException(String reason, Exception exception) {
-        throw OAuthException.because(reason, exception);
+        throw OAuthException.because("While retrieving access token.", throwable);
     }
 
     public static class OAuthException extends RuntimeException {
 
         private final String reason;
-        private final Exception exception;
+        private final Throwable throwable;
 
-        private OAuthException(String reason, Exception exception) {
-            super(exception);
-            this.reason = reason;
-            this.exception = exception;
+        public static OAuthException because(String reason, Throwable throwable) {
+            return new OAuthException(reason, throwable);
         }
 
-        public static OAuthException because(String reason, Exception exception) {
-            return new OAuthException(reason, exception);
+        private OAuthException(String reason, Throwable throwable) {
+            super(throwable);
+            this.reason = reason;
+            this.throwable = throwable;
         }
     }
 

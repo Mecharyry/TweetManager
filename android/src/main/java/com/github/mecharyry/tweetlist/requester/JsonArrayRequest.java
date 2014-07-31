@@ -5,9 +5,9 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-public class TwitterArrayRequester extends Requester<JSONArray> {
+public class JsonArrayRequest extends Requester<JSONArray> {
 
-    private static final String TAG = TwitterArrayRequester.class.getSimpleName();
+    private static final String TAG = JsonArrayRequest.class.getSimpleName();
 
     @Override
     JSONArray convertStringTo(String input) {

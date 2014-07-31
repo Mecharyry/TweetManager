@@ -10,9 +10,9 @@ import com.github.mecharyry.R;
 import com.github.mecharyry.auth.oauth.AccessToken;
 import com.github.mecharyry.tweetlist.adapter.TweetAdapter;
 import com.github.mecharyry.tweetlist.adapter.mapping.Tweet;
-import com.github.mecharyry.tweetlist.task.TaskFactory;
 import com.github.mecharyry.tweetlist.task.TaskCompleted;
 import com.github.mecharyry.tweetlist.task.TaskExecutor;
+import com.github.mecharyry.tweetlist.task.TaskFactory;
 
 import java.util.List;
 

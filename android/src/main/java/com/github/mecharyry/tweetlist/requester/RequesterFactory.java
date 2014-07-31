@@ -1,19 +1,15 @@
 package com.github.mecharyry.tweetlist.requester;
 
-import com.github.mecharyry.tweetlist.requester.Request;
-import com.github.mecharyry.tweetlist.requester.TwitterArrayRequester;
-import com.github.mecharyry.tweetlist.requester.TwitterObjectRequester;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class RequesterFactory {
 
     public Request<JSONArray> twitterArrayRequester() {
-        return new TwitterArrayRequester();
+        return new JsonArrayRequest();
     }
 
     public Request<JSONObject> twitterObjectRequester() {
-        return new TwitterObjectRequester();
+        return new JsonObjectRequest();
     }
 }

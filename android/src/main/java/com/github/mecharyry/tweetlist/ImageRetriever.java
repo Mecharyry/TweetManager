@@ -2,7 +2,6 @@ package com.github.mecharyry.tweetlist;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -15,9 +14,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class ImageRetriever {
-    private static final String TAG = ImageRetriever.class.getSimpleName();
 
     public Bitmap retrieveBitmap(String imageUrl) {
+        Throwable throwable = null;
         HttpClient client = new DefaultHttpClient();
         HttpGet get = new HttpGet(imageUrl);
 
@@ -32,23 +31,26 @@ public class ImageRetriever {
                 return BitmapFactory.decodeStream(inputStream);
             }
         } catch (ClientProtocolException e) {
-            Log.e(TAG, "While reading bitmap stream.", e);
-            throwImageRetrieverException(e);
-
+            throwable = e;
         } catch (IOException e) {
-            Log.e(TAG, "While reading bitmap stream.", e);
-            throwImageRetrieverException(e);
+            throwable = e;
         }
-        return null;
-    }
-
-    private void throwImageRetrieverException(Exception e) {
-        throw new ImageRetrieverException(e);
+        throw ImageRetrieverException.because("While reading bitmap stream.", throwable);
     }
 
     public static class ImageRetrieverException extends RuntimeException {
-        public ImageRetrieverException(Exception e) {
-            super(e);
+
+        private final String reason;
+        private final Throwable throwable;
+
+        public static ImageRetrieverException because(String reason, Throwable throwable) {
+            return new ImageRetrieverException(reason, throwable);
+        }
+
+        private ImageRetrieverException(String reason, Throwable throwable) {
+            super(throwable);
+            this.reason = reason;
+            this.throwable = throwable;
         }
     }
 }

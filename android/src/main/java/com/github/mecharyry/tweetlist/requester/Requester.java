@@ -20,6 +20,7 @@ public abstract class Requester<T> implements Request<T> {
 
     @Override
     public T request(String signedUrl) throws RequestException {
+        Throwable throwable = null;
         HttpClient client = new DefaultHttpClient();
         HttpGet get = new HttpGet(signedUrl);
 
@@ -35,11 +36,11 @@ public abstract class Requester<T> implements Request<T> {
                 return convertStringTo(inputStreamString);
             }
         } catch (ClientProtocolException e) {
-            Log.e(TAG, "While reading stream.", e);
+            throwable = e;
         } catch (IOException e) {
-            Log.e(TAG, "While reading stream.", e);
+            throwable = e;
         }
-        throw new RequestException();
+        throw new RequestException("While reading stream.", throwable);
     }
 
     protected static String inputStreamToString(InputStream inputStream) {

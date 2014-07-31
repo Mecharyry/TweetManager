@@ -5,10 +5,9 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+public class JsonObjectRequest extends Requester<JSONObject> {
 
-public class TwitterObjectRequester extends Requester<JSONObject> {
-
-    private static final String TAG = TwitterObjectRequester.class.getSimpleName();
+    private static final String TAG = JsonObjectRequest.class.getSimpleName();
 
     @Override
     JSONObject convertStringTo(String input) {
