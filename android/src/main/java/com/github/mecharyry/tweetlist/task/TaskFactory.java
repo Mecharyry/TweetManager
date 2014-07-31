@@ -1,11 +1,10 @@
-package com.github.mecharyry.tweetlist.factory;
+package com.github.mecharyry.tweetlist.task;
 
 import com.github.mecharyry.auth.oauth.AccessToken;
 import com.github.mecharyry.auth.oauth.OAuthAuthenticator;
 import com.github.mecharyry.tweetlist.adapter.mapping.Tweet;
-import com.github.mecharyry.tweetlist.requester.TwitterArrayRequester;
-import com.github.mecharyry.tweetlist.requester.TwitterObjectRequester;
-import com.github.mecharyry.tweetlist.task.Task;
+import com.github.mecharyry.tweetlist.parser.ParserFactory;
+import com.github.mecharyry.tweetlist.requester.RequesterFactory;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

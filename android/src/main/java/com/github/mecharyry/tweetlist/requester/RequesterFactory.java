@@ -1,4 +1,4 @@
-package com.github.mecharyry.tweetlist.factory;
+package com.github.mecharyry.tweetlist.requester;
 
 import com.github.mecharyry.tweetlist.requester.Request;
 import com.github.mecharyry.tweetlist.requester.TwitterArrayRequester;
@@ -9,11 +9,11 @@ import org.json.JSONObject;
 
 public class RequesterFactory {
 
-    public Request<JSONArray> twitterArrayRequester(){
+    public Request<JSONArray> twitterArrayRequester() {
         return new TwitterArrayRequester();
     }
 
-    public Request<JSONObject> twitterObjectRequester(){
+    public Request<JSONObject> twitterObjectRequester() {
         return new TwitterObjectRequester();
     }
 }

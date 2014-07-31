@@ -25,7 +25,7 @@ public class OAuthAuthenticator {
     private final OAuthProvider provider;
 
     static {
-        if(CONSUMER_KEY.isEmpty() || CONSUMER_SECRET.isEmpty()){
+        if (CONSUMER_KEY.isEmpty() || CONSUMER_SECRET.isEmpty()) {
             throw new DeveloperError();
         }
     }
@@ -86,7 +86,7 @@ public class OAuthAuthenticator {
         private final String reason;
         private final Exception exception;
 
-        private OAuthException(String reason, Exception exception){
+        private OAuthException(String reason, Exception exception) {
             super(exception);
             this.reason = reason;
             this.exception = exception;

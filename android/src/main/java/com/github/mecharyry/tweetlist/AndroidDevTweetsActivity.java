@@ -10,8 +10,8 @@ import com.github.mecharyry.R;
 import com.github.mecharyry.auth.oauth.AccessToken;
 import com.github.mecharyry.tweetlist.adapter.TweetAdapter;
 import com.github.mecharyry.tweetlist.adapter.mapping.Tweet;
-import com.github.mecharyry.tweetlist.factory.TaskFactory;
-import com.github.mecharyry.tweetlist.task.TaskCompletion;
+import com.github.mecharyry.tweetlist.task.TaskFactory;
+import com.github.mecharyry.tweetlist.task.TaskCompleted;
 import com.github.mecharyry.tweetlist.task.TaskExecutor;
 
 import java.util.List;
@@ -28,7 +28,7 @@ public class AndroidDevTweetsActivity extends Activity {
         this.taskExecutor = new TaskExecutor();
     }
 
-    private final TaskCompletion<List<Tweet>> updateListCallback = new TaskCompletion<List<Tweet>>() {
+    private final TaskCompleted<List<Tweet>> updateListCallback = new TaskCompleted<List<Tweet>>() {
         @Override
         public void taskCompleted(List<Tweet> response) {
             tweetArrayAdapter.updateTweets(response);

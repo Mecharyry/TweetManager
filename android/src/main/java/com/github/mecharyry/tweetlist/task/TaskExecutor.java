@@ -6,21 +6,21 @@ import java.lang.ref.WeakReference;
 
 public class TaskExecutor {
 
-    public <T> void execute(TaskCompletion<T> callback, Task<?, T> task) {
+    public <T> void execute(TaskCompleted<T> callback, Task<?, T> task) {
         InnerTask.newInstance(callback, task).execute();
     }
 
     static class InnerTask<F, T> extends AsyncTask<Void, Void, T> {
 
-        private final WeakReference<TaskCompletion<T>> callbackWeakReference;
+        private final WeakReference<TaskCompleted<T>> callbackWeakReference;
         private final Task<F, T> task;
 
-        static <F, T> InnerTask<F, T> newInstance(TaskCompletion<T> callback, Task<F, T> task) {
-            WeakReference<TaskCompletion<T>> callbackWeakReference = new WeakReference<TaskCompletion<T>>(callback);
+        static <F, T> InnerTask<F, T> newInstance(TaskCompleted<T> callback, Task<F, T> task) {
+            WeakReference<TaskCompleted<T>> callbackWeakReference = new WeakReference<TaskCompleted<T>>(callback);
             return new InnerTask<F, T>(callbackWeakReference, task);
         }
 
-        InnerTask(WeakReference<TaskCompletion<T>> callbackWeakReference, Task<F, T> task) {
+        InnerTask(WeakReference<TaskCompleted<T>> callbackWeakReference, Task<F, T> task) {
             this.callbackWeakReference = callbackWeakReference;
             this.task = task;
         }
@@ -33,7 +33,7 @@ public class TaskExecutor {
         @Override
         protected void onPostExecute(T t) {
             super.onPostExecute(t);
-            TaskCompletion<T> callback = callbackWeakReference.get();
+            TaskCompleted<T> callback = callbackWeakReference.get();
             if (callback != null) {
                 callback.taskCompleted(t);
             }

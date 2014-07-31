@@ -24,7 +24,7 @@ public class OAuthRequester {
     public void request(String url) {
         Intent intent = new Intent(activity, OAuthRequesterActivity.class);
 
-        intent.putExtra("URL", url);
+        intent.putExtra(OAuthRequesterActivity.EXTRA_REQUEST_URL, url);
         activity.startActivityForResult(intent, REQUEST_CODE);
     }
 

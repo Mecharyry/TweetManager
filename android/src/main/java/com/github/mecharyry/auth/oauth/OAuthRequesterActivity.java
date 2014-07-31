@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.webkit.WebView;
 
-import com.github.mecharyry.BuildConfig;
 import com.github.mecharyry.R;
 
 public class OAuthRequesterActivity extends Activity {

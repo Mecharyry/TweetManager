@@ -2,6 +2,7 @@ package com.github.mecharyry.tweetlist.task;
 
 import com.github.mecharyry.tweetlist.parser.Parser;
 import com.github.mecharyry.tweetlist.requester.Request;
+import com.github.mecharyry.tweetlist.requester.RequestException;
 
 public class Task<F, T> {
 
@@ -15,8 +16,13 @@ public class Task<F, T> {
         this.url = url;
     }
 
-    public T executeTask(){
-        F result = requester.request(url);
+    public T executeTask() {
+        F result = null;
+        try {
+            result = requester.request(url);
+        } catch (RequestException e) {
+            e.printStackTrace();
+        }
         return parser.parse(result);
     }
 }

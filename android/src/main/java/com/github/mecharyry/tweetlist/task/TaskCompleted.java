@@ -1,5 +1,5 @@
 package com.github.mecharyry.tweetlist.task;
 
-public interface TaskCompletion<T> {
+public interface TaskCompleted<T> {
     void taskCompleted(T response);
 }
