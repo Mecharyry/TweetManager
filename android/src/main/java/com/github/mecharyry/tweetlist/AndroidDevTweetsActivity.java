@@ -10,7 +10,8 @@ import com.github.mecharyry.R;
 import com.github.mecharyry.auth.oauth.AccessToken;
 import com.github.mecharyry.tweetlist.adapter.TweetAdapter;
 import com.github.mecharyry.tweetlist.adapter.mapping.Tweet;
-import com.github.mecharyry.tweetlist.task.PerformGetTask;
+import com.github.mecharyry.tweetlist.task.TaskCompletion;
+import com.github.mecharyry.tweetlist.task.TaskExecutor;
 
 import java.util.List;
 
@@ -18,13 +19,18 @@ public class AndroidDevTweetsActivity extends Activity {
 
     public static final String ACTION_VIEW_ANDROID_DEV_TWEETS = BuildConfig.PACKAGE_NAME + ".ACTION_VIEW_ANDROID_DEV_TWEETS";
     private TweetAdapter tweetArrayAdapter;
-    private RequestFactory requestFactory;
+    private final TaskExecutor taskExecutor;
+    private TaskFactory taskFactory;
     private ListView listView;
 
-    private final PerformGetTask.Callback updateListCallback = new PerformGetTask.Callback<List<Tweet>>() {
+    public AndroidDevTweetsActivity() {
+        this.taskExecutor = new TaskExecutor();
+    }
+
+    private final TaskCompletion<List<Tweet>> updateListCallback = new TaskCompletion<List<Tweet>>() {
         @Override
-        public void onGetResponse(List<Tweet> tweets) {
-            tweetArrayAdapter.updateTweets(tweets);
+        public void taskCompleted(List<Tweet> response) {
+            tweetArrayAdapter.updateTweets(response);
         }
     };
 
@@ -35,10 +41,12 @@ public class AndroidDevTweetsActivity extends Activity {
 
         AccessTokenPreferences accessTokenPreferences = AccessTokenPreferences.newInstance(this);
         AccessToken accessToken = accessTokenPreferences.retrieveAccessToken();
-        requestFactory = RequestFactory.newInstance(accessToken);
-        this.tweetArrayAdapter = TweetAdapter.newInstance(this);
+        taskFactory = TaskFactory.newInstance(accessToken);
+        tweetArrayAdapter = TweetAdapter.newInstance(this);
         listView = (ListView) findViewById(R.id.listview_androiddev_tweets);
         listView.setAdapter(tweetArrayAdapter);
-        requestFactory.requestAndroidDevTweets(updateListCallback);
+
+        taskExecutor.execute(updateListCallback, taskFactory.requestAndroidDevTweets());
+        taskFactory.requestAndroidDevTweets();
     }
 }

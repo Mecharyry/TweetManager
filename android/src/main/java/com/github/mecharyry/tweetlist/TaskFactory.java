@@ -8,13 +8,13 @@ import com.github.mecharyry.tweetlist.parser.TweetsHashtagParser;
 import com.github.mecharyry.tweetlist.parser.TweetsMyStreamParser;
 import com.github.mecharyry.tweetlist.requester.TwitterArrayRequester;
 import com.github.mecharyry.tweetlist.requester.TwitterObjectRequester;
-import com.github.mecharyry.tweetlist.task.PerformGetTask;
+import com.github.mecharyry.tweetlist.task.RequestExecutor;
+import com.github.mecharyry.tweetlist.task.Task;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import oauth.signpost.OAuthConsumer;
@@ -22,7 +22,7 @@ import oauth.signpost.exception.OAuthCommunicationException;
 import oauth.signpost.exception.OAuthExpectationFailedException;
 import oauth.signpost.exception.OAuthMessageSignerException;
 
-public class RequestFactory {
+public class TaskFactory {
     public static final String ANDROID_DEV_TWEETS = "https://api.twitter.com/1.1/search/tweets.json?q=%23AndroidDev&count=50";
     public static final String MY_STREAM_TWEETS = "https://api.twitter.com/1.1/statuses/home_timeline.json?count=50";
     private final OAuthConsumer consumer;
@@ -32,7 +32,7 @@ public class RequestFactory {
     private final TwitterArrayRequester arrayRequester;
 
 
-    public static RequestFactory newInstance(AccessToken accessToken) {
+    public static TaskFactory newInstance(AccessToken accessToken) {
         OAuthAuthenticator oAuthAuthenticator = OAuthAuthenticator.newInstance();
         OAuthConsumer oAuthConsumer = oAuthAuthenticator.getConsumer(accessToken);
         ImageRetriever imageRetriever = new ImageRetriever();
@@ -40,11 +40,11 @@ public class RequestFactory {
         Parser<JSONArray, List<Tweet>> myStreamParser = new TweetsMyStreamParser(imageRetriever);
         TwitterObjectRequester objectRequester = new TwitterObjectRequester();
         TwitterArrayRequester arrayRequester = new TwitterArrayRequester();
-        return new RequestFactory(oAuthConsumer, myStreamParser, arrayRequester, hashtagParser, objectRequester);
+        return new TaskFactory(oAuthConsumer, myStreamParser, arrayRequester, hashtagParser, objectRequester);
     }
 
-    RequestFactory(OAuthConsumer consumer, Parser<JSONArray, List<Tweet>> myStreamParser,
-                   TwitterArrayRequester arrayRequester, Parser<JSONObject, List<Tweet>> hashtagParser, TwitterObjectRequester objectRequester) {
+    TaskFactory(OAuthConsumer consumer, Parser<JSONArray, List<Tweet>> myStreamParser,
+                TwitterArrayRequester arrayRequester, Parser<JSONObject, List<Tweet>> hashtagParser, TwitterObjectRequester objectRequester) {
         this.consumer = consumer;
         this.hashtagParser = hashtagParser;
         this.myStreamParser = myStreamParser;
@@ -52,22 +52,14 @@ public class RequestFactory {
         this.arrayRequester = arrayRequester;
     }
 
-    public void requestAndroidDevTweets(PerformGetTask.Callback<List<Tweet>> callback) {
-        try {
-            URL signedUrl = new URL(signUrl(ANDROID_DEV_TWEETS));
-            PerformGetTask.newInstance(callback, hashtagParser, objectRequester).executeTask(signedUrl);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+    public Task<JSONObject, List<Tweet>> requestAndroidDevTweets() {
+        String signedUrl = signUrl(ANDROID_DEV_TWEETS);
+        return new Task<JSONObject, List<Tweet>>(hashtagParser, objectRequester, signedUrl);
     }
 
-    public void requestMyStreamTweets(PerformGetTask.Callback<List<Tweet>> callback) {
-        try {
-            URL signedUrl = new URL(signUrl(MY_STREAM_TWEETS));
-            PerformGetTask.newInstance(callback, myStreamParser, arrayRequester).executeTask(signedUrl);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+    public Task<JSONArray, List<Tweet>> requestMyStreamTweets() {
+        String signedUrl = signUrl(MY_STREAM_TWEETS);
+        return new Task<JSONArray, List<Tweet>>(myStreamParser, arrayRequester, signedUrl);
     }
 
     private String signUrl(String unsignedUrl) {

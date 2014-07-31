@@ -23,9 +23,9 @@ public class TwitterObjectRequester implements Request<JSONObject> {
     private static final String TAG = TwitterObjectRequester.class.getSimpleName();
 
     @Override
-    public JSONObject request(URL signedUrl) {
+    public JSONObject request(String signedUrl) {
         HttpClient client = new DefaultHttpClient();
-        HttpGet get = new HttpGet(signedUrl.toString());
+        HttpGet get = new HttpGet(signedUrl);
 
         try {
             HttpResponse response = client.execute(get);

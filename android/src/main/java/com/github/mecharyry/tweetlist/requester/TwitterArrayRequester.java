@@ -22,9 +22,9 @@ public class TwitterArrayRequester implements Request<JSONArray> {
     private static final String TAG = TwitterArrayRequester.class.getSimpleName();
 
     @Override
-    public JSONArray request(URL signedUrl) {
+    public JSONArray request(String signedUrl) {
         HttpClient client = new DefaultHttpClient();
-        HttpGet get = new HttpGet(signedUrl.toString());
+        HttpGet get = new HttpGet(signedUrl);
 
         try {
             HttpResponse response = client.execute(get);

@@ -10,16 +10,24 @@ import com.github.mecharyry.R;
 import com.github.mecharyry.auth.oauth.AccessToken;
 import com.github.mecharyry.tweetlist.adapter.TweetAdapter;
 import com.github.mecharyry.tweetlist.adapter.mapping.Tweet;
-import com.github.mecharyry.tweetlist.task.PerformGetTask;
+import com.github.mecharyry.tweetlist.task.RequestExecutor;
+import com.github.mecharyry.tweetlist.task.TaskCompletion;
+import com.github.mecharyry.tweetlist.task.TaskExecutor;
 
 import java.util.List;
 
 public class MyStreamActivity extends Activity {
 
     public static final String ACTION_VIEW_MY_STREAM_TWEETS = BuildConfig.PACKAGE_NAME + ".ACTION_VIEW_MY_STREAM_TWEETS";
+
+    private final TaskExecutor taskExecutor;
     private TweetAdapter tweetAdapter;
-    private RequestFactory requestFactory;
+    private TaskFactory taskFactory;
     private ListView listView;
+
+    public MyStreamActivity() {
+        this.taskExecutor = new TaskExecutor();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,20 +36,18 @@ public class MyStreamActivity extends Activity {
 
         AccessTokenPreferences accessTokenPreferences = AccessTokenPreferences.newInstance(this);
         AccessToken accessToken = accessTokenPreferences.retrieveAccessToken();
-        requestFactory = RequestFactory.newInstance(accessToken);
+        taskFactory = TaskFactory.newInstance(accessToken);
 
         tweetAdapter = TweetAdapter.newInstance(this);
         listView = (ListView) findViewById(R.id.listview_mystream);
         listView.setAdapter(tweetAdapter);
-        requestFactory.requestMyStreamTweets(updateListCallback);
-
+        taskExecutor.execute(updateListCallback, taskFactory.requestMyStreamTweets());
     }
 
-    private final PerformGetTask.Callback updateListCallback = new PerformGetTask.Callback<List<Tweet>>() {
-
+    private final TaskCompletion<List<Tweet>> updateListCallback = new TaskCompletion<List<Tweet>>() {
         @Override
-        public void onGetResponse(List<Tweet> tweets) {
-            tweetAdapter.updateTweets(tweets);
+        public void taskCompleted(List<Tweet> response) {
+            tweetAdapter.updateTweets(response);
         }
     };
 }
