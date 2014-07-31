@@ -29,7 +29,7 @@ public class OAuthAuthenticator {
         return new OAuthAuthenticator(consumer, provider);
     }
 
-    private OAuthAuthenticator(OAuthConsumer consumer, OAuthProvider provider) {
+    OAuthAuthenticator(OAuthConsumer consumer, OAuthProvider provider) {
         this.consumer = consumer;
         this.provider = provider;
     }
@@ -43,13 +43,13 @@ public class OAuthAuthenticator {
         try {
             return provider.retrieveRequestToken(consumer, OAUTH_CALLBACK_URL);
         } catch (OAuthMessageSignerException e) {
-            throwAuthException(e);
+            throwAuthException("While retrieving authentication Url.", e);
         } catch (OAuthNotAuthorizedException e) {
-            throwAuthException(e);
+            throwAuthException("While retrieving authentication Url.", e);
         } catch (OAuthExpectationFailedException e) {
-            throwAuthException(e);
+            throwAuthException("While retrieving authentication Url.", e);
         } catch (OAuthCommunicationException e) {
-            throwAuthException(e);
+            throwAuthException("While retrieving authentication Url.", e);
         }
         return null;
     }
@@ -59,24 +59,34 @@ public class OAuthAuthenticator {
             provider.retrieveAccessToken(consumer, oauthVerifier);
             return new AccessToken(consumer.getToken(), consumer.getTokenSecret());
         } catch (OAuthMessageSignerException e) {
-            throwAuthException(e);
+            throwAuthException("While retrieving access token.", e);
         } catch (OAuthNotAuthorizedException e) {
-            throwAuthException(e);
+            throwAuthException("While retrieving access token.", e);
         } catch (OAuthExpectationFailedException e) {
-            throwAuthException(e);
+            throwAuthException("While retrieving access token.", e);
         } catch (OAuthCommunicationException e) {
-            throwAuthException(e);
+            throwAuthException("While retrieving access token.", e);
         }
         return null;
     }
 
-    private void throwAuthException(Exception e) {
-        throw new OAuthException(e);
+    private void throwAuthException(String reason, Exception exception) {
+        throw OAuthException.because(reason, exception);
     }
 
     public static class OAuthException extends RuntimeException {
-        public OAuthException(Exception e) {
-            super(e);
+
+        private final String reason;
+        private final Exception exception;
+
+        private OAuthException(String reason, Exception exception){
+            super(exception);
+            this.reason = reason;
+            this.exception = exception;
+        }
+
+        public static OAuthException because(String reason, Exception exception) {
+            return new OAuthException(reason, exception);
         }
     }
 }

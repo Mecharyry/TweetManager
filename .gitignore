@@ -42,3 +42,6 @@ local.properties
 
 # Linux
 *~
+
+#Gradle
+.properties

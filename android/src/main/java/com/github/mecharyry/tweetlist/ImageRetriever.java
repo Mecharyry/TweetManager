@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class ImageRetriever {
-    private static final String TAG = "ImageRetriever";
+    private static final String TAG = ImageRetriever.class.getSimpleName();
 
     public Bitmap retrieveBitmap(String imageUrl) {
         HttpClient client = new DefaultHttpClient();
@@ -32,11 +32,11 @@ public class ImageRetriever {
                 return BitmapFactory.decodeStream(inputStream);
             }
         } catch (ClientProtocolException e) {
-            Log.e(TAG, "ClientProtocolException", e);
+            Log.e(TAG, "While reading bitmap stream.", e);
             throwImageRetrieverException(e);
 
         } catch (IOException e) {
-            Log.e(TAG, "IOException", e);
+            Log.e(TAG, "While reading bitmap stream.", e);
             throwImageRetrieverException(e);
         }
         return null;

@@ -34,8 +34,7 @@
             android:label="@string/title_activity_list_view">
 
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <action android:name="com.github.mecharyry.ANDROID_TWEETS_INTENT" />
+                <action android:name="com.github.mecharyry.ACTION_VIEW_ANDROID_DEV_TWEETS" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -43,7 +42,13 @@
         </activity>
         <activity
             android:name="com.github.mecharyry.tweetlist.MyStreamActivity"
-            android:label="@string/title_activity_my_stream" />
+            android:label="@string/title_activity_my_stream">
+            <intent-filter>
+                <action android:name="com.github.mecharyry.ACTION_VIEW_MY_STREAM_TWEETS" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

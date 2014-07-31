@@ -6,10 +6,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.webkit.WebView;
 
+import com.github.mecharyry.BuildConfig;
 import com.github.mecharyry.R;
 
 public class OAuthRequesterActivity extends Activity {
 
+    public static final String EXTRA_REQUEST_URL = "URL";
     private static final String OAUTH_VERIFIER = "OAUTH_VERIFIER";
 
     @Override
@@ -18,8 +20,8 @@ public class OAuthRequesterActivity extends Activity {
         setContentView(R.layout.oauth_requester_activity_layout);
         WebView webView = (WebView) findViewById(R.id.webviewer);
 
-        if (getIntent().hasExtra("URL")) {
-            String url = getIntent().getStringExtra("URL");
+        if (getIntent().hasExtra(EXTRA_REQUEST_URL)) {
+            String url = getIntent().getStringExtra(EXTRA_REQUEST_URL);
             webView.loadUrl(url);
         }
     }

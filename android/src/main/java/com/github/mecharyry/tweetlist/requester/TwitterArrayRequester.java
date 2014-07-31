@@ -1,4 +1,4 @@
-package com.github.mecharyry.tweetlist;
+package com.github.mecharyry.tweetlist.requester;
 
 import android.util.Log;
 
@@ -8,25 +8,26 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 
-public class TwitterRequester {
+public class TwitterArrayRequester implements Request<JSONArray> {
 
-    private static final String TAG = "TwitterRequester";
+    private static final String TAG = TwitterArrayRequester.class.getSimpleName();
 
-    public JSONObject request(String signedUrl) {
+    @Override
+    public JSONArray request(String signedUrl) {
         HttpClient client = new DefaultHttpClient();
         HttpGet get = new HttpGet(signedUrl);
 
-        HttpResponse response;
         try {
-            response = client.execute(get);
+            HttpResponse response = client.execute(get);
 
             HttpEntity entity = response.getEntity();
 
@@ -37,12 +38,12 @@ public class TwitterRequester {
                 return convertStringToJson(inputStreamString);
             }
         } catch (ClientProtocolException e) {
-            Log.e(TAG, "ClientProtocolException", e);
+            Log.e(TAG, "While reading stream.", e);
         } catch (IOException e) {
-            Log.e(TAG, "IOException", e);
+            Log.e(TAG, "While reading stream.", e);
         }
 
-        return null;
+        return new JSONArray();
     }
 
     private static String inputStreamToString(InputStream inputStream) {
@@ -55,20 +56,18 @@ public class TwitterRequester {
             }
             inputStream.close();
         } catch (IOException e) {
-            Log.e(TAG, "IOException", e);
+            Log.e(TAG, "While reading stream.", e);
         }
         return stringBuilder.toString();
     }
 
-    private static JSONObject convertStringToJson(String input) {
+    private static JSONArray convertStringToJson(String input) {
         try {
-            Log.i(TAG, new JSONObject(input).toString());
-            return new JSONObject(input);
+            return new JSONArray(input);
         } catch (JSONException e) {
-            Log.e(TAG, "JSONException", e);
+            Log.e(TAG, "While converting string to json array.", e);
         }
-        return null;
+        return new JSONArray();
     }
-
 
 }

@@ -3,19 +3,19 @@ package com.github.mecharyry.auth;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.github.mecharyry.R;
+import com.github.mecharyry.tweetlist.AndroidDevTweetsActivity;
+import com.github.mecharyry.tweetlist.MyStreamActivity;
 
 public class AuthenticationActivity extends Activity {
 
-    private static final String TAG = "AuthenticationActivity";
-    public static final String MENU_ITEM_EXCEPTION = TAG + ": Menu item not handled.";
-    private static final String ANDROID_DEV_TWEETS_INTENT = "com.github.mecharyry.ANDROID_TWEETS_INTENT";
+    private static final String TAG = AuthenticationActivity.class.getSimpleName();
+    private static final String MENU_ITEM_EXCEPTION = TAG + ": Menu item not handled.";
     private AuthenticationManager manager;
 
     @Override
@@ -24,8 +24,9 @@ public class AuthenticationActivity extends Activity {
         setContentView(R.layout.authentication_activity);
 
         manager = AuthenticationManager.newInstance(this, onAccessTokenSaved);
-        findViewById(R.id.button_authorize).setOnClickListener(onAuthorizeButtonClicked);
-        findViewById(R.id.button_android_dev_tweets).setOnClickListener(onAndroidDevTweetsButtonClicked);
+        findViewById(R.id.button_authorize).setOnClickListener(onAuthorizeButtonClick);
+        findViewById(R.id.button_android_dev_tweets).setOnClickListener(onAndroidDevTweetsButtonClick);
+        findViewById(R.id.button_my_stream).setOnClickListener(onMyStreamTweetsButtonClick);
     }
 
     private final AuthenticationManager.Callback onAccessTokenSaved = new AuthenticationManager.Callback() {
@@ -36,7 +37,7 @@ public class AuthenticationActivity extends Activity {
         }
     };
 
-    private final View.OnClickListener onAuthorizeButtonClicked = new View.OnClickListener() {
+    private final View.OnClickListener onAuthorizeButtonClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             Toast.makeText(AuthenticationActivity.this, getString(R.string.toast_notification), Toast.LENGTH_SHORT).show();
@@ -44,11 +45,28 @@ public class AuthenticationActivity extends Activity {
         }
     };
 
-    private final View.OnClickListener onAndroidDevTweetsButtonClicked = new View.OnClickListener() {
+    private final View.OnClickListener onAndroidDevTweetsButtonClick = new View.OnClickListener() {
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(ANDROID_DEV_TWEETS_INTENT);
+            createShowDevTweetsIntent();
+        }
+
+        private void createShowDevTweetsIntent() {
+            Intent intent = new Intent(AndroidDevTweetsActivity.ACTION_VIEW_ANDROID_DEV_TWEETS);
+            startActivity(intent);
+        }
+    };
+
+    private final View.OnClickListener onMyStreamTweetsButtonClick = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            createShowMyStreamIntent();
+        }
+
+        private void createShowMyStreamIntent() {
+            Intent intent = new Intent(MyStreamActivity.ACTION_VIEW_MY_STREAM_TWEETS);
             startActivity(intent);
         }
     };
