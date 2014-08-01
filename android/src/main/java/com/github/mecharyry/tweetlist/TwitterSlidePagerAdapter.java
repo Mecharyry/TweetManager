@@ -6,8 +6,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 class TwitterSlidePagerAdapter extends FragmentStatePagerAdapter {
 
-    private final String tabtitles[] = new String[]{"Home Stream", "Android Dev"};
-
     public static TwitterSlidePagerAdapter newInstance(FragmentManager fragmentManager) {
         return new TwitterSlidePagerAdapter(fragmentManager);
     }
@@ -18,23 +16,32 @@ class TwitterSlidePagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        switch (position) {
-            case 0:
-                return new MyStreamFragment();
-            case 1:
-                return new AndroidDevTweetsFragment();
+        StreamType streamType = getStreamType(position);
+        switch (streamType) {
+            case ANDROID_DEV_STREAM:
+                return streamType.getFragment();
+            case MY_STREAM:
+                return streamType.getFragment();
             default:
                 throw new RuntimeException();
         }
     }
 
+    private StreamType getStreamType(int position) {
+        return StreamType.valueOf(StreamType.values()[position].name());
+    }
+
     @Override
     public int getCount() {
-        return 2;
+        return StreamType.values().length;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return tabtitles[position];
+        return getStreamTypeDisplayName(position);
+    }
+
+    private String getStreamTypeDisplayName(int position) {
+        return StreamType.values()[position].getDisplayName();
     }
 }
