@@ -1,31 +1,32 @@
 package com.github.mecharyry.auth.oauth;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Intent;
 
 public class OAuthRequester {
 
     private static final String OAUTH_VERIFIER = "OAUTH_VERIFIER";
     private static final int REQUEST_CODE = 100;
-    private final Activity activity;
+    private final Fragment fragment;
 
     public interface Callback {
         void onRequesterResult(String result);
     }
 
-    public static OAuthRequester newInstance(Activity activity) {
-        return new OAuthRequester(activity);
+    public static OAuthRequester newInstance(Fragment fragment) {
+        return new OAuthRequester(fragment);
     }
 
-    OAuthRequester(Activity activity) {
-        this.activity = activity;
+    OAuthRequester(Fragment fragment) {
+        this.fragment = fragment;
     }
 
     public void request(String url) {
-        Intent intent = new Intent(activity, OAuthRequesterActivity.class);
+        Intent intent = new Intent(fragment.getActivity(), OAuthRequesterActivity.class);
 
         intent.putExtra(OAuthRequesterActivity.EXTRA_REQUEST_URL, url);
-        activity.startActivityForResult(intent, REQUEST_CODE);
+        fragment.startActivityForResult(intent, REQUEST_CODE);
     }
 
     public void onOAuthRequesterResult(int requestCode, int resultCode, Intent data, Callback callback) {

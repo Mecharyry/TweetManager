@@ -1,6 +1,7 @@
 package com.github.mecharyry.auth;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Intent;
 
 import com.github.mecharyry.AccessTokenPreferences;
@@ -12,7 +13,7 @@ import com.github.mecharyry.auth.oauth.task.RequestTokenTask;
 
 import java.lang.ref.WeakReference;
 
-class AuthenticationManager {
+public class AuthenticationManager {
 
     private final OAuthAuthenticator oAuthAuthentication;
     private final OAuthRequester oAuthRequester;
@@ -23,11 +24,11 @@ class AuthenticationManager {
         void onAuthenticated();
     }
 
-    public static AuthenticationManager newInstance(Activity activity, Callback callback) {
+    public static AuthenticationManager newInstance(Fragment fragment, Callback callback) {
         OAuthAuthenticator oAuthAuthenticator = OAuthAuthenticator.newInstance();
-        AccessTokenPreferences accessTokenPreferences = AccessTokenPreferences.newInstance(activity);
+        AccessTokenPreferences accessTokenPreferences = AccessTokenPreferences.newInstance(fragment.getActivity());
         WeakReference<Callback> callbackWeakReference = new WeakReference<Callback>(callback);
-        OAuthRequester oAuthRequester = OAuthRequester.newInstance(activity);
+        OAuthRequester oAuthRequester = OAuthRequester.newInstance(fragment);
         return new AuthenticationManager(oAuthAuthenticator, oAuthRequester, accessTokenPreferences, callbackWeakReference);
     }
 
