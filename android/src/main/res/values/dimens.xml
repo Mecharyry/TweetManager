@@ -23,4 +23,6 @@
     <dimen name="shadow_bottom_padding">3dp</dimen>
     <dimen name="shadow_left_padding">0dp</dimen>
     <dimen name="thumb_info_left_margin">5dp</dimen>
+    <dimen name="tab_padding_top">4dp</dimen>
+    <dimen name="tab_padding_bottom">4dp</dimen>
 </resources>

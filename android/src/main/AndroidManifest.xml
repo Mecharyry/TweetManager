@@ -30,7 +30,7 @@
         </activity>
 
         <activity
-            android:name="com.github.mecharyry.tweetlist.AndroidDevTweetsActivity"
+            android:name=".tweetlist.AndroidDevTweetsFragment"
             android:label="@string/title_activity_list_view">
 
             <intent-filter>
@@ -41,11 +41,20 @@
 
         </activity>
         <activity
-            android:name="com.github.mecharyry.tweetlist.MyStreamActivity"
+            android:name=".tweetlist.MyStreamFragment"
             android:label="@string/title_activity_my_stream">
             <intent-filter>
                 <action android:name="com.github.mecharyry.ACTION_VIEW_MY_STREAM_TWEETS" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".tweetlist.TweetPagerActivity"
+            android:label="Pager">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

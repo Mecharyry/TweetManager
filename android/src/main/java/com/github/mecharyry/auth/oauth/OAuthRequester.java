@@ -1,8 +1,8 @@
 package com.github.mecharyry.auth.oauth;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 
 public class OAuthRequester {
 

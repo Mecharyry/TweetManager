@@ -1,19 +1,19 @@
 package com.github.mecharyry.auth;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.github.mecharyry.R;
-import com.github.mecharyry.tweetlist.AndroidDevTweetsActivity;
-import com.github.mecharyry.tweetlist.MyStreamActivity;
+import com.github.mecharyry.tweetlist.AndroidDevTweetsFragment;
+import com.github.mecharyry.tweetlist.MyStreamFragment;
+import com.github.mecharyry.tweetlist.TweetPagerActivity;
 
 public class AuthenticationFragment extends Fragment {
 
@@ -25,7 +25,7 @@ public class AuthenticationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         manager = AuthenticationManager.newInstance(this, onAccessTokenSaved);
-        view = inflater.inflate(R.layout.fragment_authentication_menu, container, false);
+        view = inflater.inflate(R.layout.authentication_menu, container, false);
 
         view.findViewById(R.id.button_authorize).setOnClickListener(onAuthorizeButtonClick);
         view.findViewById(R.id.button_android_dev_tweets).setOnClickListener(onAndroidDevTweetsButtonClick);
@@ -46,8 +46,10 @@ public class AuthenticationFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            Toast.makeText(getActivity(), getString(R.string.toast_notification), Toast.LENGTH_SHORT).show();
-            manager.authenticate();
+            // TODO: Toast.makeText(getActivity(), getString(R.string.toast_notification), Toast.LENGTH_SHORT).show();
+            // TODO: manager.authenticate();
+            Intent intent = new Intent(getActivity(), TweetPagerActivity.class);
+            startActivity(intent);
         }
     };
 
@@ -59,7 +61,7 @@ public class AuthenticationFragment extends Fragment {
         }
 
         private void createShowDevTweetsIntent() {
-            Intent intent = new Intent(AndroidDevTweetsActivity.ACTION_VIEW_ANDROID_DEV_TWEETS);
+            Intent intent = new Intent(AndroidDevTweetsFragment.ACTION_VIEW_ANDROID_DEV_TWEETS);
             startActivity(intent);
         }
     };
@@ -72,7 +74,7 @@ public class AuthenticationFragment extends Fragment {
         }
 
         private void createShowMyStreamIntent() {
-            Intent intent = new Intent(MyStreamActivity.ACTION_VIEW_MY_STREAM_TWEETS);
+            Intent intent = new Intent(MyStreamFragment.ACTION_VIEW_MY_STREAM_TWEETS);
             startActivity(intent);
         }
     };
