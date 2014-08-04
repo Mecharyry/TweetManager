@@ -30,7 +30,7 @@ class TwitterSlidePagerAdapter extends FragmentStatePagerAdapter {
     }
 
     private StreamType getStreamType(int position) {
-        return StreamType.valueOf(StreamType.values()[position].name());
+        return StreamType.values()[position];
     }
 
     @Override

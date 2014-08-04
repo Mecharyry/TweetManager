@@ -54,12 +54,10 @@ public class TwitterManagerActivity extends FragmentActivity implements Authenti
             TweetPagerFragment tweetFragment = (TweetPagerFragment) fragment;
             boolean movedToFirst = tweetFragment.moveToFirstFragment();
 
-            if(!movedToFirst){
+            if (!movedToFirst) {
                 super.onBackPressed();
             }
-        }
-        else
-        {
+        } else {
             super.onBackPressed();
         }
     }
