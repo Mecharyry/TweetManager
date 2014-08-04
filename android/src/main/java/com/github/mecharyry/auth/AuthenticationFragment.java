@@ -14,7 +14,6 @@ import com.github.mecharyry.R;
 public class AuthenticationFragment extends Fragment {
 
     private AuthenticationManager manager;
-    private View view;
     private Callback callback;
 
     public interface Callback {
@@ -35,7 +34,7 @@ public class AuthenticationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         manager = AuthenticationManager.newInstance(this, onAccessTokenSaved);
-        view = inflater.inflate(R.layout.fragment_authentication, container, false);
+        View view = inflater.inflate(R.layout.fragment_authentication, container, false);
         view.findViewById(R.id.button_authentication).setOnClickListener(onAuthenticationButtonClick);
         return view;
     }
