@@ -5,9 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -16,8 +13,6 @@ import com.github.mecharyry.R;
 
 public class AuthenticationFragment extends Fragment {
 
-    private static final String TAG = AuthenticationFragment.class.getSimpleName();
-    private static final String MENU_ITEM_EXCEPTION = TAG + ": Menu item not handled.";
     private AuthenticationManager manager;
     private View view;
     private Callback callback;
@@ -41,9 +36,17 @@ public class AuthenticationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         manager = AuthenticationManager.newInstance(this, onAccessTokenSaved);
         view = inflater.inflate(R.layout.fragment_authentication, container, false);
-
+        view.findViewById(R.id.button_authentication).setOnClickListener(onAuthenticationButtonClick);
         return view;
     }
+
+    private final View.OnClickListener onAuthenticationButtonClick = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            authenticateUser();
+        }
+    };
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -51,8 +54,6 @@ public class AuthenticationFragment extends Fragment {
 
         if (manager.hasAccessToken()) {
             onAccessTokenSaved.onAuthenticated();
-        } else {
-            authenticateUser();
         }
     }
 
@@ -68,24 +69,6 @@ public class AuthenticationFragment extends Fragment {
             callback.onAuthenticated(true);
         }
     };
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        getActivity().getMenuInflater().inflate(R.menu.authentication, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_item_clear_credentials:
-                manager.removeAccessToken();
-                // TODO: Move to the viewPager fragment. Navigates back to authentication menu.
-                break;
-            default:
-                throw new RuntimeException(MENU_ITEM_EXCEPTION);
-        }
-        return true;
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

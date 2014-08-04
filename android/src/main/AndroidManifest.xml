@@ -8,7 +8,7 @@
 
         <activity
             android:name=".TwitterManagerActivity"
-            android:label="@string/title_activity_authentication">
+            android:label="@string/title_activity_twitter_manager">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -6,11 +6,10 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import com.github.mecharyry.R;
 import com.github.mecharyry.auth.AuthenticationFragment;
 import com.github.mecharyry.tweetlist.TweetPagerFragment;
 
-public class TwitterManagerActivity extends FragmentActivity implements AuthenticationFragment.Callback {
+public class TwitterManagerActivity extends FragmentActivity implements AuthenticationFragment.Callback, TweetPagerFragment.Callback {
 
     private FragmentManager manager;
     private FragmentTransaction transaction;
@@ -18,7 +17,7 @@ public class TwitterManagerActivity extends FragmentActivity implements Authenti
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_authentication);
+        setContentView(R.layout.activity_twitter_manager);
 
         manager = getSupportFragmentManager();
         transaction = manager.beginTransaction();
@@ -35,6 +34,14 @@ public class TwitterManagerActivity extends FragmentActivity implements Authenti
     public void onAuthenticated(boolean authenticated) {
         transaction = manager.beginTransaction();
         transaction.replace(R.id.fragment_container, new TweetPagerFragment());
+        transaction.commit();
+        manager.popBackStack();
+    }
+
+    @Override
+    public void onClearCredentials() {
+        transaction = manager.beginTransaction();
+        transaction.replace(R.id.fragment_container, new AuthenticationFragment());
         transaction.commit();
         manager.popBackStack();
     }

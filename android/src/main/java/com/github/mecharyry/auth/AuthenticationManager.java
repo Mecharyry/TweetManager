@@ -74,8 +74,4 @@ public class AuthenticationManager {
     public boolean hasAccessToken() {
         return accessTokenPreferences.hasAccess();
     }
-
-    public void removeAccessToken() {
-        accessTokenPreferences.removeAccessToken();
-    }
 }

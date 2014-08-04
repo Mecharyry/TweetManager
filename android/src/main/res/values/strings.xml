@@ -12,7 +12,7 @@
 
     <string name="screen_name_label">Screen Name: %1$s</string>
     <string name="location_label">Location: %1$s</string>
-    <string name="title_activity_authentication">Authentication</string>
+    <string name="title_activity_twitter_manager">Twitter Manager</string>
     <string name="user_thumbnail_image_content_description">user thumbnail image</string>
     <string name="application_logo_content_description">Application logo</string>
     <string name="toast_notification">Opening Browser</string>

@@ -14,4 +14,10 @@
         android:src="@drawable/twitter_dark"
         android:contentDescription="@string/application_logo_content_description" />
 
+    <Button
+        android:id="@+id/button_authentication"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/authenticate" />
+
 </LinearLayout>
