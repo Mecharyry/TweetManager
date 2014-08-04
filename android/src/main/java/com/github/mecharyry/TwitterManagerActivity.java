@@ -6,8 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
 
 import com.github.mecharyry.auth.AuthenticationFragment;
 import com.github.mecharyry.tweetlist.TweetPagerFragment;
@@ -52,9 +50,17 @@ public class TwitterManagerActivity extends FragmentActivity implements Authenti
     @Override
     public void onBackPressed() {
         Fragment fragment = manager.findFragmentById(R.id.fragment_container);
-        if(fragment instanceof TweetPagerFragment){
+        if (fragment instanceof TweetPagerFragment) {
             TweetPagerFragment tweetFragment = (TweetPagerFragment) fragment;
-            tweetFragment.moveToFirstFragment();
+            boolean movedToFirst = tweetFragment.moveToFirstFragment();
+
+            if(!movedToFirst){
+                super.onBackPressed();
+            }
+        }
+        else
+        {
+            super.onBackPressed();
         }
     }
 }

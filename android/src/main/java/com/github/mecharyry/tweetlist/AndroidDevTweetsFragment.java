@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.github.mecharyry.AccessTokenPreferences;
-import com.github.mecharyry.BuildConfig;
 import com.github.mecharyry.R;
 import com.github.mecharyry.auth.oauth.AccessToken;
 import com.github.mecharyry.tweetlist.adapter.TweetAdapter;

@@ -2,7 +2,6 @@ package com.github.mecharyry.auth.oauth;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 
 import com.github.mecharyry.auth.AuthenticationFragment;
 

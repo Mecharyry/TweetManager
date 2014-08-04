@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -82,9 +81,11 @@ public class TweetPagerFragment extends Fragment {
         return true;
     }
 
-    public void moveToFirstFragment(){
-        if(viewPager.getCurrentItem() != 0){
-            viewPager.setCurrentItem(viewPager.getCurrentItem() -1);
+    public boolean moveToFirstFragment() {
+        if (viewPager.getCurrentItem() != 0) {
+            viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+            return true;
         }
+        return false;
     }
 }
