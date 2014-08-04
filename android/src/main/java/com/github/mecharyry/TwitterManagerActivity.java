@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 
 import com.github.mecharyry.auth.AuthenticationFragment;
@@ -46,5 +47,14 @@ public class TwitterManagerActivity extends FragmentActivity implements Authenti
         transaction.replace(R.id.fragment_container, new AuthenticationFragment());
         transaction.commit();
         manager.popBackStack();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Fragment fragment = manager.findFragmentById(R.id.fragment_container);
+        if(fragment instanceof TweetPagerFragment){
+            TweetPagerFragment tweetFragment = (TweetPagerFragment) fragment;
+            tweetFragment.moveToFirstFragment();
+        }
     }
 }

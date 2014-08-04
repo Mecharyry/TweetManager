@@ -55,7 +55,6 @@ public class TweetPagerFragment extends Fragment {
         viewPager.setAdapter(pagerAdapter);
 
         view.setFocusableInTouchMode(true);
-        view.setOnKeyListener(onBackPressed);
     }
 
     @Override
@@ -63,29 +62,6 @@ public class TweetPagerFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
     }
-
-    private final View.OnKeyListener onBackPressed = new View.OnKeyListener() {
-
-        @Override
-        public boolean onKey(View v, int keyCode, KeyEvent event) {
-            if (event.getAction() != KeyEvent.ACTION_DOWN) {
-                return true;
-            }
-
-            if (keyCode == KeyEvent.KEYCODE_BACK) {
-                int currentItem = viewPager.getCurrentItem();
-                if (currentItem == 0) {
-                    getActivity().onBackPressed();
-                    return true;
-                } else {
-                    viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
-                    return true;
-                }
-            }
-
-            return false;
-        }
-    };
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -104,5 +80,11 @@ public class TweetPagerFragment extends Fragment {
                 throw new RuntimeException(TweetPagerFragment.class.getSimpleName() + ": Menu item not handled.");
         }
         return true;
+    }
+
+    public void moveToFirstFragment(){
+        if(viewPager.getCurrentItem() != 0){
+            viewPager.setCurrentItem(viewPager.getCurrentItem() -1);
+        }
     }
 }
