@@ -2,9 +2,11 @@ package com.github.mecharyry;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 
 import com.github.mecharyry.auth.AuthenticationFragment;
 import com.github.mecharyry.tweetlist.TweetPagerFragment;
@@ -21,7 +23,7 @@ public class TwitterManagerActivity extends FragmentActivity implements Authenti
 
         manager = getSupportFragmentManager();
         transaction = manager.beginTransaction();
-        transaction.add(R.id.fragment_container, new AuthenticationFragment());
+        transaction.replace(R.id.fragment_container, new AuthenticationFragment());
         transaction.commit();
     }
 

@@ -21,7 +21,6 @@ import java.util.List;
 
 public class AndroidDevTweetsFragment extends Fragment {
 
-    public static final String ACTION_VIEW_ANDROID_DEV_TWEETS = BuildConfig.PACKAGE_NAME + ".ACTION_VIEW_ANDROID_DEV_TWEETS";
     private TweetAdapter tweetArrayAdapter;
     private final TaskExecutor taskExecutor;
     private TaskFactory taskFactory;
