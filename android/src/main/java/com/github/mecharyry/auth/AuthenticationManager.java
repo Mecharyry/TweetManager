@@ -23,7 +23,7 @@ public class AuthenticationManager {
         void onAuthenticated();
     }
 
-    public static AuthenticationManager newInstance(Fragment fragment, Callback callback) {
+    public static AuthenticationManager newInstance(AuthenticationFragment fragment, Callback callback) {
         OAuthAuthenticator oAuthAuthenticator = OAuthAuthenticator.newInstance();
         AccessTokenPreferences accessTokenPreferences = AccessTokenPreferences.newInstance(fragment.getActivity());
         WeakReference<Callback> callbackWeakReference = new WeakReference<Callback>(callback);

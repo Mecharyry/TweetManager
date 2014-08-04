@@ -4,21 +4,23 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
+import com.github.mecharyry.auth.AuthenticationFragment;
+
 public class OAuthRequester {
 
     private static final String OAUTH_VERIFIER = "OAUTH_VERIFIER";
     private static final int REQUEST_CODE = 100;
-    private final Fragment fragment;
+    private final AuthenticationFragment fragment;
 
     public interface Callback {
         void onRequesterResult(String result);
     }
 
-    public static OAuthRequester newInstance(Fragment fragment) {
+    public static OAuthRequester newInstance(AuthenticationFragment fragment) {
         return new OAuthRequester(fragment);
     }
 
-    OAuthRequester(Fragment fragment) {
+    OAuthRequester(AuthenticationFragment fragment) {
         this.fragment = fragment;
     }
 
