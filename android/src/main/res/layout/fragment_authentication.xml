@@ -1,25 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center_horizontal">
+    android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/image_view_twitter_logo"
         android:layout_width="@dimen/logo_width"
         android:layout_height="@dimen/logo_height"
         android:layout_margin="@dimen/logo_margin"
-        android:src="@drawable/twitter_dark"
-        android:contentDescription="@string/application_logo_content_description" />
+        android:contentDescription="@string/application_logo_content_description"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/authentication_options"
+        android:src="@drawable/twitter_dark" />
 
-    <Button
-        android:id="@+id/button_authentication"
+    <LinearLayout
+        android:id="@+id/authentication_options"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/authenticate"
-        android:background="@drawable/button_background"
-        android:padding="10dp"/>
+        android:layout_centerInParent="true"
+        android:background="@drawable/authentication_background"
+        android:orientation="vertical"
+        android:padding="10dp">
 
-</LinearLayout>
+        <Button
+            android:id="@+id/button_authentication"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_background"
+            android:padding="10dp"
+            android:text="@string/authenticate" />
+
+    </LinearLayout>
+
+</RelativeLayout>
+
