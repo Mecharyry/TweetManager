@@ -18,6 +18,7 @@
 
         <activity
             android:name="com.github.mecharyry.auth.oauth.OAuthRequesterActivity"
+            android:label="@string/oauth_requester_title"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
