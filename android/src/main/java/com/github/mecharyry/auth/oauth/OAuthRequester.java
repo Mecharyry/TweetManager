@@ -15,11 +15,7 @@ public class OAuthRequester {
         void onRequesterResult(String result);
     }
 
-    public static OAuthRequester newInstance(AuthenticationFragment fragment) {
-        return new OAuthRequester(fragment);
-    }
-
-    OAuthRequester(AuthenticationFragment fragment) {
+    public OAuthRequester(AuthenticationFragment fragment) {
         this.fragment = fragment;
     }
 

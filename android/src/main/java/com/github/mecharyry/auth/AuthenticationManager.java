@@ -26,7 +26,7 @@ public class AuthenticationManager {
         OAuthAuthenticator oAuthAuthenticator = OAuthAuthenticator.newInstance();
         AccessTokenPreferences accessTokenPreferences = AccessTokenPreferences.newInstance(fragment.getActivity());
         WeakReference<Callback> callbackWeakReference = new WeakReference<Callback>(callback);
-        OAuthRequester oAuthRequester = OAuthRequester.newInstance(fragment);
+        OAuthRequester oAuthRequester = new OAuthRequester(fragment);
         return new AuthenticationManager(oAuthAuthenticator, oAuthRequester, accessTokenPreferences, callbackWeakReference);
     }
 

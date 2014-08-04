@@ -26,10 +26,4 @@ public enum StreamType {
     }
 
     public abstract Fragment getFragment();
-
-    @Override
-    public String toString() {
-        return super.toString();
-    }
-
 }
