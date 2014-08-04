@@ -44,6 +44,7 @@ public class AuthenticationFragment extends Fragment {
         @Override
         public void onClick(View v) {
             authenticateUser();
+            v.findViewById(R.id.button_authentication).setEnabled(false);
         }
     };
 
