@@ -1,5 +1,6 @@
 package com.github.mecharyry.auth;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,11 +10,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.github.mecharyry.R;
-import com.github.mecharyry.tweetlist.AndroidDevTweetsFragment;
-import com.github.mecharyry.tweetlist.MyStreamFragment;
-import com.github.mecharyry.tweetlist.TweetPagerActivity;
 
 public class AuthenticationFragment extends Fragment {
 
@@ -21,68 +20,54 @@ public class AuthenticationFragment extends Fragment {
     private static final String MENU_ITEM_EXCEPTION = TAG + ": Menu item not handled.";
     private AuthenticationManager manager;
     private View view;
+    private Callback callback;
+
+    public interface Callback {
+        void onAuthenticated(boolean authenticated);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        try {
+            callback = (Callback) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement Callback.");
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         manager = AuthenticationManager.newInstance(this, onAccessTokenSaved);
-        view = inflater.inflate(R.layout.authentication_menu, container, false);
-
-        view.findViewById(R.id.button_authorize).setOnClickListener(onAuthorizeButtonClick);
-        view.findViewById(R.id.button_android_dev_tweets).setOnClickListener(onAndroidDevTweetsButtonClick);
-        view.findViewById(R.id.button_my_stream).setOnClickListener(onMyStreamTweetsButtonClick);
+        view = inflater.inflate(R.layout.fragment_authentication, container, false);
 
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        if (manager.hasAccessToken()) {
+            onAccessTokenSaved.onAuthenticated();
+        } else {
+            authenticateUser();
+        }
+    }
+
+    private void authenticateUser() {
+        Toast.makeText(getActivity(), getString(R.string.toast_notification), Toast.LENGTH_SHORT).show();
+        manager.authenticate();
     }
 
     private final AuthenticationManager.Callback onAccessTokenSaved = new AuthenticationManager.Callback() {
 
         @Override
         public void onAuthenticated() {
-            setButtonsEnabled(manager.hasAccessToken());
+            callback.onAuthenticated(true);
         }
     };
-
-    private final View.OnClickListener onAuthorizeButtonClick = new View.OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            // TODO: Toast.makeText(getActivity(), getString(R.string.toast_notification), Toast.LENGTH_SHORT).show();
-            // TODO: manager.authenticate();
-            Intent intent = new Intent(getActivity(), TweetPagerActivity.class);
-            startActivity(intent);
-        }
-    };
-
-    private final View.OnClickListener onAndroidDevTweetsButtonClick = new View.OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            createShowDevTweetsIntent();
-        }
-
-        private void createShowDevTweetsIntent() {
-            Intent intent = new Intent(AndroidDevTweetsFragment.ACTION_VIEW_ANDROID_DEV_TWEETS);
-            startActivity(intent);
-        }
-    };
-
-    private final View.OnClickListener onMyStreamTweetsButtonClick = new View.OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            createShowMyStreamIntent();
-        }
-
-        private void createShowMyStreamIntent() {
-            Intent intent = new Intent(MyStreamFragment.ACTION_VIEW_MY_STREAM_TWEETS);
-            startActivity(intent);
-        }
-    };
-
-    private void setButtonsEnabled(boolean hasAccess) {
-        view.findViewById(R.id.button_android_dev_tweets).setEnabled(hasAccess);
-        view.findViewById(R.id.button_my_stream).setEnabled(hasAccess);
-    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -94,7 +79,7 @@ public class AuthenticationFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.menu_item_clear_credentials:
                 manager.removeAccessToken();
-                setButtonsEnabled(manager.hasAccessToken());
+                // TODO: Move to the viewPager fragment. Navigates back to authentication menu.
                 break;
             default:
                 throw new RuntimeException(MENU_ITEM_EXCEPTION);
