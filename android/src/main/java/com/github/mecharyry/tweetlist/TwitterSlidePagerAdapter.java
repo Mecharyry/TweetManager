@@ -4,6 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.github.mecharyry.DeveloperError;
+
 class TwitterSlidePagerAdapter extends FragmentStatePagerAdapter {
 
     public static TwitterSlidePagerAdapter newInstance(FragmentManager fragmentManager) {
@@ -23,7 +25,7 @@ class TwitterSlidePagerAdapter extends FragmentStatePagerAdapter {
             case MY_STREAM:
                 return streamType.getFragment();
             default:
-                throw new RuntimeException();
+                throw new DeveloperError();
         }
     }
 
