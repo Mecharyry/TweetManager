@@ -17,7 +17,7 @@ public class AuthenticationFragment extends Fragment {
     private Callback callback;
 
     public interface Callback {
-        void onAuthenticated(boolean authenticated);
+        void onAuthenticated();
     }
 
     @Override
@@ -66,7 +66,7 @@ public class AuthenticationFragment extends Fragment {
 
         @Override
         public void onAuthenticated() {
-            callback.onAuthenticated(true);
+            callback.onAuthenticated();
         }
     };
 

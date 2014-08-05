@@ -50,8 +50,6 @@ public class TweetPagerFragment extends Fragment {
         viewPager = (ViewPager) view.findViewById(R.id.pager);
         PagerAdapter pagerAdapter = new TwitterSlidePagerAdapter(getFragmentManager());
         viewPager.setAdapter(pagerAdapter);
-
-        view.setFocusableInTouchMode(true);
     }
 
     @Override

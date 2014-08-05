@@ -29,7 +29,7 @@ public class TwitterManagerActivity extends FragmentActivity implements Authenti
     }
 
     @Override
-    public void onAuthenticated(boolean authenticated) {
+    public void onAuthenticated() {
         replaceFragment(new TweetPagerFragment());
     }
 
