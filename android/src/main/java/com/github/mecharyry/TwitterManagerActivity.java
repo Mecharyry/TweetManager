@@ -51,10 +51,8 @@ public class TwitterManagerActivity extends FragmentActivity implements Authenti
         Fragment fragment = manager.findFragmentById(R.id.fragment_container);
         if (fragment instanceof TweetPagerFragment) {
             TweetPagerFragment tweetFragment = (TweetPagerFragment) fragment;
-            boolean movedToFirst = tweetFragment.moveToFirstFragment();
-
-            if (!movedToFirst) {
-                super.onBackPressed();
+            if(!tweetFragment.isViewingFirstPage()){
+                tweetFragment.moveToFirstPage();
             }
         } else {
             super.onBackPressed();
