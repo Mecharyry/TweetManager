@@ -1,6 +1,7 @@
 package com.github.mecharyry.tweetlist;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,12 +22,8 @@ import java.util.List;
 
 public class MyStreamFragment extends Fragment {
 
-    public static final String ACTION_VIEW_MY_STREAM_TWEETS = BuildConfig.PACKAGE_NAME + ".ACTION_VIEW_MY_STREAM_TWEETS";
-
     private final TaskExecutor taskExecutor;
     private TweetAdapter tweetAdapter;
-    private TaskFactory taskFactory;
-    private ListView listView;
     private View view;
 
     public MyStreamFragment() {
@@ -36,17 +33,20 @@ public class MyStreamFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_my_stream, container, false);
+        return view;
+    }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         AccessTokenPreferences accessTokenPreferences = AccessTokenPreferences.newInstance(getActivity());
         AccessToken accessToken = accessTokenPreferences.retrieveAccessToken();
-        taskFactory = TaskFactory.newInstance(accessToken);
+        TaskFactory taskFactory = TaskFactory.newInstance(accessToken);
 
         tweetAdapter = TweetAdapter.newInstance(getActivity());
-        listView = (ListView) view.findViewById(R.id.listview_mystream);
+        ListView listView = (ListView) view.findViewById(R.id.listview_mystream);
         listView.setAdapter(tweetAdapter);
         taskExecutor.execute(updateListCallback, taskFactory.requestMyStreamTweets());
-
-        return view;
     }
 
     private final TaskCompleted<List<Tweet>> updateListCallback = new TaskCompleted<List<Tweet>>() {
