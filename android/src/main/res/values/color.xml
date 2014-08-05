@@ -11,5 +11,10 @@
     <color name="shadow_level_content_background">#FFFFFF</color>
     <color name="tab_background_color">#33B5E5</color>
     <color name="tab_text_color">#FFF</color>
-
+    <color name="button_pressed_background">#F8F9FA</color>
+    <color name="button_border_color">#D2D2D2</color>
+    <color name="button_gradient_start_color">#F8F9FA</color>
+    <color name="button_gradient_end_color">#D2D2D2</color>
+    <color name="button_gradient_border_color">#FFFFFF</color>
+    <color name="menu_background_semi_transparent">#99000000</color>
 </resources>
