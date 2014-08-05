@@ -21,9 +21,7 @@ public class TwitterManagerActivity extends FragmentActivity implements Authenti
         setContentView(R.layout.activity_twitter_manager);
 
         manager = getSupportFragmentManager();
-        transaction = manager.beginTransaction();
-        transaction.replace(R.id.fragment_container, new AuthenticationFragment());
-        transaction.commit();
+        replaceFragment(new AuthenticationFragment());
     }
 
     @Override
@@ -33,16 +31,17 @@ public class TwitterManagerActivity extends FragmentActivity implements Authenti
 
     @Override
     public void onAuthenticated(boolean authenticated) {
-        transaction = manager.beginTransaction();
-        transaction.replace(R.id.fragment_container, new TweetPagerFragment());
-        transaction.commit();
-        manager.popBackStack();
+        replaceFragment(new TweetPagerFragment());
     }
 
     @Override
     public void onClearCredentials() {
+        replaceFragment(new AuthenticationFragment());
+    }
+
+    private void replaceFragment(Fragment replaceWith) {
         transaction = manager.beginTransaction();
-        transaction.replace(R.id.fragment_container, new AuthenticationFragment());
+        transaction.replace(R.id.fragment_container, replaceWith);
         transaction.commit();
         manager.popBackStack();
     }

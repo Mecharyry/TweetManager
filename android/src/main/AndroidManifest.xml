@@ -7,7 +7,7 @@
     <application android:theme="@android:style/Theme.Holo.Light">
 
         <activity
-            android:name=".TwitterManagerActivity"
+            android:name="com.github.mecharyry.TwitterManagerActivity"
             android:label="@string/title_activity_twitter_manager">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
