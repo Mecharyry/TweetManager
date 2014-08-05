@@ -13,7 +13,6 @@ import com.github.mecharyry.tweetlist.TweetPagerFragment;
 public class TwitterManagerActivity extends FragmentActivity implements AuthenticationFragment.Callback, TweetPagerFragment.Callback {
 
     private FragmentManager manager;
-    private FragmentTransaction transaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +39,7 @@ public class TwitterManagerActivity extends FragmentActivity implements Authenti
     }
 
     private void replaceFragment(Fragment replaceWith) {
-        transaction = manager.beginTransaction();
+        FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.fragment_container, replaceWith);
         transaction.commit();
         manager.popBackStack();
@@ -51,7 +50,9 @@ public class TwitterManagerActivity extends FragmentActivity implements Authenti
         Fragment fragment = manager.findFragmentById(R.id.fragment_container);
         if (fragment instanceof TweetPagerFragment) {
             TweetPagerFragment tweetFragment = (TweetPagerFragment) fragment;
-            if(!tweetFragment.isViewingFirstPage()){
+            if (tweetFragment.isViewingFirstPage()) {
+                super.onBackPressed();
+            } else {
                 tweetFragment.moveToFirstPage();
             }
         } else {

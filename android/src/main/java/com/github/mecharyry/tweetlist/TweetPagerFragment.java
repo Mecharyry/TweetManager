@@ -18,8 +18,6 @@ import com.github.mecharyry.R;
 public class TweetPagerFragment extends Fragment {
 
     private ViewPager viewPager;
-    private PagerAdapter pagerAdapter;
-    private View view;
     private AccessTokenPreferences accessTokenPreferences;
     private Callback callback;
 
@@ -40,7 +38,7 @@ public class TweetPagerFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_tweet_screen_slider, container, false);
+        View view = inflater.inflate(R.layout.fragment_tweet_screen_slider, container, false);
         accessTokenPreferences = AccessTokenPreferences.newInstance(getActivity());
         return view;
     }
@@ -50,7 +48,7 @@ public class TweetPagerFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         viewPager = (ViewPager) view.findViewById(R.id.pager);
-        pagerAdapter = new TwitterSlidePagerAdapter(getFragmentManager());
+        PagerAdapter pagerAdapter = new TwitterSlidePagerAdapter(getFragmentManager());
         viewPager.setAdapter(pagerAdapter);
 
         view.setFocusableInTouchMode(true);
