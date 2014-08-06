@@ -8,12 +8,17 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.github.mecharyry.auth.AuthenticationFragment;
-import com.github.mecharyry.auth.oauth.OAuthRequester;
+import com.github.mecharyry.auth.AuthenticationManager;
 import com.github.mecharyry.tweetlist.TweetPagerFragment;
 
-public class TwitterManagerActivity extends FragmentActivity implements AuthenticationFragment.Callback, TweetPagerFragment.Callback, OAuthRequester.ActivityCallback {
+public class TwitterManagerActivity extends FragmentActivity implements TweetPagerFragment.Callback, AuthenticationManager.NotifyActivity {
 
     private FragmentManager manager;
+    private Callback callback;
+
+    public interface Callback {
+        void onWebViewResponse(int requestCode, int resultCode, Intent data);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,15 +30,22 @@ public class TwitterManagerActivity extends FragmentActivity implements Authenti
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Fragment fragment = manager.findFragmentById(R.id.fragment_container);
-        fragment.onActivityResult(requestCode, resultCode, data);
+    public void startWebView(Intent intent, Callback callback) {
+        startActivityForResult(intent, AuthenticationManager.REQUEST_CODE);
+        this.callback = callback;
     }
 
     @Override
     public void onAuthenticated() {
         replaceFragment(new TweetPagerFragment());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (callback != null) {
+            callback.onWebViewResponse(requestCode, resultCode, data);
+        }
     }
 
     @Override
@@ -66,10 +78,5 @@ public class TwitterManagerActivity extends FragmentActivity implements Authenti
 
     private boolean notShowingFirstPageOf(TweetPagerFragment fragment) {
         return !fragment.isViewingFirstPage();
-    }
-
-    @Override
-    public void startActivity(Intent intent) {
-        startActivityForResult(intent, OAuthRequester.REQUEST_CODE);
     }
 }
