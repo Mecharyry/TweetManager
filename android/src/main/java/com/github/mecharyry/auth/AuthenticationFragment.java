@@ -16,9 +16,11 @@ public class AuthenticationFragment extends Fragment {
     private AuthenticationManager manager;
     private Callback callback;
 
+
     public interface Callback {
         void onAuthenticated();
     }
+
 
     @Override
     public void onAttach(Activity activity) {
@@ -31,13 +33,15 @@ public class AuthenticationFragment extends Fragment {
         }
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        manager = AuthenticationManager.newInstance(this, onAccessTokenSaved);
+        manager = AuthenticationManager.newInstance(getActivity(), onAccessTokenSaved);
         View view = inflater.inflate(R.layout.fragment_authentication, container, false);
         view.findViewById(R.id.button_authentication).setOnClickListener(onAuthenticationButtonClick);
         return view;
     }
+
 
     private final View.OnClickListener onAuthenticationButtonClick = new View.OnClickListener() {
 
@@ -48,6 +52,7 @@ public class AuthenticationFragment extends Fragment {
         }
     };
 
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -57,18 +62,22 @@ public class AuthenticationFragment extends Fragment {
         }
     }
 
+
     private void authenticateUser() {
         Toast.makeText(getActivity(), getString(R.string.toast_notification), Toast.LENGTH_SHORT).show();
         manager.authenticate();
     }
 
+
     private final AuthenticationManager.Callback onAccessTokenSaved = new AuthenticationManager.Callback() {
+
 
         @Override
         public void onAuthenticated() {
             callback.onAuthenticated();
         }
     };
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

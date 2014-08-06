@@ -8,9 +8,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.github.mecharyry.auth.AuthenticationFragment;
+import com.github.mecharyry.auth.oauth.OAuthRequester;
 import com.github.mecharyry.tweetlist.TweetPagerFragment;
 
-public class TwitterManagerActivity extends FragmentActivity implements AuthenticationFragment.Callback, TweetPagerFragment.Callback {
+public class TwitterManagerActivity extends FragmentActivity implements AuthenticationFragment.Callback, TweetPagerFragment.Callback, OAuthRequester.ActivityCallback {
 
     private FragmentManager manager;
 
@@ -26,6 +27,8 @@ public class TwitterManagerActivity extends FragmentActivity implements Authenti
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Fragment fragment = manager.findFragmentById(R.id.fragment_container);
+        fragment.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -48,15 +51,25 @@ public class TwitterManagerActivity extends FragmentActivity implements Authenti
     @Override
     public void onBackPressed() {
         Fragment fragment = manager.findFragmentById(R.id.fragment_container);
-        if (fragment instanceof TweetPagerFragment) {
-            TweetPagerFragment tweetFragment = (TweetPagerFragment) fragment;
-            if (tweetFragment.isViewingFirstPage()) {
-                super.onBackPressed();
-            } else {
-                tweetFragment.moveToFirstPage();
-            }
+
+        if (shouldGoToFirstPage(fragment)) {
+            TweetPagerFragment tweetPagerFragment = (TweetPagerFragment) fragment;
+            tweetPagerFragment.moveToFirstPage();
         } else {
             super.onBackPressed();
         }
+    }
+
+    public boolean shouldGoToFirstPage(Fragment fragment) {
+        return fragment instanceof TweetPagerFragment && notShowingFirstPageOf((TweetPagerFragment) fragment);
+    }
+
+    private boolean notShowingFirstPageOf(TweetPagerFragment fragment) {
+        return !fragment.isViewingFirstPage();
+    }
+
+    @Override
+    public void startActivity(Intent intent) {
+        startActivityForResult(intent, OAuthRequester.REQUEST_CODE);
     }
 }

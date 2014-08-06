@@ -1,29 +1,32 @@
 package com.github.mecharyry.auth.oauth;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-
-import com.github.mecharyry.auth.AuthenticationFragment;
 
 public class OAuthRequester {
 
+    public static final int REQUEST_CODE = 100;
     private static final String OAUTH_VERIFIER = "OAUTH_VERIFIER";
-    private static final int REQUEST_CODE = 100;
-    private final AuthenticationFragment fragment;
 
     public interface Callback {
         void onRequesterResult(String result);
     }
 
-    public OAuthRequester(AuthenticationFragment fragment) {
-        this.fragment = fragment;
+    public interface ActivityCallback {
+        void startActivity(Intent intent);
     }
 
-    public void request(String url) {
-        Intent intent = new Intent(fragment.getActivity(), OAuthRequesterActivity.class);
+    public void createRequest(Context context, String url) {
+        Intent intent = new Intent(context, OAuthWebViewActivity.class);
+        intent.putExtra(OAuthWebViewActivity.EXTRA_REQUEST_URL, url);
 
-        intent.putExtra(OAuthRequesterActivity.EXTRA_REQUEST_URL, url);
-        fragment.startActivityForResult(intent, REQUEST_CODE);
+        try {
+            ActivityCallback callback = (ActivityCallback) context;
+            callback.startActivity(intent);
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + "must implement Callback.");
+        }
     }
 
     public void onOAuthRequesterResult(int requestCode, int resultCode, Intent data, Callback callback) {

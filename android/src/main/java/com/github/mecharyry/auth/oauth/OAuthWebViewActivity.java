@@ -8,7 +8,7 @@ import android.webkit.WebView;
 
 import com.github.mecharyry.R;
 
-public class OAuthRequesterActivity extends Activity {
+public class OAuthWebViewActivity extends Activity {
 
     public static final String EXTRA_REQUEST_URL = "URL";
     private static final String OAUTH_VERIFIER = "OAUTH_VERIFIER";

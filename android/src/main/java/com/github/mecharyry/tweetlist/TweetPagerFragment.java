@@ -77,13 +77,13 @@ public class TweetPagerFragment extends Fragment {
         return true;
     }
 
-    public boolean isViewingFirstPage(){
+    public boolean isViewingFirstPage() {
         return viewPager.getCurrentItem() == 0;
     }
 
     public boolean moveToFirstPage() {
         if (viewPager.getCurrentItem() != 0) {
-            viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+            viewPager.setCurrentItem(0);
             return true;
         }
         return false;
