@@ -13,6 +13,7 @@ public class RequestTokenTask extends AsyncTask<Void, Void, String> {
 
     public interface Callback {
         void onRetrieved(String response);
+
         void onError(String message);
     }
 
@@ -33,9 +34,15 @@ public class RequestTokenTask extends AsyncTask<Void, Void, String> {
 
     @Override
     protected void onPostExecute(String response) {
+        // TODO: Create a response object? Holds success failure and returns an appropriate message.
         Callback callback = callbackWeakReference.get();
         if (callback != null) {
-            callback.onRetrieved(response);
+            if (response.contains("ERROR")) {
+                callback.onError("response");
+            } else {
+                callback.onRetrieved(response);
+            }
         }
+
     }
 }

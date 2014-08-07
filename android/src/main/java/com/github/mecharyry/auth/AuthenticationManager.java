@@ -22,7 +22,9 @@ public class AuthenticationManager {
 
     public interface NotifyActivity {
         void startWebView(Intent intent, TwitterManagerActivity.Callback callback);
+
         void onError(String message);
+
         void onAuthenticated();
     }
 
@@ -51,10 +53,10 @@ public class AuthenticationManager {
         @Override
         public void onError(String message) {
             // TODO: Pass the error to the UI; notify user.
-            try{
+            try {
                 NotifyActivity callback = (NotifyActivity) context;
                 callback.onError(message);
-            } catch (ClassCastException e){
+            } catch (ClassCastException e) {
                 throw new ClassCastException(context.toString() + "must implement Callback.");
             }
         }
@@ -104,7 +106,7 @@ public class AuthenticationManager {
         }
     }
 
-    public void authenticated(){
+    public void authenticated() {
         notifyActivityUserAuthenticated();
     }
 

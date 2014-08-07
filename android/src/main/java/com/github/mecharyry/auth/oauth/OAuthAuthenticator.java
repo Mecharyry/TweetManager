@@ -60,7 +60,7 @@ public class OAuthAuthenticator {
             throwable = e;
         }
         // TODO: Handle network retry.
-        throw OAuthException.because("While retrieving authentication Url.", throwable);
+        return "ERROR";
     }
 
     public AccessToken retrieveAccessToken(String oauthVerifier) {
@@ -95,5 +95,4 @@ public class OAuthAuthenticator {
             this.throwable = throwable;
         }
     }
-
 }

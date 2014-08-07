@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mecharyry.R;
@@ -19,6 +20,7 @@ public class AuthenticationFragment extends Fragment {
     private AuthenticationManager manager;
     private BroadcastReceiver receiver;
     private Button authenticationButton;
+    private TextView textView;
 
     @Override
     public void onAttach(Activity activity) {
@@ -33,6 +35,7 @@ public class AuthenticationFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_authentication, container, false);
         authenticationButton = (Button) view.findViewById(R.id.button_authentication);
         authenticationButton.setOnClickListener(onAuthenticationButtonClick);
+        textView = (TextView) view.findViewById(R.id.text_warning_message);
         return view;
     }
 
@@ -75,4 +78,8 @@ public class AuthenticationFragment extends Fragment {
             authenticationButton.setEnabled(false);
         }
     };
+
+    public void displayErrorMessage(String message){
+        textView.setText(message);
+    }
 }

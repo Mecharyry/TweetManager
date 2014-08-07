@@ -17,4 +17,5 @@
     <color name="button_gradient_end_color">#D2D2D2</color>
     <color name="button_gradient_border_color">#FFFFFF</color>
     <color name="menu_background_semi_transparent">#99000000</color>
+    <color name="warning_message_color">#FF0000</color>
 </resources>

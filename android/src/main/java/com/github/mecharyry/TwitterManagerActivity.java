@@ -38,6 +38,10 @@ public class TwitterManagerActivity extends FragmentActivity implements TweetPag
     @Override
     public void onError(String message) {
         // TODO: Reset GUI and notify user an error occurred.
+        Fragment fragment = manager.findFragmentById(R.id.fragment_container);
+        if(fragment instanceof  AuthenticationFragment){
+            ((AuthenticationFragment) fragment).displayErrorMessage(message);
+        }
     }
 
     @Override

@@ -6,7 +6,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <application android:theme="@android:style/Theme.Holo.Light"
+    <application
+        android:theme="@android:style/Theme.Holo.Light"
         android:icon="@drawable/twitter_dark"
         android:allowBackup="false">
 

@@ -16,6 +16,16 @@
         android:contentDescription="@string/application_logo_content_description"
         android:src="@drawable/twitter_dark" />
 
+    <TextView
+        android:id="@+id/text_warning_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:textColor="@color/warning_message_color"
+        android:textSize="@dimen/warning_text_size"
+        android:layout_below="@id/authentication_options"/>
+
 
     <LinearLayout
         android:id="@+id/authentication_options"

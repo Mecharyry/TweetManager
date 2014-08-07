@@ -32,4 +32,5 @@
     <dimen name="button_border_width">1dp</dimen>
     <dimen name="button_corner_radius">1dp</dimen>
     <dimen name="menu_border_radius">8px</dimen>
+    <dimen name="warning_text_size">16sp</dimen>
 </resources>
