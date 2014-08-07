@@ -2,12 +2,10 @@ package com.github.mecharyry.auth;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,29 +13,53 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mecharyry.AccessTokenPreferences;
 import com.github.mecharyry.R;
+import com.github.mecharyry.auth.oauth.AccessToken;
+import com.github.mecharyry.auth.oauth.OAuthAuthenticator;
+import com.github.mecharyry.auth.oauth.task.RequestAccessTokenTask;
+import com.github.mecharyry.auth.oauth.task.RequestTokenTask;
 
 public class AuthenticationFragment extends Fragment {
 
-    //private AuthenticationManager manager;
+    private OAuthAuthenticator oAuthAuthenticator;
+    private AccessTokenPreferences accessTokenPreferences;
     private BroadcastReceiver receiver;
     private Button authenticationButton;
     private TextView textView;
+    private NotifyActivity notifyActivity;
+
+    public interface NotifyActivity {
+        void startWebView(String url);
+
+        void onAuthenticated();
+    }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        accessTokenPreferences = AccessTokenPreferences.newInstance(activity);
         receiver = new NetworkChangeReceiver(connectionChangedReceiver);
         activity.registerReceiver(receiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+
+        try {
+            notifyActivity = (NotifyActivity) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement Callback.");
+        }
+
+        if (accessTokenPreferences.hasAccess()) {
+            notifyActivity.onAuthenticated();
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //manager = AuthenticationManager.newInstance(getActivity());
         View view = inflater.inflate(R.layout.fragment_authentication, container, false);
         authenticationButton = (Button) view.findViewById(R.id.button_authentication);
         authenticationButton.setOnClickListener(onAuthenticationButtonClick);
         textView = (TextView) view.findViewById(R.id.text_warning_message);
+        oAuthAuthenticator = OAuthAuthenticator.newInstance();
         return view;
     }
 
@@ -45,20 +67,44 @@ public class AuthenticationFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            authenticateUser();
+            Toast.makeText(getActivity(), getString(R.string.toast_notification), Toast.LENGTH_SHORT).show();
+            requestAuthUrl();
         }
     };
 
-    private void authenticateUser() {
-        Toast.makeText(getActivity(), getString(R.string.toast_notification), Toast.LENGTH_SHORT).show();
-        //manager.authenticateUser();
+    private void requestAuthUrl() {
+        RequestTokenTask.newInstance(requestTokenCallback, oAuthAuthenticator).execute();
     }
+
+    private final RequestTokenTask.Notify requestTokenCallback = new RequestTokenTask.Notify() {
+        @Override
+        public void onRetrieved(String response) {
+            notifyActivity.startWebView(response);
+        }
+
+        @Override
+        public void onError(String message) {
+
+        }
+    };
+
+    public void requestAccessToken(String verifier) {
+        RequestAccessTokenTask.newInstance(requestAccessTokenCallback, oAuthAuthenticator).executeTask(verifier);
+    }
+
+    private final RequestAccessTokenTask.Callback requestAccessTokenCallback = new RequestAccessTokenTask.Callback() {
+        @Override
+        public void onRetrieved(AccessToken response) {
+            accessTokenPreferences.saveAccessToken(response);
+            notifyActivity.onAuthenticated();
+        }
+    };
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//        if (manager.hasAccessToken()) {
-//            manager.authenticated();
+//        if (authenticationManager.hasAccessToken()) {
+//            authenticationManager.authenticated();
 //        }
     }
 
@@ -79,8 +125,4 @@ public class AuthenticationFragment extends Fragment {
             authenticationButton.setEnabled(false);
         }
     };
-
-    public void displayErrorMessage(String message){
-        textView.setText(message);
-    }
 }

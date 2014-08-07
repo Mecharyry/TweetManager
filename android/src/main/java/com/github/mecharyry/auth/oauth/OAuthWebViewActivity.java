@@ -10,8 +10,9 @@ import com.github.mecharyry.R;
 
 public class OAuthWebViewActivity extends Activity {
 
+    public static final int REQUEST_CODE = 100;
     public static final String EXTRA_REQUEST_URL = "URL";
-    private static final String OAUTH_VERIFIER = "OAUTH_VERIFIER";
+    public static final String OAUTH_VERIFIER = "OAUTH_VERIFIER";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

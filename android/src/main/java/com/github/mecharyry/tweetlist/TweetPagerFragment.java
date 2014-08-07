@@ -29,11 +29,11 @@ public class TweetPagerFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
-//        try {
-//            callback = (Callback) activity;
-//        } catch (ClassCastException e) {
-//            throw new ClassCastException(activity.toString() + " must implement Callback.");
-//        }
+        try {
+            callback = (Callback) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement Callback.");
+        }
     }
 
     @Override
