@@ -46,10 +46,12 @@ public class OAuthAuthenticator {
         return consumer;
     }
 
-    public String retrieveAuthenticationUrl() {
+    public NetworkResponse retrieveAuthenticationUrl() {
         Throwable throwable;
+        String response = "";
         try {
-            return provider.retrieveRequestToken(consumer, OAUTH_CALLBACK_URL);
+            response = provider.retrieveRequestToken(consumer, OAUTH_CALLBACK_URL);
+            return new NetworkResponse(RequestStatus.REQUEST_SUCCESS, response);
         } catch (OAuthMessageSignerException e) {
             throwable = e;
         } catch (OAuthNotAuthorizedException e) {
@@ -57,10 +59,11 @@ public class OAuthAuthenticator {
         } catch (OAuthExpectationFailedException e) {
             throwable = e;
         } catch (OAuthCommunicationException e) {
+            response = "Network Error. Please try again.";
             throwable = e;
         }
         // TODO: Handle network retry.
-        return "ERROR";
+        return new NetworkResponse(RequestStatus.REQUEST_FAILED, response);
     }
 
     public AccessToken retrieveAccessToken(String oauthVerifier) {

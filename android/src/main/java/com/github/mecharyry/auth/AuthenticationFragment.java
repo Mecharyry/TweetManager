@@ -2,10 +2,12 @@ package com.github.mecharyry.auth;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +19,7 @@ import com.github.mecharyry.R;
 
 public class AuthenticationFragment extends Fragment {
 
-    private AuthenticationManager manager;
+    //private AuthenticationManager manager;
     private BroadcastReceiver receiver;
     private Button authenticationButton;
     private TextView textView;
@@ -31,7 +33,7 @@ public class AuthenticationFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        manager = AuthenticationManager.newInstance(getActivity());
+        //manager = AuthenticationManager.newInstance(getActivity());
         View view = inflater.inflate(R.layout.fragment_authentication, container, false);
         authenticationButton = (Button) view.findViewById(R.id.button_authentication);
         authenticationButton.setOnClickListener(onAuthenticationButtonClick);
@@ -44,21 +46,20 @@ public class AuthenticationFragment extends Fragment {
         @Override
         public void onClick(View v) {
             authenticateUser();
-            v.findViewById(R.id.button_authentication).setEnabled(false);
         }
     };
 
     private void authenticateUser() {
         Toast.makeText(getActivity(), getString(R.string.toast_notification), Toast.LENGTH_SHORT).show();
-        manager.authenticateUser();
+        //manager.authenticateUser();
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (manager.hasAccessToken()) {
-            manager.authenticated();
-        }
+//        if (manager.hasAccessToken()) {
+//            manager.authenticated();
+//        }
     }
 
     @Override
