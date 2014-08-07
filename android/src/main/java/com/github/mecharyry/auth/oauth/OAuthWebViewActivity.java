@@ -8,7 +8,7 @@ import android.webkit.WebView;
 
 import com.github.mecharyry.R;
 
-public class OAuthRequesterActivity extends Activity {
+public class OAuthWebViewActivity extends Activity {
 
     public static final String EXTRA_REQUEST_URL = "URL";
     private static final String OAUTH_VERIFIER = "OAUTH_VERIFIER";
@@ -16,7 +16,7 @@ public class OAuthRequesterActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.oauth_requester_activity_layout);
+        setContentView(R.layout.activity_oauth_requester);
         WebView webView = (WebView) findViewById(R.id.webviewer);
 
         if (getIntent().hasExtra(EXTRA_REQUEST_URL)) {

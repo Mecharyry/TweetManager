@@ -1,11 +1,14 @@
 package com.github.mecharyry.tweetlist;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.github.mecharyry.AccessTokenPreferences;
-import com.github.mecharyry.BuildConfig;
 import com.github.mecharyry.R;
 import com.github.mecharyry.auth.oauth.AccessToken;
 import com.github.mecharyry.tweetlist.adapter.TweetAdapter;
@@ -16,30 +19,31 @@ import com.github.mecharyry.tweetlist.task.TaskFactory;
 
 import java.util.List;
 
-public class MyStreamActivity extends Activity {
-
-    public static final String ACTION_VIEW_MY_STREAM_TWEETS = BuildConfig.PACKAGE_NAME + ".ACTION_VIEW_MY_STREAM_TWEETS";
+public class MyStreamFragment extends Fragment {
 
     private final TaskExecutor taskExecutor;
     private TweetAdapter tweetAdapter;
-    private TaskFactory taskFactory;
-    private ListView listView;
+    private View view;
 
-    public MyStreamActivity() {
+    public MyStreamFragment() {
         this.taskExecutor = new TaskExecutor();
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_stream);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_my_stream, container, false);
+        return view;
+    }
 
-        AccessTokenPreferences accessTokenPreferences = AccessTokenPreferences.newInstance(this);
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        AccessTokenPreferences accessTokenPreferences = AccessTokenPreferences.newInstance(getActivity());
         AccessToken accessToken = accessTokenPreferences.retrieveAccessToken();
-        taskFactory = TaskFactory.newInstance(accessToken);
+        TaskFactory taskFactory = TaskFactory.newInstance(accessToken);
 
-        tweetAdapter = TweetAdapter.newInstance(this);
-        listView = (ListView) findViewById(R.id.listview_mystream);
+        tweetAdapter = TweetAdapter.newInstance(getActivity());
+        ListView listView = (ListView) view.findViewById(R.id.listview_mystream);
         listView.setAdapter(tweetAdapter);
         taskExecutor.execute(updateListCallback, taskFactory.requestMyStreamTweets());
     }

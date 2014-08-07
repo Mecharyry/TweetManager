@@ -1,4 +1,4 @@
-package com.github.mecharyry.tweetlist.requester;
+package com.github.mecharyry.tweetlist.request;
 
 public class RequestException extends Exception {
 

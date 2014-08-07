@@ -2,12 +2,19 @@
 <resources>
     <color name="tweet_text_color">#00AAFF</color>
     <color name="rounded_edges_border_color">#636161</color>
-    <color name="rounded_edges_background_color">#FFF</color>
+    <color name="rounded_edges_background_color">#FFFFFF</color>
     <color name="shadow_level_01">#10CCCCCC</color>
     <color name="shadow_level_02">#20CCCCCC</color>
     <color name="shadow_level_03">#40CCCCCC</color>
     <color name="shadow_level_04">#50CCCCCC</color>
     <color name="shadow_level_05">#60CCCCCC</color>
     <color name="shadow_level_content_background">#FFFFFF</color>
-
+    <color name="tab_background_color">#33B5E5</color>
+    <color name="tab_text_color">#FFFFFF</color>
+    <color name="button_pressed_background">#F8F9FA</color>
+    <color name="button_border_color">#D2D2D2</color>
+    <color name="button_gradient_start_color">#F8F9FA</color>
+    <color name="button_gradient_end_color">#D2D2D2</color>
+    <color name="button_gradient_border_color">#FFFFFF</color>
+    <color name="menu_background_semi_transparent">#99000000</color>
 </resources>

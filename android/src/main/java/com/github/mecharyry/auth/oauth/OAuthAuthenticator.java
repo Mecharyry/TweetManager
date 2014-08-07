@@ -59,6 +59,7 @@ public class OAuthAuthenticator {
         } catch (OAuthCommunicationException e) {
             throwable = e;
         }
+        // TODO: Handle network retry.
         throw OAuthException.because("While retrieving authentication Url.", throwable);
     }
 
