@@ -23,7 +23,7 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.e(NetworkChangeReceiver.class.getSimpleName(), "Context: " + context.toString() + "\nIntent: " + intent);
+        Log.i(NetworkChangeReceiver.class.getSimpleName(), "Context: " + context.toString() + "\nIntent: " + intent);
 
         if (isNetworkAvailable(context)) {
             callback.networkAvailable();

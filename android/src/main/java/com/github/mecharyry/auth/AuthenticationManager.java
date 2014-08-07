@@ -22,7 +22,7 @@ public class AuthenticationManager {
 
     public interface NotifyActivity {
         void startWebView(Intent intent, TwitterManagerActivity.Callback callback);
-
+        void onError(String message);
         void onAuthenticated();
     }
 
@@ -46,6 +46,17 @@ public class AuthenticationManager {
         @Override
         public void onRetrieved(String response) {
             startWebView(response);
+        }
+
+        @Override
+        public void onError(String message) {
+            // TODO: Pass the error to the UI; notify user.
+            try{
+                NotifyActivity callback = (NotifyActivity) context;
+                callback.onError(message);
+            } catch (ClassCastException e){
+                throw new ClassCastException(context.toString() + "must implement Callback.");
+            }
         }
     };
 

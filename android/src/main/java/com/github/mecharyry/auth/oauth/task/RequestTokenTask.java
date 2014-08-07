@@ -13,6 +13,7 @@ public class RequestTokenTask extends AsyncTask<Void, Void, String> {
 
     public interface Callback {
         void onRetrieved(String response);
+        void onError(String message);
     }
 
     public static RequestTokenTask newInstance(Callback callback, OAuthAuthenticator oAuthAuthenticator) {
