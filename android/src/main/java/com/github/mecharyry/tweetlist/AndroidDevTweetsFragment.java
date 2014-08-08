@@ -1,6 +1,7 @@
 package com.github.mecharyry.tweetlist;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,30 +21,33 @@ import java.util.List;
 
 public class AndroidDevTweetsFragment extends Fragment {
 
-    private TweetAdapter tweetArrayAdapter;
+    private TweetAdapter tweetAdapter;
+    private View view;
 
     private final TaskCompleted<List<Tweet>> updateListCallback = new TaskCompleted<List<Tweet>>() {
         @Override
         public void taskCompleted(List<Tweet> response) {
-            tweetArrayAdapter.updateTweets(response);
+            tweetAdapter.updateTweets(response);
         }
     };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_android_dev_tweets, container, false);
+        view = inflater.inflate(R.layout.fragment_android_dev_tweets, container, false);
+        return view;
+    }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         TaskExecutor taskExecutor = new TaskExecutor();
         AccessTokenPreferences accessTokenPreferences = AccessTokenPreferences.newInstance(getActivity());
         AccessToken accessToken = accessTokenPreferences.retrieveAccessToken();
         TaskFactory taskFactory = TaskFactory.newInstance(accessToken);
-        tweetArrayAdapter = TweetAdapter.newInstance(getActivity());
+
+        tweetAdapter = TweetAdapter.newInstance(getActivity());
         ListView listView = (ListView) view.findViewById(R.id.listview_androiddev_tweets);
-        listView.setAdapter(tweetArrayAdapter);
-
+        listView.setAdapter(tweetAdapter);
         taskExecutor.execute(updateListCallback, taskFactory.requestAndroidDevTweets());
-        taskFactory.requestAndroidDevTweets();
-
-        return view;
     }
 }

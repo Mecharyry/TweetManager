@@ -21,13 +21,15 @@ import java.util.List;
 
 public class MyStreamFragment extends Fragment {
 
-    private final TaskExecutor taskExecutor;
     private TweetAdapter tweetAdapter;
     private View view;
 
-    public MyStreamFragment() {
-        this.taskExecutor = new TaskExecutor();
-    }
+    private final TaskCompleted<List<Tweet>> updateListCallback = new TaskCompleted<List<Tweet>>() {
+        @Override
+        public void taskCompleted(List<Tweet> response) {
+            tweetAdapter.updateTweets(response);
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,6 +40,7 @@ public class MyStreamFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        TaskExecutor taskExecutor = new TaskExecutor();
         AccessTokenPreferences accessTokenPreferences = AccessTokenPreferences.newInstance(getActivity());
         AccessToken accessToken = accessTokenPreferences.retrieveAccessToken();
         TaskFactory taskFactory = TaskFactory.newInstance(accessToken);
@@ -47,11 +50,4 @@ public class MyStreamFragment extends Fragment {
         listView.setAdapter(tweetAdapter);
         taskExecutor.execute(updateListCallback, taskFactory.requestMyStreamTweets());
     }
-
-    private final TaskCompleted<List<Tweet>> updateListCallback = new TaskCompleted<List<Tweet>>() {
-        @Override
-        public void taskCompleted(List<Tweet> response) {
-            tweetAdapter.updateTweets(response);
-        }
-    };
 }
