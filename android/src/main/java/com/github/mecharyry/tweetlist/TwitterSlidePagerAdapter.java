@@ -8,6 +8,8 @@ import com.github.mecharyry.DeveloperError;
 
 class TwitterSlidePagerAdapter extends FragmentStatePagerAdapter {
 
+    public static final String ERROR_UNHANDLED_CASE_MESSAGE = "Unhandled case.";
+
     public static TwitterSlidePagerAdapter newInstance(FragmentManager fragmentManager) {
         return new TwitterSlidePagerAdapter(fragmentManager);
     }
@@ -25,7 +27,7 @@ class TwitterSlidePagerAdapter extends FragmentStatePagerAdapter {
             case MY_STREAM:
                 return streamType.getFragment();
             default:
-                throw new DeveloperError();
+                throw DeveloperError.because(ERROR_UNHANDLED_CASE_MESSAGE, new UnsupportedOperationException());
         }
     }
 

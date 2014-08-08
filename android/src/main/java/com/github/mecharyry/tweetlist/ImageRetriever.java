@@ -15,6 +15,8 @@ import java.io.InputStream;
 
 public class ImageRetriever {
 
+    public static final String ERROR_READING_STREAM_MESSAGE = "While reading bitmap stream.";
+
     public Bitmap retrieveBitmap(String imageUrl) {
         Throwable throwable = null;
         HttpClient client = new DefaultHttpClient();
@@ -35,7 +37,7 @@ public class ImageRetriever {
         } catch (IOException e) {
             throwable = e;
         }
-        throw ImageRetrieverException.because("While reading bitmap stream.", throwable);
+        throw ImageRetrieverException.because(ERROR_READING_STREAM_MESSAGE, throwable);
     }
 
     public static class ImageRetrieverException extends RuntimeException {

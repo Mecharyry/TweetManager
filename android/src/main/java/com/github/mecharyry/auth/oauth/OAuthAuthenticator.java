@@ -23,13 +23,15 @@ public class OAuthAuthenticator {
     private static final String AUTHORIZATION_WEBSITE_URL = "https://api.twitter.com/oauth/authorize";
     private static final String CONSUMER_KEY = BuildConfig.CONSUMER_KEY;
     private static final String CONSUMER_SECRET = BuildConfig.CONSUMER_SECRET;
+    public static final String NETWORK_ERROR_MESSAGE = "Network Error. Please try again.";
+    public static final String CONSUMER_NOT_PRESENT_MESSAGE = "Consumer Key / Secret not present";
 
     private final OAuthConsumer consumer;
     private final OAuthProvider provider;
 
     static {
         if (CONSUMER_KEY.isEmpty() || CONSUMER_SECRET.isEmpty()) {
-            throw DeveloperError.because("Consumer Key / Secret not present", new Throwable());
+            throw DeveloperError.because(CONSUMER_NOT_PRESENT_MESSAGE, new NoSuchFieldException());
         }
     }
 
@@ -50,9 +52,8 @@ public class OAuthAuthenticator {
     }
 
     public NetworkResponse retrieveAuthenticationUrl() {
-        String response;
         try {
-            response = provider.retrieveRequestToken(consumer, OAUTH_CALLBACK_URL);
+            String response = provider.retrieveRequestToken(consumer, OAUTH_CALLBACK_URL);
             return new NetworkResponse(RequestStatus.REQUEST_SUCCESS, response);
         } catch (OAuthMessageSignerException e) {
             Log.e(TAG, e.getMessage());
@@ -63,8 +64,7 @@ public class OAuthAuthenticator {
         } catch (OAuthCommunicationException e) {
             Log.e(TAG, e.getMessage());
         }
-        response = "Network Error. Please try again.";
-        return new NetworkResponse(RequestStatus.REQUEST_FAILED, response);
+        return new NetworkResponse(RequestStatus.REQUEST_FAILED, NETWORK_ERROR_MESSAGE);
     }
 
     public NetworkResponse retrieveAccessToken(String oauthVerifier) {
@@ -81,7 +81,6 @@ public class OAuthAuthenticator {
         } catch (OAuthCommunicationException e) {
             Log.e(TAG, e.getMessage());
         }
-        String response = "Network Error. Please try again.";
-        return new NetworkResponse(RequestStatus.REQUEST_FAILED, response);
+        return new NetworkResponse(RequestStatus.REQUEST_FAILED, NETWORK_ERROR_MESSAGE);
     }
 }

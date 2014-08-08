@@ -13,10 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.mecharyry.AccessTokenPreferences;
+import com.github.mecharyry.DeveloperError;
 import com.github.mecharyry.R;
 
 public class TweetPagerFragment extends Fragment {
 
+    public static final String ERROR_MUST_IMPLEMENT_MESSAGE = " must implement Callback.";
+    public static final String ERROR_MENU_ITEM_MESSAGE = "Menu item not handled.";
     private ViewPager viewPager;
     private AccessTokenPreferences accessTokenPreferences;
     private Callback callback;
@@ -32,7 +35,7 @@ public class TweetPagerFragment extends Fragment {
         try {
             callback = (Callback) activity;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement Callback.");
+            throw new ClassCastException(activity.getClass().getName() + ERROR_MUST_IMPLEMENT_MESSAGE);
         }
     }
 
@@ -72,7 +75,7 @@ public class TweetPagerFragment extends Fragment {
                 callback.onClearCredentials();
                 break;
             default:
-                throw new RuntimeException(TweetPagerFragment.class.getSimpleName() + ": Menu item not handled.");
+                throw DeveloperError.because(ERROR_MENU_ITEM_MESSAGE, new UnsupportedOperationException());
         }
         return true;
     }

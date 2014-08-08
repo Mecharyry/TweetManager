@@ -19,6 +19,7 @@ import oauth.signpost.exception.OAuthMessageSignerException;
 public class TaskFactory {
     public static final String ANDROID_DEV_TWEETS = "https://api.twitter.com/1.1/search/tweets.json?q=%23AndroidDev&count=50";
     public static final String MY_STREAM_TWEETS = "https://api.twitter.com/1.1/statuses/home_timeline.json?count=50";
+    public static final String ERROR_SIGNING_URL_MESSAGE = "While signing URL.";
     private final OAuthConsumer consumer;
     private final ParserFactory parserFactory;
     private final RequestFactory requestFactory;
@@ -53,11 +54,11 @@ public class TaskFactory {
         try {
             signedUrl = consumer.sign(unsignedUrl);
         } catch (OAuthMessageSignerException e) {
-            throwAuthException("While signing URL.", e);
+            throwAuthException(ERROR_SIGNING_URL_MESSAGE, e);
         } catch (OAuthExpectationFailedException e) {
-            throwAuthException("While signing URL.", e);
+            throwAuthException(ERROR_SIGNING_URL_MESSAGE, e);
         } catch (OAuthCommunicationException e) {
-            throwAuthException("While signing URL.", e);
+            throwAuthException(ERROR_SIGNING_URL_MESSAGE, e);
         }
         return signedUrl;
     }

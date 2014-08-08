@@ -12,7 +12,7 @@ public class OAuthWebViewActivity extends Activity {
 
     public static final int REQUEST_CODE = 100;
     public static final String EXTRA_REQUEST_URL = "URL";
-    public static final String OAUTH_VERIFIER = "OAUTH_VERIFIER";
+    public static final String OAUTH_VERIFIER = "oauth_verifier";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +32,7 @@ public class OAuthWebViewActivity extends Activity {
 
         Uri responseUri = intent.getData();
         if (responseUri != null) {
-            String oauthVerifier = responseUri.getQueryParameter("oauth_verifier");
+            String oauthVerifier = responseUri.getQueryParameter(OAUTH_VERIFIER);
             Intent intentVerifier = new Intent();
             intentVerifier.putExtra(OAUTH_VERIFIER, oauthVerifier);
             setResult(Activity.RESULT_OK, intentVerifier);

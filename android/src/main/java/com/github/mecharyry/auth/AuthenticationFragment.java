@@ -22,6 +22,7 @@ import com.github.mecharyry.auth.oauth.task.RequestTokenTask;
 
 public class AuthenticationFragment extends Fragment {
 
+    public static final String NOT_IMPLEMENTED_MESSAGE = " must implement Callback.";
     private OAuthAuthenticator oAuthAuthenticator;
     private AccessTokenPreferences accessTokenPreferences;
     private BroadcastReceiver receiver;
@@ -46,7 +47,7 @@ public class AuthenticationFragment extends Fragment {
         try {
             notifyActivity = (NotifyActivity) activity;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement Callback.");
+            throw new ClassCastException(activity.getClass().getName() + NOT_IMPLEMENTED_MESSAGE);
         }
 
         if (accessTokenPreferences.hasAccess()) {
