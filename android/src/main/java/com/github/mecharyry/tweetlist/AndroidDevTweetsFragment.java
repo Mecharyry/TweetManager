@@ -1,5 +1,6 @@
 package com.github.mecharyry.tweetlist;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,7 +23,8 @@ import java.util.List;
 public class AndroidDevTweetsFragment extends Fragment {
 
     private TweetAdapter tweetAdapter;
-    private View view;
+    private TaskExecutor taskExecutor;
+    private TaskFactory taskFactory;
 
     private final TaskCompleted<List<Tweet>> updateListCallback = new TaskCompleted<List<Tweet>>() {
         @Override
@@ -32,22 +34,26 @@ public class AndroidDevTweetsFragment extends Fragment {
     };
 
     @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        AccessTokenPreferences accessTokenPreferences = AccessTokenPreferences.newInstance(getActivity());
+        AccessToken accessToken = accessTokenPreferences.retrieveAccessToken();
+        taskFactory = TaskFactory.newInstance(accessToken);
+        taskExecutor = new TaskExecutor();
+        tweetAdapter = TweetAdapter.newInstance(activity);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_android_dev_tweets, container, false);
+        View view = inflater.inflate(R.layout.fragment_android_dev_tweets, container, false);
+        ListView listView = (ListView) view.findViewById(R.id.listview_androiddev_tweets);
+        listView.setAdapter(tweetAdapter);
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        TaskExecutor taskExecutor = new TaskExecutor();
-        AccessTokenPreferences accessTokenPreferences = AccessTokenPreferences.newInstance(getActivity());
-        AccessToken accessToken = accessTokenPreferences.retrieveAccessToken();
-        TaskFactory taskFactory = TaskFactory.newInstance(accessToken);
-
-        tweetAdapter = TweetAdapter.newInstance(getActivity());
-        ListView listView = (ListView) view.findViewById(R.id.listview_androiddev_tweets);
-        listView.setAdapter(tweetAdapter);
         taskExecutor.execute(updateListCallback, taskFactory.requestAndroidDevTweets());
     }
 }
