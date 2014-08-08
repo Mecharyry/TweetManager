@@ -8,7 +8,7 @@
     <application
         android:theme="@android:style/Theme.Holo.Light"
         android:icon="@drawable/twitter_dark"
-        android:allowBackup="false">
+        android:allowBackup="true">
 
         <activity
             android:name="com.github.mecharyry.TwitterManagerActivity"
