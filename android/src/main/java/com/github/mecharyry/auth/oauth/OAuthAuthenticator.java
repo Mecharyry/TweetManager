@@ -29,7 +29,7 @@ public class OAuthAuthenticator {
 
     static {
         if (CONSUMER_KEY.isEmpty() || CONSUMER_SECRET.isEmpty()) {
-            throw new DeveloperError();
+            throw DeveloperError.because("Consumer Key / Secret not present", new Throwable());
         }
     }
 
