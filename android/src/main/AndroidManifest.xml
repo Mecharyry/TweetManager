@@ -22,7 +22,7 @@
         </activity>
 
         <activity
-            android:name=".auth.oauth.OAuthWebViewActivity"
+            android:name="com.github.mecharyry.auth.oauth.OAuthWebViewActivity"
             android:label="@string/oauth_requester_title"
             android:launchMode="singleTop">
             <intent-filter>
