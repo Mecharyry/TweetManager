@@ -42,17 +42,12 @@ public class ImageRetriever {
 
     public static class ImageRetrieverException extends RuntimeException {
 
-        private final String reason;
-        private final Throwable throwable;
-
         public static ImageRetrieverException because(String reason, Throwable throwable) {
             return new ImageRetrieverException(reason, throwable);
         }
 
         private ImageRetrieverException(String reason, Throwable throwable) {
-            super(throwable);
-            this.reason = reason;
-            this.throwable = throwable;
+            super(reason, throwable);
         }
     }
 }
