@@ -1,5 +1,7 @@
 package com.github.mecharyry.auth.oauth;
 
+import android.util.Log;
+
 import com.github.mecharyry.BuildConfig;
 import com.github.mecharyry.DeveloperError;
 
@@ -14,6 +16,7 @@ import oauth.signpost.exception.OAuthNotAuthorizedException;
 
 public class OAuthAuthenticator {
 
+    private static final String TAG = OAuthAuthenticator.class.getSimpleName();
     private static final String OAUTH_CALLBACK_URL = "mecharyry-android:///";
     private static final String REQUEST_TOKEN_ENDPOINT_URL = "https://api.twitter.com/oauth/request_token";
     private static final String ACCESS_TOKEN_ENDPOINT_URL = "https://api.twitter.com/oauth/access_token";
@@ -47,38 +50,36 @@ public class OAuthAuthenticator {
     }
 
     public NetworkResponse retrieveAuthenticationUrl() {
-        Throwable throwable;
-        String response = "";
+        String response;
         try {
             response = provider.retrieveRequestToken(consumer, OAUTH_CALLBACK_URL);
             return new NetworkResponse(RequestStatus.REQUEST_SUCCESS, response);
         } catch (OAuthMessageSignerException e) {
-            throwable = e;
+            Log.e(TAG, e.getMessage());
         } catch (OAuthNotAuthorizedException e) {
-            throwable = e;
+            Log.e(TAG, e.getMessage());
         } catch (OAuthExpectationFailedException e) {
-            throwable = e;
+            Log.e(TAG, e.getMessage());
         } catch (OAuthCommunicationException e) {
-            throwable = e;
+            Log.e(TAG, e.getMessage());
         }
         response = "Network Error. Please try again.";
         return new NetworkResponse(RequestStatus.REQUEST_FAILED, response);
     }
 
     public NetworkResponse retrieveAccessToken(String oauthVerifier) {
-        Throwable throwable;
         try {
             provider.retrieveAccessToken(consumer, oauthVerifier);
             AccessToken accessToken = new AccessToken(consumer.getToken(), consumer.getTokenSecret());
             return new NetworkResponse(RequestStatus.REQUEST_SUCCESS, accessToken);
         } catch (OAuthMessageSignerException e) {
-            throwable = e;
+            Log.e(TAG, e.getMessage());
         } catch (OAuthNotAuthorizedException e) {
-            throwable = e;
+            Log.e(TAG, e.getMessage());
         } catch (OAuthExpectationFailedException e) {
-            throwable = e;
+            Log.e(TAG, e.getMessage());
         } catch (OAuthCommunicationException e) {
-            throwable = e;
+            Log.e(TAG, e.getMessage());
         }
         String response = "Network Error. Please try again.";
         return new NetworkResponse(RequestStatus.REQUEST_FAILED, response);

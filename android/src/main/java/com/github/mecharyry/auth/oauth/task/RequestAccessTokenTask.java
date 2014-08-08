@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import com.github.mecharyry.auth.oauth.AccessToken;
 import com.github.mecharyry.auth.oauth.NetworkResponse;
 import com.github.mecharyry.auth.oauth.OAuthAuthenticator;
+import com.github.mecharyry.auth.oauth.RequestStatus;
 
 import java.lang.ref.WeakReference;
 
@@ -15,6 +16,8 @@ public class RequestAccessTokenTask extends AsyncTask<String, Void, NetworkRespo
 
     public interface Callback {
         void onRetrieved(AccessToken response);
+
+        void onError(String message);
     }
 
     public static RequestAccessTokenTask newInstance(Callback callback, OAuthAuthenticator oAuthAuthenticator) {
@@ -39,10 +42,13 @@ public class RequestAccessTokenTask extends AsyncTask<String, Void, NetworkRespo
     @Override
     protected void onPostExecute(NetworkResponse response) {
         super.onPostExecute(response);
-        AccessToken accessToken = responseToAccessToken(response);
         Callback callback = callbackWeakReference.get();
         if (callback != null) {
-            callback.onRetrieved(accessToken);
+            if (response.getStatus() == RequestStatus.REQUEST_SUCCESS) {
+                callback.onRetrieved(responseToAccessToken(response));
+            } else {
+                callback.onError(response.getResponse().toString());
+            }
         }
     }
 

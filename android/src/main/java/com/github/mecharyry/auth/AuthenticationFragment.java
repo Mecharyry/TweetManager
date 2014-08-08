@@ -38,6 +38,7 @@ public class AuthenticationFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        oAuthAuthenticator = OAuthAuthenticator.newInstance();
         accessTokenPreferences = AccessTokenPreferences.newInstance(activity);
         receiver = new NetworkChangeReceiver(connectionChangedReceiver);
         activity.registerReceiver(receiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
@@ -59,7 +60,6 @@ public class AuthenticationFragment extends Fragment {
         authenticationButton = (Button) view.findViewById(R.id.button_authentication);
         authenticationButton.setOnClickListener(onAuthenticationButtonClick);
         textView = (TextView) view.findViewById(R.id.text_warning_message);
-        oAuthAuthenticator = OAuthAuthenticator.newInstance();
         return view;
     }
 
@@ -85,7 +85,8 @@ public class AuthenticationFragment extends Fragment {
 
         @Override
         public void onError(String message) {
-
+            setErrorMessage(message);
+            authenticationButton.setEnabled(NetworkChangeReceiver.isNetworkAvailable(getActivity()));
         }
     };
 
@@ -99,15 +100,13 @@ public class AuthenticationFragment extends Fragment {
             accessTokenPreferences.saveAccessToken(response);
             notifyActivity.onAuthenticated();
         }
-    };
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-//        if (authenticationManager.hasAccessToken()) {
-//            authenticationManager.authenticated();
-//        }
-    }
+        @Override
+        public void onError(String message) {
+            setErrorMessage(message);
+            authenticationButton.setEnabled(NetworkChangeReceiver.isNetworkAvailable(getActivity()));
+        }
+    };
 
     @Override
     public void onDestroy() {
@@ -126,4 +125,8 @@ public class AuthenticationFragment extends Fragment {
             authenticationButton.setEnabled(false);
         }
     };
+
+    private void setErrorMessage(String message) {
+        textView.setText(message);
+    }
 }
