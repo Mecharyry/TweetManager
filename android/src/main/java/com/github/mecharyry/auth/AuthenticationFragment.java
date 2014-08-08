@@ -73,6 +73,7 @@ public class AuthenticationFragment extends Fragment {
     };
 
     private void requestAuthUrl() {
+        authenticationButton.setEnabled(false);
         RequestTokenTask.newInstance(requestTokenCallback, oAuthAuthenticator).execute();
     }
 

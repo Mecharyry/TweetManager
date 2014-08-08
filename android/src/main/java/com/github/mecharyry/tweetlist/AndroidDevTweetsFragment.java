@@ -21,14 +21,6 @@ import java.util.List;
 public class AndroidDevTweetsFragment extends Fragment {
 
     private TweetAdapter tweetArrayAdapter;
-    private final TaskExecutor taskExecutor;
-    private TaskFactory taskFactory;
-    private ListView listView;
-    private View view;
-
-    public AndroidDevTweetsFragment() {
-        this.taskExecutor = new TaskExecutor();
-    }
 
     private final TaskCompleted<List<Tweet>> updateListCallback = new TaskCompleted<List<Tweet>>() {
         @Override
@@ -39,13 +31,14 @@ public class AndroidDevTweetsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_android_dev_tweets, container, false);
+        View view = inflater.inflate(R.layout.fragment_android_dev_tweets, container, false);
 
+        TaskExecutor taskExecutor = new TaskExecutor();
         AccessTokenPreferences accessTokenPreferences = AccessTokenPreferences.newInstance(getActivity());
         AccessToken accessToken = accessTokenPreferences.retrieveAccessToken();
-        taskFactory = TaskFactory.newInstance(accessToken);
+        TaskFactory taskFactory = TaskFactory.newInstance(accessToken);
         tweetArrayAdapter = TweetAdapter.newInstance(getActivity());
-        listView = (ListView) view.findViewById(R.id.listview_androiddev_tweets);
+        ListView listView = (ListView) view.findViewById(R.id.listview_androiddev_tweets);
         listView.setAdapter(tweetArrayAdapter);
 
         taskExecutor.execute(updateListCallback, taskFactory.requestAndroidDevTweets());

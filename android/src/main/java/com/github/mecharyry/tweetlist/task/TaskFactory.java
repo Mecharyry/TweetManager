@@ -63,6 +63,22 @@ public class TaskFactory {
     }
 
     private void throwAuthException(String reason, Exception exception) {
-        throw OAuthAuthenticator.OAuthException.because(reason, exception);
+        throw OAuthException.because(reason, exception);
+    }
+
+    public static class OAuthException extends RuntimeException {
+
+        private final String reason;
+        private final Throwable throwable;
+
+        public static OAuthException because(String reason, Throwable throwable) {
+            return new OAuthException(reason, throwable);
+        }
+
+        private OAuthException(String reason, Throwable throwable) {
+            super(throwable);
+            this.reason = reason;
+            this.throwable = throwable;
+        }
     }
 }

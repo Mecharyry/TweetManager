@@ -39,11 +39,10 @@ public class RequestTokenTask extends AsyncTask<Void, Void, NetworkResponse> {
         Notify notify = callbackWeakReference.get();
         if (notify != null) {
             if (response.getStatus() == RequestStatus.REQUEST_SUCCESS) {
-                notify.onRetrieved(response.getResponse());
+                notify.onRetrieved(response.getResponse().toString());
             } else {
-                notify.onError(response.getResponse());
+                notify.onError(response.getResponse().toString());
             }
         }
-
     }
 }

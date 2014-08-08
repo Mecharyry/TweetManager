@@ -59,18 +59,18 @@ public class OAuthAuthenticator {
         } catch (OAuthExpectationFailedException e) {
             throwable = e;
         } catch (OAuthCommunicationException e) {
-            response = "Network Error. Please try again.";
             throwable = e;
         }
-        // TODO: Handle network retry.
+        response = "Network Error. Please try again.";
         return new NetworkResponse(RequestStatus.REQUEST_FAILED, response);
     }
 
-    public AccessToken retrieveAccessToken(String oauthVerifier) {
+    public NetworkResponse retrieveAccessToken(String oauthVerifier) {
         Throwable throwable;
         try {
             provider.retrieveAccessToken(consumer, oauthVerifier);
-            return new AccessToken(consumer.getToken(), consumer.getTokenSecret());
+            AccessToken accessToken = new AccessToken(consumer.getToken(), consumer.getTokenSecret());
+            return new NetworkResponse(RequestStatus.REQUEST_SUCCESS, accessToken);
         } catch (OAuthMessageSignerException e) {
             throwable = e;
         } catch (OAuthNotAuthorizedException e) {
@@ -80,22 +80,7 @@ public class OAuthAuthenticator {
         } catch (OAuthCommunicationException e) {
             throwable = e;
         }
-        throw OAuthException.because("While retrieving access token.", throwable);
-    }
-
-    public static class OAuthException extends RuntimeException {
-
-        private final String reason;
-        private final Throwable throwable;
-
-        public static OAuthException because(String reason, Throwable throwable) {
-            return new OAuthException(reason, throwable);
-        }
-
-        private OAuthException(String reason, Throwable throwable) {
-            super(throwable);
-            this.reason = reason;
-            this.throwable = throwable;
-        }
+        String response = "Network Error. Please try again.";
+        return new NetworkResponse(RequestStatus.REQUEST_FAILED, response);
     }
 }
