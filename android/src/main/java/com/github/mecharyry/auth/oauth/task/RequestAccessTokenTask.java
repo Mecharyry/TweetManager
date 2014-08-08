@@ -11,6 +11,7 @@ import java.lang.ref.WeakReference;
 
 public class RequestAccessTokenTask extends AsyncTask<String, Void, NetworkResponse> {
 
+    public static final int FIRST_INDEX = 0;
     private OAuthAuthenticator oAuthAuthenticator;
     private final WeakReference<Callback> callbackWeakReference;
 
@@ -36,7 +37,7 @@ public class RequestAccessTokenTask extends AsyncTask<String, Void, NetworkRespo
 
     @Override
     protected NetworkResponse doInBackground(String... params) {
-        return oAuthAuthenticator.retrieveAccessToken(params[0]);
+        return oAuthAuthenticator.retrieveAccessToken(params[FIRST_INDEX]);
     }
 
     @Override
