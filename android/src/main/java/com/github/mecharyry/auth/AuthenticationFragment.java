@@ -28,10 +28,10 @@ public class AuthenticationFragment extends Fragment {
     private BroadcastReceiver receiver;
     private Button authenticationButton;
     private TextView textView;
-    private NotifyActivity notifyActivity;
+    private Notify notify;
 
-    public interface NotifyActivity {
-        void startWebView(String url);
+    public interface Notify {
+        void onRequestTokenResponse(String url);
 
         void onAuthenticated();
     }
@@ -45,13 +45,13 @@ public class AuthenticationFragment extends Fragment {
         activity.registerReceiver(receiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 
         try {
-            notifyActivity = (NotifyActivity) activity;
+            notify = (Notify) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.getClass().getName() + NOT_IMPLEMENTED_MESSAGE);
         }
 
         if (accessTokenPreferences.hasAccess()) {
-            notifyActivity.onAuthenticated();
+            notify.onAuthenticated();
         }
     }
 
@@ -81,7 +81,7 @@ public class AuthenticationFragment extends Fragment {
     private final RequestTokenTask.Notify requestTokenCallback = new RequestTokenTask.Notify() {
         @Override
         public void onRetrieved(String response) {
-            notifyActivity.startWebView(response);
+            notify.onRequestTokenResponse(response);
         }
 
         @Override
@@ -95,11 +95,11 @@ public class AuthenticationFragment extends Fragment {
         RequestAccessTokenTask.newInstance(requestAccessTokenCallback, oAuthAuthenticator).executeTask(verifier);
     }
 
-    private final RequestAccessTokenTask.Callback requestAccessTokenCallback = new RequestAccessTokenTask.Callback() {
+    private final RequestAccessTokenTask.Notify requestAccessTokenCallback = new RequestAccessTokenTask.Notify() {
         @Override
         public void onRetrieved(AccessToken response) {
             accessTokenPreferences.saveAccessToken(response);
-            notifyActivity.onAuthenticated();
+            notify.onAuthenticated();
         }
 
         @Override
@@ -115,7 +115,7 @@ public class AuthenticationFragment extends Fragment {
         getActivity().unregisterReceiver(receiver);
     }
 
-    private final NetworkChangeReceiver.Callback connectionChangedReceiver = new NetworkChangeReceiver.Callback() {
+    private final NetworkChangeReceiver.Notify connectionChangedReceiver = new NetworkChangeReceiver.Notify() {
         @Override
         public void networkAvailable() {
             authenticationButton.setEnabled(true);

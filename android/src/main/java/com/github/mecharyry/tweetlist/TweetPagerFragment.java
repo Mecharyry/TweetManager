@@ -22,9 +22,9 @@ public class TweetPagerFragment extends Fragment {
     public static final String ERROR_MENU_ITEM_MESSAGE = "Menu item not handled.";
     private ViewPager viewPager;
     private AccessTokenPreferences accessTokenPreferences;
-    private Callback callback;
+    private Notify notify;
 
-    public interface Callback {
+    public interface Notify {
         void onClearCredentials();
     }
 
@@ -33,7 +33,7 @@ public class TweetPagerFragment extends Fragment {
         super.onAttach(activity);
 
         try {
-            callback = (Callback) activity;
+            notify = (Notify) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.getClass().getName() + ERROR_MUST_IMPLEMENT_MESSAGE);
         }
@@ -72,7 +72,7 @@ public class TweetPagerFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.menu_item_clear_credentials:
                 accessTokenPreferences.removeAccessToken();
-                callback.onClearCredentials();
+                notify.onClearCredentials();
                 break;
             default:
                 throw DeveloperError.because(ERROR_MENU_ITEM_MESSAGE, new UnsupportedOperationException());

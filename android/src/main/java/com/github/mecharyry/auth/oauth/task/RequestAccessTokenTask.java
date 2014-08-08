@@ -13,20 +13,20 @@ public class RequestAccessTokenTask extends AsyncTask<String, Void, NetworkRespo
 
     public static final int FIRST_INDEX = 0;
     private OAuthAuthenticator oAuthAuthenticator;
-    private final WeakReference<Callback> callbackWeakReference;
+    private final WeakReference<Notify> callbackWeakReference;
 
-    public interface Callback {
+    public interface Notify {
         void onRetrieved(AccessToken response);
 
         void onError(String message);
     }
 
-    public static RequestAccessTokenTask newInstance(Callback callback, OAuthAuthenticator oAuthAuthenticator) {
-        WeakReference<Callback> weakReference = new WeakReference<Callback>(callback);
+    public static RequestAccessTokenTask newInstance(Notify notify, OAuthAuthenticator oAuthAuthenticator) {
+        WeakReference<Notify> weakReference = new WeakReference<Notify>(notify);
         return new RequestAccessTokenTask(weakReference, oAuthAuthenticator);
     }
 
-    private RequestAccessTokenTask(WeakReference<Callback> callbackWeakReference, OAuthAuthenticator oAuthAuthenticator) {
+    private RequestAccessTokenTask(WeakReference<Notify> callbackWeakReference, OAuthAuthenticator oAuthAuthenticator) {
         this.callbackWeakReference = callbackWeakReference;
         this.oAuthAuthenticator = oAuthAuthenticator;
     }
@@ -43,12 +43,12 @@ public class RequestAccessTokenTask extends AsyncTask<String, Void, NetworkRespo
     @Override
     protected void onPostExecute(NetworkResponse response) {
         super.onPostExecute(response);
-        Callback callback = callbackWeakReference.get();
-        if (callback != null) {
+        Notify notify = callbackWeakReference.get();
+        if (notify != null) {
             if (response.getStatus() == RequestStatus.REQUEST_SUCCESS) {
-                callback.onRetrieved(responseToAccessToken(response));
+                notify.onRetrieved(responseToAccessToken(response));
             } else {
-                callback.onError(response.getResponse().toString());
+                notify.onError(response.getResponse().toString());
             }
         }
     }

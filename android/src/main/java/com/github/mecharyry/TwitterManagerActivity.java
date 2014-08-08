@@ -12,7 +12,7 @@ import com.github.mecharyry.auth.AuthenticationFragment;
 import com.github.mecharyry.auth.oauth.OAuthWebViewActivity;
 import com.github.mecharyry.tweetlist.TweetPagerFragment;
 
-public class TwitterManagerActivity extends FragmentActivity implements AuthenticationFragment.NotifyActivity, TweetPagerFragment.Callback {
+public class TwitterManagerActivity extends FragmentActivity implements AuthenticationFragment.Notify, TweetPagerFragment.Notify {
 
     private FragmentManager manager;
 
@@ -70,7 +70,7 @@ public class TwitterManagerActivity extends FragmentActivity implements Authenti
     }
 
     @Override
-    public void startWebView(String url) {
+    public void onRequestTokenResponse(String url) {
         Intent intent = new Intent(this, OAuthWebViewActivity.class);
         intent.putExtra(OAuthWebViewActivity.EXTRA_REQUEST_URL, url);
         startActivityForResult(intent, OAuthWebViewActivity.REQUEST_CODE);
