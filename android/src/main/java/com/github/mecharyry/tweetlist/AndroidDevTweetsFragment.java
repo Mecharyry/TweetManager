@@ -49,10 +49,10 @@ public class AndroidDevTweetsFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        taskExecutor.execute(updateListCallback, taskFactory.requestAndroidDevTweets());
+        taskExecutor.execute(onAndroidDevTweetsReceived, taskFactory.requestAndroidDevTweets());
     }
 
-    private final TaskCompleted<List<Tweet>> updateListCallback = new TaskCompleted<List<Tweet>>() {
+    private final TaskCompleted<List<Tweet>> onAndroidDevTweetsReceived = new TaskCompleted<List<Tweet>>() {
         @Override
         public void taskCompleted(List<Tweet> response) {
             tweetAdapter.updateTweets(response);

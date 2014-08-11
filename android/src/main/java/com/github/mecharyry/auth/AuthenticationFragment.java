@@ -44,7 +44,7 @@ public class AuthenticationFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         accessTokenPreferences = AccessTokenPreferences.newInstance(activity);
-        receiver = new NetworkChangeReceiver(connectionChangedReceiver);
+        receiver = new NetworkChangeReceiver(onNetworkChange);
         activity.registerReceiver(receiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 
         try {
@@ -78,10 +78,10 @@ public class AuthenticationFragment extends Fragment {
 
     private void requestAuthUrl() {
         authenticationButton.setEnabled(false);
-        RequestTokenTask.newInstance(requestTokenCallback, oAuthAuthenticator).execute();
+        RequestTokenTask.newInstance(onRequestTokenCallback, oAuthAuthenticator).execute();
     }
 
-    private final RequestTokenTask.Notify requestTokenCallback = new RequestTokenTask.Notify() {
+    private final RequestTokenTask.Notify onRequestTokenCallback = new RequestTokenTask.Notify() {
         @Override
         public void onSuccess(String response) {
             notify.onRequestTokenResponse(response);
@@ -95,10 +95,10 @@ public class AuthenticationFragment extends Fragment {
     };
 
     public void requestAccessToken(String verifier) {
-        RequestAccessTokenTask.newInstance(requestAccessTokenCallback, oAuthAuthenticator).executeTask(verifier);
+        RequestAccessTokenTask.newInstance(onRequestAccessTokenCallback, oAuthAuthenticator).executeTask(verifier);
     }
 
-    private final RequestAccessTokenTask.Notify requestAccessTokenCallback = new RequestAccessTokenTask.Notify() {
+    private final RequestAccessTokenTask.Notify onRequestAccessTokenCallback = new RequestAccessTokenTask.Notify() {
         @Override
         public void onSuccess(AccessToken token) {
             accessTokenPreferences.saveAccessToken(token);
@@ -118,7 +118,7 @@ public class AuthenticationFragment extends Fragment {
         getActivity().unregisterReceiver(receiver);
     }
 
-    private final NetworkChangeReceiver.Notify connectionChangedReceiver = new NetworkChangeReceiver.Notify() {
+    private final NetworkChangeReceiver.Notify onNetworkChange = new NetworkChangeReceiver.Notify() {
         @Override
         public void networkAvailable() {
             authenticationButton.setEnabled(true);

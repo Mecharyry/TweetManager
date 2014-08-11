@@ -49,10 +49,10 @@ public class MyStreamFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        taskExecutor.execute(updateListCallback, taskFactory.requestMyStreamTweets());
+        taskExecutor.execute(onMyStreamTweetsReceived, taskFactory.requestMyStreamTweets());
     }
 
-    private final TaskCompleted<List<Tweet>> updateListCallback = new TaskCompleted<List<Tweet>>() {
+    private final TaskCompleted<List<Tweet>> onMyStreamTweetsReceived = new TaskCompleted<List<Tweet>>() {
         @Override
         public void taskCompleted(List<Tweet> response) {
             tweetAdapter.updateTweets(response);
