@@ -1,4 +1,4 @@
-package com.github.mecharyry.tweetlist.requester;
+package com.github.mecharyry.tweetlist.request;
 
 import android.util.Log;
 
@@ -17,6 +17,7 @@ import java.io.InputStreamReader;
 public abstract class Requester<T> implements Request<T> {
 
     private static final String TAG = Requester.class.getSimpleName();
+    public static final String READING_STREAM_ERROR_MESSAGE = "While reading stream.";
 
     @Override
     public T request(String signedUrl) throws RequestException {
@@ -30,7 +31,6 @@ public abstract class Requester<T> implements Request<T> {
             HttpEntity entity = response.getEntity();
 
             if (entity != null) {
-                Log.i(TAG, "Retrieved Response!");
                 InputStream inputStream = entity.getContent();
                 String inputStreamString = inputStreamToString(inputStream);
                 return convertStringTo(inputStreamString);
@@ -40,7 +40,7 @@ public abstract class Requester<T> implements Request<T> {
         } catch (IOException e) {
             throwable = e;
         }
-        throw new RequestException("While reading stream.", throwable);
+        throw new RequestException(READING_STREAM_ERROR_MESSAGE, throwable);
     }
 
     protected static String inputStreamToString(InputStream inputStream) {
@@ -53,7 +53,7 @@ public abstract class Requester<T> implements Request<T> {
             }
             inputStream.close();
         } catch (IOException e) {
-            Log.e(TAG, "While reading stream.", e);
+            Log.e(TAG, READING_STREAM_ERROR_MESSAGE, e);
         }
         return stringBuilder.toString();
     }

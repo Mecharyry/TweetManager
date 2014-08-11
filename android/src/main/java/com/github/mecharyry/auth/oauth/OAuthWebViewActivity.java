@@ -8,15 +8,16 @@ import android.webkit.WebView;
 
 import com.github.mecharyry.R;
 
-public class OAuthRequesterActivity extends Activity {
+public class OAuthWebViewActivity extends Activity {
 
+    public static final int REQUEST_CODE = 100;
     public static final String EXTRA_REQUEST_URL = "URL";
-    private static final String OAUTH_VERIFIER = "OAUTH_VERIFIER";
+    public static final String OAUTH_VERIFIER = "oauth_verifier";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.oauth_requester_activity_layout);
+        setContentView(R.layout.activity_oauth_requester);
         WebView webView = (WebView) findViewById(R.id.webviewer);
 
         if (getIntent().hasExtra(EXTRA_REQUEST_URL)) {
@@ -31,7 +32,7 @@ public class OAuthRequesterActivity extends Activity {
 
         Uri responseUri = intent.getData();
         if (responseUri != null) {
-            String oauthVerifier = responseUri.getQueryParameter("oauth_verifier");
+            String oauthVerifier = responseUri.getQueryParameter(OAUTH_VERIFIER);
             Intent intentVerifier = new Intent();
             intentVerifier.putExtra(OAUTH_VERIFIER, oauthVerifier);
             setResult(Activity.RESULT_OK, intentVerifier);

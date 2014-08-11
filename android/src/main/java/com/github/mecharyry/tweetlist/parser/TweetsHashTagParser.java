@@ -22,6 +22,7 @@ public class TweetsHashtagParser implements Parser<JSONObject, List<Tweet>> {
     private static final String KEY_SCREEN_NAME = "screen_name";
     private static final String KEY_LOCATION = "location";
     private static final String KEY_THUMB_IMAGE = "profile_image_url";
+    public static final String ERROR_JSON_OBJECT_MESSAGE = "While parsing json object to list of tweets.";
     private final ImageRetriever imageRetriever;
 
     public TweetsHashtagParser(ImageRetriever imageRetriever) {
@@ -40,7 +41,7 @@ public class TweetsHashtagParser implements Parser<JSONObject, List<Tweet>> {
                 tweets.add(tweet);
             }
         } catch (JSONException e) {
-            Log.e(TAG, "While parsing json object to list of tweets.", e);
+            Log.e(TAG, ERROR_JSON_OBJECT_MESSAGE, e);
         }
         return tweets;
     }

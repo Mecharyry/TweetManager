@@ -21,6 +21,7 @@ public class TweetsMyStreamParser implements Parser<JSONArray, List<Tweet>> {
     private static final String KEY_SCREEN_NAME = "screen_name";
     private static final String KEY_LOCATION = "location";
     private static final String KEY_THUMB_IMAGE = "profile_image_url";
+    public static final String ERROR_JSON_ARRAY_MESSAGE = "While parsing json array to list of tweets.";
     private final ImageRetriever imageRetriever;
 
     public TweetsMyStreamParser(ImageRetriever imageRetriever) {
@@ -37,7 +38,7 @@ public class TweetsMyStreamParser implements Parser<JSONArray, List<Tweet>> {
                 tweets.add(tweet);
             }
         } catch (JSONException e) {
-            Log.e(TAG, "While parsing json array to list of tweets.", e);
+            Log.e(TAG, ERROR_JSON_ARRAY_MESSAGE, e);
         }
         return tweets;
     }

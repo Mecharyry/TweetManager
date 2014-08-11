@@ -1,8 +1,8 @@
 package com.github.mecharyry.tweetlist.task;
 
 import com.github.mecharyry.tweetlist.parser.Parser;
-import com.github.mecharyry.tweetlist.requester.Request;
-import com.github.mecharyry.tweetlist.requester.RequestException;
+import com.github.mecharyry.tweetlist.request.Request;
+import com.github.mecharyry.tweetlist.request.RequestException;
 
 public class Task<F, T> {
 

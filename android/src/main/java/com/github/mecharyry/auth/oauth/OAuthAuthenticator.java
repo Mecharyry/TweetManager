@@ -1,5 +1,7 @@
 package com.github.mecharyry.auth.oauth;
 
+import android.util.Log;
+
 import com.github.mecharyry.BuildConfig;
 import com.github.mecharyry.DeveloperError;
 
@@ -14,19 +16,22 @@ import oauth.signpost.exception.OAuthNotAuthorizedException;
 
 public class OAuthAuthenticator {
 
+    private static final String TAG = OAuthAuthenticator.class.getSimpleName();
     private static final String OAUTH_CALLBACK_URL = "mecharyry-android:///";
     private static final String REQUEST_TOKEN_ENDPOINT_URL = "https://api.twitter.com/oauth/request_token";
     private static final String ACCESS_TOKEN_ENDPOINT_URL = "https://api.twitter.com/oauth/access_token";
     private static final String AUTHORIZATION_WEBSITE_URL = "https://api.twitter.com/oauth/authorize";
     private static final String CONSUMER_KEY = BuildConfig.CONSUMER_KEY;
     private static final String CONSUMER_SECRET = BuildConfig.CONSUMER_SECRET;
+    public static final String NETWORK_ERROR_MESSAGE = "Network Error. Please try again.";
+    public static final String CONSUMER_NOT_PRESENT_MESSAGE = "Consumer Key / Secret not present";
 
     private final OAuthConsumer consumer;
     private final OAuthProvider provider;
 
     static {
         if (CONSUMER_KEY.isEmpty() || CONSUMER_SECRET.isEmpty()) {
-            throw new DeveloperError();
+            throw DeveloperError.because(CONSUMER_NOT_PRESENT_MESSAGE, new NoSuchFieldException());
         }
     }
 
@@ -46,53 +51,36 @@ public class OAuthAuthenticator {
         return consumer;
     }
 
-    public String retrieveAuthenticationUrl() {
-        Throwable throwable;
+    public NetworkResponse<String> retrieveAuthenticationUrl() {
         try {
-            return provider.retrieveRequestToken(consumer, OAUTH_CALLBACK_URL);
+            String response = provider.retrieveRequestToken(consumer, OAUTH_CALLBACK_URL);
+            return new NetworkResponse<String>(RequestStatus.REQUEST_SUCCESS, response);
         } catch (OAuthMessageSignerException e) {
-            throwable = e;
+            Log.e(TAG, e.getMessage(), e);
         } catch (OAuthNotAuthorizedException e) {
-            throwable = e;
+            Log.e(TAG, e.getMessage(), e);
         } catch (OAuthExpectationFailedException e) {
-            throwable = e;
+            Log.e(TAG, e.getMessage(), e);
         } catch (OAuthCommunicationException e) {
-            throwable = e;
+            Log.e(TAG, e.getMessage(), e);
         }
-        throw OAuthException.because("While retrieving authentication Url.", throwable);
+        return new NetworkResponse<String>(RequestStatus.REQUEST_FAILED, NETWORK_ERROR_MESSAGE);
     }
 
-    public AccessToken retrieveAccessToken(String oauthVerifier) {
-        Throwable throwable;
+    public NetworkResponse retrieveAccessToken(String oauthVerifier) {
         try {
             provider.retrieveAccessToken(consumer, oauthVerifier);
-            return new AccessToken(consumer.getToken(), consumer.getTokenSecret());
+            AccessToken accessToken = new AccessToken(consumer.getToken(), consumer.getTokenSecret());
+            return new NetworkResponse<AccessToken>(RequestStatus.REQUEST_SUCCESS, accessToken);
         } catch (OAuthMessageSignerException e) {
-            throwable = e;
+            Log.e(TAG, e.getMessage(), e);
         } catch (OAuthNotAuthorizedException e) {
-            throwable = e;
+            Log.e(TAG, e.getMessage(), e);
         } catch (OAuthExpectationFailedException e) {
-            throwable = e;
+            Log.e(TAG, e.getMessage(), e);
         } catch (OAuthCommunicationException e) {
-            throwable = e;
+            Log.e(TAG, e.getMessage(), e);
         }
-        throw OAuthException.because("While retrieving access token.", throwable);
+        return new NetworkResponse<String>(RequestStatus.REQUEST_FAILED, NETWORK_ERROR_MESSAGE);
     }
-
-    public static class OAuthException extends RuntimeException {
-
-        private final String reason;
-        private final Throwable throwable;
-
-        public static OAuthException because(String reason, Throwable throwable) {
-            return new OAuthException(reason, throwable);
-        }
-
-        private OAuthException(String reason, Throwable throwable) {
-            super(throwable);
-            this.reason = reason;
-            this.throwable = throwable;
-        }
-    }
-
 }
