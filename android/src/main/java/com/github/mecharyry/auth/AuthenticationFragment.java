@@ -80,12 +80,12 @@ public class AuthenticationFragment extends Fragment {
 
     private final RequestTokenTask.Notify requestTokenCallback = new RequestTokenTask.Notify() {
         @Override
-        public void onRetrieved(String response) {
+        public void onSuccess(String response) {
             notify.onRequestTokenResponse(response);
         }
 
         @Override
-        public void onError(String message) {
+        public void onFailure(String message) {
             setErrorMessage(message);
             authenticationButton.setEnabled(NetworkChangeReceiver.isNetworkAvailable(getActivity()));
         }
@@ -97,13 +97,13 @@ public class AuthenticationFragment extends Fragment {
 
     private final RequestAccessTokenTask.Notify requestAccessTokenCallback = new RequestAccessTokenTask.Notify() {
         @Override
-        public void onRetrieved(AccessToken response) {
-            accessTokenPreferences.saveAccessToken(response);
+        public void onSuccess(AccessToken token) {
+            accessTokenPreferences.saveAccessToken(token);
             notify.onAuthenticated();
         }
 
         @Override
-        public void onError(String message) {
+        public void onFailure(String message) {
             setErrorMessage(message);
             authenticationButton.setEnabled(NetworkChangeReceiver.isNetworkAvailable(getActivity()));
         }

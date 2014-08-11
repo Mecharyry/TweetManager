@@ -16,9 +16,9 @@ public class RequestAccessTokenTask extends AsyncTask<String, Void, NetworkRespo
     private final WeakReference<Notify> callbackWeakReference;
 
     public interface Notify {
-        void onRetrieved(AccessToken response);
+        void onSuccess(AccessToken token);
 
-        void onError(String message);
+        void onFailure(String message);
     }
 
     public static RequestAccessTokenTask newInstance(Notify notify, OAuthAuthenticator oAuthAuthenticator) {
@@ -46,9 +46,9 @@ public class RequestAccessTokenTask extends AsyncTask<String, Void, NetworkRespo
         Notify notify = callbackWeakReference.get();
         if (notify != null) {
             if (response.getStatus() == RequestStatus.REQUEST_SUCCESS) {
-                notify.onRetrieved(responseToAccessToken(response));
+                notify.onSuccess(responseToAccessToken(response));
             } else {
-                notify.onError(response.getResponse().toString());
+                notify.onFailure(response.getResponse().toString());
             }
         }
     }

@@ -14,9 +14,9 @@ public class RequestTokenTask extends AsyncTask<Void, Void, NetworkResponse> {
     private final WeakReference<Notify> callbackWeakReference;
 
     public interface Notify {
-        void onRetrieved(String response);
+        void onSuccess(String token);
 
-        void onError(String message);
+        void onFailure(String reason);
     }
 
     public static RequestTokenTask newInstance(Notify notify, OAuthAuthenticator oAuthAuthenticator) {
@@ -39,9 +39,9 @@ public class RequestTokenTask extends AsyncTask<Void, Void, NetworkResponse> {
         Notify notify = callbackWeakReference.get();
         if (notify != null) {
             if (response.getStatus() == RequestStatus.REQUEST_SUCCESS) {
-                notify.onRetrieved(response.getResponse().toString());
+                notify.onSuccess(response.getResponse().toString());
             } else {
-                notify.onError(response.getResponse().toString());
+                notify.onFailure(response.getResponse().toString());
             }
         }
     }
