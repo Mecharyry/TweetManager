@@ -12,7 +12,7 @@ import com.github.mecharyry.auth.AuthenticationFragment;
 import com.github.mecharyry.auth.oauth.OAuthWebViewActivity;
 import com.github.mecharyry.tweetlist.TweetPagerFragment;
 
-public class TwitterManagerActivity extends FragmentActivity implements AuthenticationFragment.Notify, TweetPagerFragment.Notify {
+public class TwitterManagerActivity extends FragmentActivity implements AuthenticationFragment.Callback, TweetPagerFragment.Callback {
 
     private FragmentManager manager;
 
