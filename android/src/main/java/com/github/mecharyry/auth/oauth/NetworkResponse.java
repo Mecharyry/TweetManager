@@ -1,11 +1,11 @@
 package com.github.mecharyry.auth.oauth;
 
-public class NetworkResponse {
+public class NetworkResponse <T>{
 
     private final RequestStatus status;
-    private final Object response;
+    private final T response;
 
-    NetworkResponse(RequestStatus status, Object response) {
+    NetworkResponse(RequestStatus status, T response) {
         this.status = status;
         this.response = response;
     }
@@ -14,7 +14,7 @@ public class NetworkResponse {
         return status;
     }
 
-    public Object getResponse() {
+    public T getResponse() {
         return response;
     }
 }

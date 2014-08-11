@@ -51,10 +51,10 @@ public class OAuthAuthenticator {
         return consumer;
     }
 
-    public NetworkResponse retrieveAuthenticationUrl() {
+    public NetworkResponse<String> retrieveAuthenticationUrl() {
         try {
             String response = provider.retrieveRequestToken(consumer, OAUTH_CALLBACK_URL);
-            return new NetworkResponse(RequestStatus.REQUEST_SUCCESS, response);
+            return new NetworkResponse<String>(RequestStatus.REQUEST_SUCCESS, response);
         } catch (OAuthMessageSignerException e) {
             Log.e(TAG, e.getMessage(), e);
         } catch (OAuthNotAuthorizedException e) {
@@ -64,14 +64,14 @@ public class OAuthAuthenticator {
         } catch (OAuthCommunicationException e) {
             Log.e(TAG, e.getMessage(), e);
         }
-        return new NetworkResponse(RequestStatus.REQUEST_FAILED, NETWORK_ERROR_MESSAGE);
+        return new NetworkResponse<String>(RequestStatus.REQUEST_FAILED, NETWORK_ERROR_MESSAGE);
     }
 
     public NetworkResponse retrieveAccessToken(String oauthVerifier) {
         try {
             provider.retrieveAccessToken(consumer, oauthVerifier);
             AccessToken accessToken = new AccessToken(consumer.getToken(), consumer.getTokenSecret());
-            return new NetworkResponse(RequestStatus.REQUEST_SUCCESS, accessToken);
+            return new NetworkResponse<AccessToken>(RequestStatus.REQUEST_SUCCESS, accessToken);
         } catch (OAuthMessageSignerException e) {
             Log.e(TAG, e.getMessage(), e);
         } catch (OAuthNotAuthorizedException e) {
@@ -81,6 +81,6 @@ public class OAuthAuthenticator {
         } catch (OAuthCommunicationException e) {
             Log.e(TAG, e.getMessage(), e);
         }
-        return new NetworkResponse(RequestStatus.REQUEST_FAILED, NETWORK_ERROR_MESSAGE);
+        return new NetworkResponse<String>(RequestStatus.REQUEST_FAILED, NETWORK_ERROR_MESSAGE);
     }
 }

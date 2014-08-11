@@ -8,7 +8,7 @@ import com.github.mecharyry.auth.oauth.RequestStatus;
 
 import java.lang.ref.WeakReference;
 
-public class RequestTokenTask extends AsyncTask<Void, Void, NetworkResponse> {
+public class RequestTokenTask extends AsyncTask<Void, Void, NetworkResponse<String>> {
 
     private OAuthAuthenticator oAuthAuthenticator;
     private final WeakReference<Notify> callbackWeakReference;
@@ -30,18 +30,18 @@ public class RequestTokenTask extends AsyncTask<Void, Void, NetworkResponse> {
     }
 
     @Override
-    protected NetworkResponse doInBackground(Void... params) {
+    protected NetworkResponse<String> doInBackground(Void... params) {
         return oAuthAuthenticator.retrieveAuthenticationUrl();
     }
 
     @Override
-    protected void onPostExecute(NetworkResponse response) {
+    protected void onPostExecute(NetworkResponse<String> response) {
         Notify notify = callbackWeakReference.get();
         if (notify != null) {
             if (response.getStatus() == RequestStatus.REQUEST_SUCCESS) {
-                notify.onSuccess(response.getResponse().toString());
+                notify.onSuccess(response.getResponse());
             } else {
-                notify.onFailure(response.getResponse().toString());
+                notify.onFailure(response.getResponse());
             }
         }
     }
