@@ -25,12 +25,9 @@ public class AndroidDevTweetsFragment extends Fragment {
     private TaskExecutor taskExecutor;
     private TaskFactory taskFactory;
 
-    private final TaskCompleted<List<Tweet>> updateListCallback = new TaskCompleted<List<Tweet>>() {
-        @Override
-        public void taskCompleted(List<Tweet> response) {
-            tweetAdapter.updateTweets(response);
-        }
-    };
+    public AndroidDevTweetsFragment() {
+        taskExecutor = new TaskExecutor();
+    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -38,7 +35,6 @@ public class AndroidDevTweetsFragment extends Fragment {
         AccessTokenPreferences accessTokenPreferences = AccessTokenPreferences.newInstance(getActivity());
         AccessToken accessToken = accessTokenPreferences.retrieveAccessToken();
         taskFactory = TaskFactory.newInstance(accessToken);
-        taskExecutor = new TaskExecutor();
         tweetAdapter = TweetAdapter.newInstance(activity);
     }
 
@@ -55,4 +51,11 @@ public class AndroidDevTweetsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         taskExecutor.execute(updateListCallback, taskFactory.requestAndroidDevTweets());
     }
+
+    private final TaskCompleted<List<Tweet>> updateListCallback = new TaskCompleted<List<Tweet>>() {
+        @Override
+        public void taskCompleted(List<Tweet> response) {
+            tweetAdapter.updateTweets(response);
+        }
+    };
 }

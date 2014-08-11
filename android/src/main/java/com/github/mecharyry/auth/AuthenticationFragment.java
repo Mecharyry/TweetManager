@@ -36,10 +36,13 @@ public class AuthenticationFragment extends Fragment {
         void onAuthenticated();
     }
 
+    public AuthenticationFragment() {
+        oAuthAuthenticator = OAuthAuthenticator.newInstance();
+    }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        oAuthAuthenticator = OAuthAuthenticator.newInstance();
         accessTokenPreferences = AccessTokenPreferences.newInstance(activity);
         receiver = new NetworkChangeReceiver(connectionChangedReceiver);
         activity.registerReceiver(receiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
