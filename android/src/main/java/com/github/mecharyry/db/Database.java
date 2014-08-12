@@ -7,7 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.github.mecharyry.db.task.RetrieveWritableDatabaseTask;
 import com.github.mecharyry.tweetlist.adapter.mapping.Tweet;
+import com.github.mecharyry.tweetlist.parser.Parser;
+import com.github.mecharyry.tweetlist.parser.ParserFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -15,47 +18,54 @@ import java.util.List;
 
 public class Database {
 
-    private SQLiteDatabase database;
-    private ExtendedSQLiteOpenHelper helper;
+    private static final String TAG = Database.class.getSimpleName();
+    private final ExtendedSQLiteOpenHelper helper;
+    private final Parser<byte[], Bitmap> byteArrayToBitmapParser;
+    private final Parser<Bitmap, byte[]> bitmapToByteArrayParser;
+    private SQLiteDatabase sqLiteDatabase;
 
     public static Database newInstance(Context context) {
         ExtendedSQLiteOpenHelper helper = new ExtendedSQLiteOpenHelper(context);
-        return new Database(helper);
+        ParserFactory parserFactory = ParserFactory.newInstance();
+        Parser<byte[], Bitmap> byteArrayToBitmapParser = parserFactory.byteArrayToBitmapParser();
+        Parser<Bitmap, byte[]> bitmapToByteArrayParser = parserFactory.bitmapToByteArrayParser();
+
+        return new Database(helper, byteArrayToBitmapParser, bitmapToByteArrayParser);
     }
 
-    Database(ExtendedSQLiteOpenHelper helper) {
+    Database(ExtendedSQLiteOpenHelper helper, Parser<byte[], Bitmap> byteArrayToBitmapParser, Parser<Bitmap, byte[]> bitmapToByteArrayParser) {
         this.helper = helper;
+        this.byteArrayToBitmapParser = byteArrayToBitmapParser;
+        this.bitmapToByteArrayParser = bitmapToByteArrayParser;
     }
 
     public void open() {
-        database = helper.getWritableDatabase();
+        sqLiteDatabase = helper.getWritableDatabase();
     }
 
     public void close() {
         helper.close();
     }
 
-    public long insertTweet(Tweet tweet) {
-        ContentValues values = new ContentValues();
-        values.put(TweetTable.COLUMN_SCREEN_NAME, tweet.getScreenName());
-        values.put(TweetTable.COLUMN_LOCATION, tweet.getLocation());
-        values.put(TweetTable.COLUMN_TWEET_TEXT, tweet.getText());
+    public boolean insertTweet(Tweet tweet) {
+        if (sqLiteDatabase.isOpen()) {
+            ContentValues values = new ContentValues();
+            values.put(TweetTable.COLUMN_SCREEN_NAME, tweet.getScreenName());
+            values.put(TweetTable.COLUMN_LOCATION, tweet.getLocation());
+            values.put(TweetTable.COLUMN_TWEET_TEXT, tweet.getText());
 
-        byte[] imageData = getBitmapAsByteArray(tweet.getThumbImage());
-        values.put(TweetTable.COLUMN_THUMB_IMAGE, imageData);
+            byte[] imageData = bitmapToByteArrayParser.parse(tweet.getThumbImage());
+            values.put(TweetTable.COLUMN_THUMB_IMAGE, imageData);
 
-        return database.insert(TweetTable.TABLE_NAME, null, values);
-    }
-
-    private byte[] getBitmapAsByteArray(Bitmap bitmap) {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream);
-        return outputStream.toByteArray();
+            sqLiteDatabase.insert(TweetTable.TABLE_NAME, null, values);
+            return true;
+        }
+        return false;
     }
 
     public List<Tweet> getAllTweets() {
         List<Tweet> tweets = new ArrayList<Tweet>();
-        Cursor cursor = database.query(TweetTable.TABLE_NAME, TweetTable.ALL_COLUMNS, null, null, null, null, null);
+        Cursor cursor = sqLiteDatabase.query(TweetTable.TABLE_NAME, TweetTable.ALL_COLUMNS, null, null, null, null, null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -78,15 +88,12 @@ public class Database {
         String location = cursor.getString(locationColumnIndex);
         String screenName = cursor.getString(screenNameColumnIndex);
         String text = cursor.getString(textColumnIndex);
-        Bitmap thumbImage = getByteArrayAsBitmap(cursor, bitmapColumnIndex);
+        byte[] imageData = cursor.getBlob(bitmapColumnIndex);
+
+        Bitmap thumbImage = byteArrayToBitmapParser.parse(imageData);
 
         Tweet tweet = new Tweet(screenName, location, text, thumbImage);
         tweet.setId(id);
         return tweet;
-    }
-
-    private Bitmap getByteArrayAsBitmap(Cursor cursor, int bitmapColumnIndex) {
-        byte[] imageData = cursor.getBlob(bitmapColumnIndex);
-        return BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
     }
 }
