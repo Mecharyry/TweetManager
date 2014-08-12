@@ -5,14 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
-import com.github.mecharyry.db.task.RetrieveWritableDatabaseTask;
 import com.github.mecharyry.tweetlist.adapter.mapping.Tweet;
 import com.github.mecharyry.tweetlist.parser.Parser;
 import com.github.mecharyry.tweetlist.parser.ParserFactory;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,5 +92,17 @@ public class Database {
         Tweet tweet = new Tweet(screenName, location, text, thumbImage);
         tweet.setId(id);
         return tweet;
+    }
+
+    public void beginTransaction() {
+        sqLiteDatabase.beginTransaction();
+    }
+
+    public void terminateTransaction() {
+        sqLiteDatabase.endTransaction();
+    }
+
+    public void setTransactionSuccessful() {
+        sqLiteDatabase.setTransactionSuccessful();
     }
 }

@@ -1,7 +1,6 @@
 package com.github.mecharyry.tweetlist.parser;
 
 
-import android.database.Cursor;
 import android.graphics.Bitmap;
 
 import com.github.mecharyry.tweetlist.ImageRetriever;

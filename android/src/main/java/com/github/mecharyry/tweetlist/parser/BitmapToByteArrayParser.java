@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 
 import java.io.ByteArrayOutputStream;
 
-public class BitmapToByteArrayParser implements Parser<Bitmap, byte[]>{
+public class BitmapToByteArrayParser implements Parser<Bitmap, byte[]> {
     @Override
     public byte[] parse(Bitmap from) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
