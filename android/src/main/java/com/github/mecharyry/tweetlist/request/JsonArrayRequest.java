@@ -5,7 +5,7 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-public class JsonArrayRequest extends Requester<JSONArray> {
+public class JsonArrayRequest extends WebServiceRequest<JSONArray> {
 
     private static final String TAG = JsonArrayRequest.class.getSimpleName();
     public static final String CONVERTING_JSON_ARRAY_ERROR_MESSAGE = "While converting string to json array.";

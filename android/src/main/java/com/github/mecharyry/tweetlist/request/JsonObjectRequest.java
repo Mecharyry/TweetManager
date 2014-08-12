@@ -5,7 +5,7 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class JsonObjectRequest extends Requester<JSONObject> {
+public class JsonObjectRequest extends WebServiceRequest<JSONObject> {
 
     private static final String TAG = JsonObjectRequest.class.getSimpleName();
     public static final String CONVERTING_JSON_OBJECT_ERROR_MESSAGE = "While transforming string to json object.";

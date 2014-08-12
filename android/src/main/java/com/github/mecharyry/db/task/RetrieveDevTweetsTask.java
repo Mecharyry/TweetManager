@@ -31,7 +31,10 @@ public class RetrieveDevTweetsTask extends AsyncTask<Void, Void, List<Tweet>>{
 
     @Override
     protected List<Tweet> doInBackground(Void... params) {
-        return database.getAllTweets();
+        database.open();
+        List<Tweet> tweets = database.getAllTweets();
+        database.close();
+        return tweets;
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.MethodNotSupportedException;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -14,9 +15,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public abstract class Requester<T> implements Request<T> {
+public abstract class WebServiceRequest<T> implements Request<T> {
 
-    private static final String TAG = Requester.class.getSimpleName();
+    private static final String TAG = WebServiceRequest.class.getSimpleName();
     public static final String READING_STREAM_ERROR_MESSAGE = "While reading stream.";
 
     @Override

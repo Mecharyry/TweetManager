@@ -60,6 +60,16 @@ public class Database {
         return false;
     }
 
+    public boolean insertTweets(List<Tweet> tweets){
+        for (Tweet tweet : tweets) {
+            boolean response = insertTweet(tweet);
+            if(!response){
+               return false;
+            }
+        }
+        return true;
+    }
+
     public List<Tweet> getAllTweets() {
         List<Tweet> tweets = new ArrayList<Tweet>();
         Cursor cursor = sqLiteDatabase.query(TweetTable.TABLE_NAME, TweetTable.ALL_COLUMNS, null, null, null, null, null);
