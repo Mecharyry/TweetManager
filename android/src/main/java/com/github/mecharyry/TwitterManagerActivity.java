@@ -38,8 +38,7 @@ public class TwitterManagerActivity extends FragmentActivity implements Authenti
         Fragment fragment = manager.findFragmentById(R.id.fragment_container);
         if (fragment instanceof AuthenticationFragment) {
             ((AuthenticationFragment) fragment).requestAccessToken(verifier);
-        }
-        else{
+        } else {
             throw DeveloperError.because("Authentication fragment missing.", new ClassNotFoundException());
         }
     }

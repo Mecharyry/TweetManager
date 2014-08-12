@@ -3,6 +3,7 @@ package com.github.mecharyry.tweetlist.adapter.mapping;
 import android.graphics.Bitmap;
 
 public class Tweet {
+    private long id;
     private final String screenName;
     private final String location;
     private final String text;
@@ -13,6 +14,14 @@ public class Tweet {
         this.location = location;
         this.text = text;
         this.thumbImage = thumbImage;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getScreenName() {

@@ -1,6 +1,6 @@
 package com.github.mecharyry.auth.oauth;
 
-public class NetworkResponse <T>{
+public class NetworkResponse<T> {
 
     private final RequestStatus status;
     private final T response;
