@@ -12,7 +12,7 @@ import com.github.mecharyry.AccessTokenPreferences;
 import com.github.mecharyry.R;
 import com.github.mecharyry.auth.oauth.AccessToken;
 import com.github.mecharyry.db.task.InsertIntoDatabaseTask;
-import com.github.mecharyry.db.task.RetrieveMyStreamTask;
+import com.github.mecharyry.db.task.RetrieveTweetsFromDBTask;
 import com.github.mecharyry.tweetlist.adapter.TweetAdapter;
 import com.github.mecharyry.tweetlist.adapter.mapping.Tweet;
 import com.github.mecharyry.tweetlist.task.TaskCompleted;
@@ -39,7 +39,7 @@ public class MyStreamFragment extends Fragment {
         AccessToken accessToken = accessTokenPreferences.retrieveAccessToken();
         taskFactory = TaskFactory.newInstance(accessToken);
         tweetAdapter = TweetAdapter.newInstance(activity);
-        RetrieveMyStreamTask.newInstance(onMyStreamTweetsFromDb, activity).execute();
+        RetrieveTweetsFromDBTask.newInstance(onMyStreamTweetsFromDb, activity).executeTask(Tweet.Category.MY_STREAM_TWEETS);
     }
 
     @Override
@@ -64,9 +64,9 @@ public class MyStreamFragment extends Fragment {
         }
     };
 
-    private final RetrieveMyStreamTask.Callback onMyStreamTweetsFromDb = new RetrieveMyStreamTask.Callback() {
+    private final RetrieveTweetsFromDBTask.Callback onMyStreamTweetsFromDb = new RetrieveTweetsFromDBTask.Callback() {
         @Override
-        public void onRetrievedMyStream(List<Tweet> tweets) {
+        public void onRetrievedTweetsFromDB(List<Tweet> tweets) {
             tweetAdapter.updateTweets(tweets);
         }
     };

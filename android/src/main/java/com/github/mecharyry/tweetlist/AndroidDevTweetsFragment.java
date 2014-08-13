@@ -12,7 +12,7 @@ import com.github.mecharyry.AccessTokenPreferences;
 import com.github.mecharyry.R;
 import com.github.mecharyry.auth.oauth.AccessToken;
 import com.github.mecharyry.db.task.InsertIntoDatabaseTask;
-import com.github.mecharyry.db.task.RetrieveDevTweetsTask;
+import com.github.mecharyry.db.task.RetrieveTweetsFromDBTask;
 import com.github.mecharyry.tweetlist.adapter.TweetAdapter;
 import com.github.mecharyry.tweetlist.adapter.mapping.Tweet;
 import com.github.mecharyry.tweetlist.task.TaskCompleted;
@@ -39,7 +39,7 @@ public class AndroidDevTweetsFragment extends Fragment {
         AccessToken accessToken = accessTokenPreferences.retrieveAccessToken();
         taskFactory = TaskFactory.newInstance(accessToken);
         tweetAdapter = TweetAdapter.newInstance(activity);
-        RetrieveDevTweetsTask.newInstance(onRetrievedDevTweetsFromDb, activity).execute();
+        RetrieveTweetsFromDBTask.newInstance(onRetrievedDevTweetsFromDb, activity).executeTask(Tweet.Category.ANDROID_DEV_TWEETS);
     }
 
     @Override
@@ -64,9 +64,9 @@ public class AndroidDevTweetsFragment extends Fragment {
         }
     };
 
-    private final RetrieveDevTweetsTask.Callback onRetrievedDevTweetsFromDb = new RetrieveDevTweetsTask.Callback() {
+    private final RetrieveTweetsFromDBTask.Callback onRetrievedDevTweetsFromDb = new RetrieveTweetsFromDBTask.Callback() {
         @Override
-        public void onRetrievedDevTweets(List<Tweet> tweets) {
+        public void onRetrievedTweetsFromDB(List<Tweet> tweets) {
             tweetAdapter.updateTweets(tweets);
         }
     };
