@@ -30,7 +30,7 @@ public class MyStreamFragment extends Fragment {
     private TweetCursorAdapter tweetAdapter;
     private TaskExecutor taskExecutor;
     private TaskFactory taskFactory;
-    private Database databaseAdapter;
+    private Database database;
     private ListView listView;
 
     public MyStreamFragment() {
@@ -43,12 +43,12 @@ public class MyStreamFragment extends Fragment {
         AccessTokenPreferences accessTokenPreferences = AccessTokenPreferences.newInstance(getActivity());
         AccessToken accessToken = accessTokenPreferences.retrieveAccessToken();
         taskFactory = TaskFactory.newInstance(accessToken);
-        databaseAdapter = Database.getInstance(activity);
+        database = Database.getInstance(activity);
 
         new Handler().post(new Runnable() {
             @Override
             public void run() {
-                Cursor tweetsByCategoryCursor = databaseAdapter.getTweetsByCategory(Tweet.Category.MY_STREAM_TWEETS);
+                Cursor tweetsByCategoryCursor = database.getTweetsByCategory(Tweet.Category.MY_STREAM_TWEETS);
                 tweetAdapter = TweetCursorAdapter.newInstance(activity, tweetsByCategoryCursor, false);
                 listView.setAdapter(tweetAdapter);
             }
