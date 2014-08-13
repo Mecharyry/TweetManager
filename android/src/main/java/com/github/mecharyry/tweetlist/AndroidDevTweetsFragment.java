@@ -1,6 +1,7 @@
 package com.github.mecharyry.tweetlist;
 
 import android.app.Activity;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -66,8 +67,8 @@ public class AndroidDevTweetsFragment extends Fragment {
 
     private final RetrieveTweetsFromDBTask.Callback onRetrievedDevTweetsFromDb = new RetrieveTweetsFromDBTask.Callback() {
         @Override
-        public void onRetrievedTweetsFromDB(List<Tweet> tweets) {
-            tweetAdapter.updateTweets(tweets);
+        public void onRetrievedTweetsFromDB(Cursor tweets) {
+            //tweetAdapter.updateTweets(tweets);
         }
     };
 }

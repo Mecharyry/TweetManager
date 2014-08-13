@@ -1,32 +1,32 @@
 package com.github.mecharyry.db.task;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.os.AsyncTask;
 
-import com.github.mecharyry.db.TweetDatabaseAdapter;
+import com.github.mecharyry.db.Database;
 import com.github.mecharyry.tweetlist.adapter.mapping.Tweet;
 
 import java.lang.ref.WeakReference;
-import java.util.List;
 
-public class RetrieveTweetsFromDBTask extends AsyncTask<Tweet.Category, Void, List<Tweet>> {
+public class RetrieveTweetsFromDBTask extends AsyncTask<Tweet.Category, Void, Cursor> {
 
     public static final int FIRST_INDEX = 0;
-    private final TweetDatabaseAdapter tweetDatabaseAdapter;
+    private final Database database;
     private WeakReference<Callback> callbackWeakReference;
 
     public interface Callback {
-        void onRetrievedTweetsFromDB(List<Tweet> tweets);
+        void onRetrievedTweetsFromDB(Cursor tweets);
     }
 
     public static RetrieveTweetsFromDBTask newInstance(Callback callback, Context context) {
-        TweetDatabaseAdapter tweetDatabaseAdapter = TweetDatabaseAdapter.newInstance(context);
+        Database database = Database.getInstance(context);
         WeakReference<Callback> callbackWeakReference = new WeakReference<Callback>(callback);
-        return new RetrieveTweetsFromDBTask(tweetDatabaseAdapter, callbackWeakReference);
+        return new RetrieveTweetsFromDBTask(database, callbackWeakReference);
     }
 
-    public RetrieveTweetsFromDBTask(TweetDatabaseAdapter tweetDatabaseAdapter, WeakReference<Callback> callbackWeakReference) {
-        this.tweetDatabaseAdapter = tweetDatabaseAdapter;
+    public RetrieveTweetsFromDBTask(Database database, WeakReference<Callback> callbackWeakReference) {
+        this.database = database;
         this.callbackWeakReference = callbackWeakReference;
     }
 
@@ -35,15 +35,13 @@ public class RetrieveTweetsFromDBTask extends AsyncTask<Tweet.Category, Void, Li
     }
 
     @Override
-    protected List<Tweet> doInBackground(Tweet.Category... params) {
-        tweetDatabaseAdapter.open();
-        List<Tweet> tweets = tweetDatabaseAdapter.getTweetsByCategory(params[FIRST_INDEX]);
-        tweetDatabaseAdapter.close();
-        return tweets;
+    protected Cursor doInBackground(Tweet.Category... params) {
+        Cursor cursor = database.getTweetsByCategory(params[FIRST_INDEX]);
+        return cursor;
     }
 
     @Override
-    protected void onPostExecute(List<Tweet> tweets) {
+    protected void onPostExecute(Cursor tweets) {
         super.onPostExecute(tweets);
         Callback callback = callbackWeakReference.get();
         if (callback != null) {
