@@ -8,9 +8,9 @@ public class Tweet {
     private final String location;
     private final String text;
     private final Bitmap thumbImage;
-    private final String category;
+    private final Category category;
 
-    public Tweet(long id, String screenName, String location, String text, Bitmap thumbImage, String category) {
+    public Tweet(long id, String screenName, String location, String text, Bitmap thumbImage, Category category) {
         this.id = id;
         this.screenName = screenName;
         this.location = location;
@@ -39,7 +39,14 @@ public class Tweet {
         return thumbImage;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
+
+    public enum Category {
+        ANDROID_DEV_TWEETS,
+        MY_STREAM_TWEETS;
+    }
 }
+
+

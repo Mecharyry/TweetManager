@@ -23,7 +23,6 @@ public class TweetsHashtagParser implements Parser<JSONObject, List<Tweet>> {
     private static final String KEY_SCREEN_NAME = "screen_name";
     private static final String KEY_LOCATION = "location";
     private static final String KEY_THUMB_IMAGE = "profile_image_url";
-    private static final String VALUE_CATEGORY = "android_dev";
     public static final String ERROR_JSON_OBJECT_MESSAGE = "While parsing json object to list of tweets.";
     private final ImageRetriever imageRetriever;
 
@@ -57,6 +56,6 @@ public class TweetsHashtagParser implements Parser<JSONObject, List<Tweet>> {
         String imgUrl = user.getString(KEY_THUMB_IMAGE);
         Bitmap bitmap = imageRetriever.retrieveBitmap(imgUrl);
 
-        return new Tweet(id, screenName, location, text, bitmap, VALUE_CATEGORY);
+        return new Tweet(id, screenName, location, text, bitmap, Tweet.Category.ANDROID_DEV_TWEETS);
     }
 }

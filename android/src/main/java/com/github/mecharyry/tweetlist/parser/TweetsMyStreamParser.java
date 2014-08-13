@@ -22,7 +22,6 @@ public class TweetsMyStreamParser implements Parser<JSONArray, List<Tweet>> {
     private static final String KEY_SCREEN_NAME = "screen_name";
     private static final String KEY_LOCATION = "location";
     private static final String KEY_THUMB_IMAGE = "profile_image_url";
-    private static final String VALUE_CATEGORY = "home_stream";
     private static final String ERROR_JSON_ARRAY_MESSAGE = "While parsing json array to list of tweets.";
     private final ImageRetriever imageRetriever;
 
@@ -54,6 +53,6 @@ public class TweetsMyStreamParser implements Parser<JSONArray, List<Tweet>> {
         String imgUrl = user.getString(KEY_THUMB_IMAGE);
         Bitmap bitmap = imageRetriever.retrieveBitmap(imgUrl);
 
-        return new Tweet(id, screenName, location, text, bitmap, VALUE_CATEGORY);
+        return new Tweet(id, screenName, location, text, bitmap, Tweet.Category.MY_STREAM_TWEETS);
     }
 }

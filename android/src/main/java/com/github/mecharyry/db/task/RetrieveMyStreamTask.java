@@ -18,7 +18,7 @@ public class RetrieveMyStreamTask extends AsyncTask<Void, Void, List<Tweet>> {
         void onRetrievedMyStream(List<Tweet> tweets);
     }
 
-    public static RetrieveMyStreamTask newInstance(Callback callback, Context context){
+    public static RetrieveMyStreamTask newInstance(Callback callback, Context context) {
         Database database = Database.newInstance(context);
         WeakReference<Callback> callbackWeakReference = new WeakReference<Callback>(callback);
         return new RetrieveMyStreamTask(database, callbackWeakReference);
@@ -41,7 +41,7 @@ public class RetrieveMyStreamTask extends AsyncTask<Void, Void, List<Tweet>> {
     protected void onPostExecute(List<Tweet> tweets) {
         super.onPostExecute(tweets);
         Callback callback = callbackWeakReference.get();
-        if(callback != null){
+        if (callback != null) {
             callback.onRetrievedMyStream(tweets);
         }
     }

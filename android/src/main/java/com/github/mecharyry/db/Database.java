@@ -51,7 +51,7 @@ public class Database {
             values.put(TweetTable.COLUMN_SCREEN_NAME, tweet.getScreenName());
             values.put(TweetTable.COLUMN_LOCATION, tweet.getLocation());
             values.put(TweetTable.COLUMN_TWEET_TEXT, tweet.getText());
-            values.put(TweetTable.COLUMN_CATEGORY, tweet.getCategory());
+            values.put(TweetTable.COLUMN_CATEGORY, tweet.getCategory().toString());
 
             byte[] imageData = bitmapToByteArrayParser.parse(tweet.getThumbImage());
             values.put(TweetTable.COLUMN_THUMB_IMAGE, imageData);
@@ -74,7 +74,8 @@ public class Database {
 
     public List<Tweet> getAllTweets() {
         List<Tweet> tweets = new ArrayList<Tweet>();
-        Cursor cursor = sqLiteDatabase.query(TweetTable.TABLE_NAME, TweetTable.ALL_COLUMNS, null, null, null, null, null);
+        String selection = TweetTable.COLUMN_CATEGORY + " LIKE '" + Tweet.Category.ANDROID_DEV_TWEETS + "'";
+        Cursor cursor = sqLiteDatabase.query(TweetTable.TABLE_NAME, TweetTable.ALL_COLUMNS, selection, null, null, null, null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -99,7 +100,7 @@ public class Database {
         String screenName = cursor.getString(screenNameColumnIndex);
         String text = cursor.getString(textColumnIndex);
         byte[] imageData = cursor.getBlob(bitmapColumnIndex);
-        String category = cursor.getString(categoryColumnIndex);
+        Tweet.Category category = Tweet.Category.valueOf(cursor.getString(categoryColumnIndex));
 
         Bitmap thumbImage = byteArrayToBitmapParser.parse(imageData);
 
