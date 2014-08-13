@@ -43,7 +43,7 @@ public class MyStreamFragment extends Fragment {
         AccessTokenPreferences accessTokenPreferences = AccessTokenPreferences.newInstance(getActivity());
         AccessToken accessToken = accessTokenPreferences.retrieveAccessToken();
         taskFactory = TaskFactory.newInstance(accessToken);
-        database = Database.getInstance(activity);
+        database = Database.newInstance(activity);
 
         new Handler().post(new Runnable() {
             @Override

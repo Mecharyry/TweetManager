@@ -43,16 +43,9 @@ public class AndroidDevTweetsFragment extends Fragment {
         AccessTokenPreferences accessTokenPreferences = AccessTokenPreferences.newInstance(getActivity());
         AccessToken accessToken = accessTokenPreferences.retrieveAccessToken();
         taskFactory = TaskFactory.newInstance(accessToken);
-        database = Database.getInstance(activity);
+        database = Database.newInstance(activity);
 
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                Cursor tweetsByCategoryCursor = database.getTweetsByCategory(Tweet.Category.ANDROID_DEV_TWEETS);
-                tweetAdapter = TweetCursorAdapter.newInstance(activity, tweetsByCategoryCursor, false);
-                listView.setAdapter(tweetAdapter);
-            }
-        });
+        RetrieveTweetsFromDBTask.newInstance(onRetrievedDevTweetsFromDb, activity).executeTask(Tweet.Category.ANDROID_DEV_TWEETS);
     }
 
     @Override
@@ -79,7 +72,8 @@ public class AndroidDevTweetsFragment extends Fragment {
     private final RetrieveTweetsFromDBTask.Callback onRetrievedDevTweetsFromDb = new RetrieveTweetsFromDBTask.Callback() {
         @Override
         public void onRetrievedTweetsFromDB(Cursor tweets) {
-            tweetAdapter.changeCursor(tweets);
+            tweetAdapter = TweetCursorAdapter.newInstance(getActivity(), tweets, false);
+            listView.setAdapter(tweetAdapter);
         }
     };
 }

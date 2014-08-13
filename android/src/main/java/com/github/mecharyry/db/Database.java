@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
 
 import com.github.mecharyry.tweetlist.adapter.mapping.Tweet;
 import com.github.mecharyry.tweetlist.parser.ParserFactory;
@@ -14,18 +13,14 @@ import java.util.List;
 public final class Database {
 
     private static final String TAG = Database.class.getSimpleName();
-    private static Database instance;
     private final ExtendedSQLiteOpenHelper helper;
     private final ParserFactory parserFactory;
     private final SQLiteDatabase sqLiteDatabase;
 
-    public static Database getInstance(Context context) {
-        if (instance == null) {
-            ExtendedSQLiteOpenHelper helper = new ExtendedSQLiteOpenHelper(context);
-            ParserFactory parserFactory = ParserFactory.newInstance();
-            instance = new Database(helper, parserFactory);
-        }
-        return instance;
+    public static Database newInstance(Context context) {
+        ExtendedSQLiteOpenHelper helper = new ExtendedSQLiteOpenHelper(context);
+        ParserFactory parserFactory = ParserFactory.newInstance();
+        return new Database(helper, parserFactory);
     }
 
     Database(ExtendedSQLiteOpenHelper helper, ParserFactory parserFactory) {
@@ -35,11 +30,15 @@ public final class Database {
         sqLiteDatabase = helper.getWritableDatabase();
     }
 
-    public void close() {
+    private void open() {
+        helper.getWritableDatabase();
+    }
+
+    private void close() {
         helper.close();
     }
 
-    public void insertTweet(Tweet tweet) {
+    private void insertTweet(Tweet tweet) {
         ContentValues values = new ContentValues();
         values.put(TweetTable.COLUMN_ID, tweet.getId());
         values.put(TweetTable.COLUMN_SCREEN_NAME, tweet.getScreenName());
@@ -63,25 +62,5 @@ public final class Database {
         String selection = TweetTable.COLUMN_CATEGORY + " LIKE '" + category + "'";
         Cursor query = sqLiteDatabase.query(TweetTable.TABLE_NAME, TweetTable.ALL_COLUMNS, selection, null, null, null, null);
         return query;
-    }
-
-    private Tweet cursorToTweet(Cursor cursor) {
-        int idColumnIndex = cursor.getColumnIndex(TweetTable.COLUMN_ID);
-        int locationColumnIndex = cursor.getColumnIndex(TweetTable.COLUMN_LOCATION);
-        int screenNameColumnIndex = cursor.getColumnIndex(TweetTable.COLUMN_SCREEN_NAME);
-        int textColumnIndex = cursor.getColumnIndex(TweetTable.COLUMN_TWEET_TEXT);
-        int bitmapColumnIndex = cursor.getColumnIndex(TweetTable.COLUMN_THUMB_IMAGE);
-        int categoryColumnIndex = cursor.getColumnIndex(TweetTable.COLUMN_CATEGORY);
-
-        int id = cursor.getInt(idColumnIndex);
-        String location = cursor.getString(locationColumnIndex);
-        String screenName = cursor.getString(screenNameColumnIndex);
-        String text = cursor.getString(textColumnIndex);
-        byte[] imageData = cursor.getBlob(bitmapColumnIndex);
-        Tweet.Category category = Tweet.Category.valueOf(cursor.getString(categoryColumnIndex));
-
-        Bitmap thumbImage = parserFactory.byteArrayToBitmapParser().parse(imageData);
-
-        return new Tweet(id, screenName, location, text, thumbImage, category);
     }
 }

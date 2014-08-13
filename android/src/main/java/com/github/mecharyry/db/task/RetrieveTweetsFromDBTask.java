@@ -20,7 +20,7 @@ public class RetrieveTweetsFromDBTask extends AsyncTask<Tweet.Category, Void, Cu
     }
 
     public static RetrieveTweetsFromDBTask newInstance(Callback callback, Context context) {
-        Database database = Database.getInstance(context);
+        Database database = Database.newInstance(context);
         WeakReference<Callback> callbackWeakReference = new WeakReference<Callback>(callback);
         return new RetrieveTweetsFromDBTask(database, callbackWeakReference);
     }

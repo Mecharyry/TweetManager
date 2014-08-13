@@ -14,7 +14,7 @@ public class InsertIntoDatabaseTask extends AsyncTask<List<Tweet>, Void, Boolean
     private final Database database;
 
     public static InsertIntoDatabaseTask newInstance(Context context) {
-        Database database = Database.getInstance(context);
+        Database database = Database.newInstance(context);
         return new InsertIntoDatabaseTask(database);
     }
 
