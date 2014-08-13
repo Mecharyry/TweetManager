@@ -11,6 +11,8 @@ import android.widget.ListView;
 import com.github.mecharyry.AccessTokenPreferences;
 import com.github.mecharyry.R;
 import com.github.mecharyry.auth.oauth.AccessToken;
+import com.github.mecharyry.db.task.InsertIntoDatabaseTask;
+import com.github.mecharyry.db.task.RetrieveDevTweetsTask;
 import com.github.mecharyry.tweetlist.adapter.TweetAdapter;
 import com.github.mecharyry.tweetlist.adapter.mapping.Tweet;
 import com.github.mecharyry.tweetlist.task.TaskCompleted;
@@ -21,6 +23,7 @@ import java.util.List;
 
 public class AndroidDevTweetsFragment extends Fragment {
 
+    public static final String TAG = AndroidDevTweetsFragment.class.getSimpleName();
     private TweetAdapter tweetAdapter;
     private TaskExecutor taskExecutor;
     private TaskFactory taskFactory;
@@ -36,6 +39,7 @@ public class AndroidDevTweetsFragment extends Fragment {
         AccessToken accessToken = accessTokenPreferences.retrieveAccessToken();
         taskFactory = TaskFactory.newInstance(accessToken);
         tweetAdapter = TweetAdapter.newInstance(activity);
+        RetrieveDevTweetsTask.newInstance(onRetrievedDevTweetsFromDb, activity).execute();
     }
 
     @Override
@@ -56,6 +60,14 @@ public class AndroidDevTweetsFragment extends Fragment {
         @Override
         public void taskCompleted(List<Tweet> response) {
             tweetAdapter.updateTweets(response);
+            InsertIntoDatabaseTask.newInstance(getActivity()).execute(response);
+        }
+    };
+
+    private final RetrieveDevTweetsTask.Callback onRetrievedDevTweetsFromDb = new RetrieveDevTweetsTask.Callback() {
+        @Override
+        public void onRetrievedDevTweets(List<Tweet> tweets) {
+            tweetAdapter.updateTweets(tweets);
         }
     };
 }

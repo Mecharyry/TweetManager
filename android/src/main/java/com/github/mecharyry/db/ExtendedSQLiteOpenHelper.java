@@ -20,7 +20,8 @@ public class ExtendedSQLiteOpenHelper extends SQLiteOpenHelper {
                     TweetTable.COLUMN_SCREEN_NAME + TEXT_TYPE + COMMA_SEP +
                     TweetTable.COLUMN_LOCATION + TEXT_TYPE + COMMA_SEP +
                     TweetTable.COLUMN_THUMB_IMAGE + BLOB_TYPE + COMMA_SEP +
-                    TweetTable.COLUMN_TWEET_TEXT + TEXT_TYPE +
+                    TweetTable.COLUMN_TWEET_TEXT + TEXT_TYPE + COMMA_SEP +
+                    TweetTable.COLUMN_CATEGORY + TEXT_TYPE +
                     " )";
 
     private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + TweetTable.TABLE_NAME;

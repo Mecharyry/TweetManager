@@ -39,5 +39,7 @@ public class Tweet {
         return thumbImage;
     }
 
-    public String getCategory() { return category; }
+    public String getCategory() {
+        return category;
+    }
 }
