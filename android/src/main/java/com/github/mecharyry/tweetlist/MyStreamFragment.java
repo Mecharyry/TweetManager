@@ -11,6 +11,8 @@ import android.widget.ListView;
 import com.github.mecharyry.AccessTokenPreferences;
 import com.github.mecharyry.R;
 import com.github.mecharyry.auth.oauth.AccessToken;
+import com.github.mecharyry.db.task.InsertIntoDatabaseTask;
+import com.github.mecharyry.db.task.RetrieveMyStreamTask;
 import com.github.mecharyry.tweetlist.adapter.TweetAdapter;
 import com.github.mecharyry.tweetlist.adapter.mapping.Tweet;
 import com.github.mecharyry.tweetlist.task.TaskCompleted;
@@ -37,6 +39,7 @@ public class MyStreamFragment extends Fragment {
         AccessToken accessToken = accessTokenPreferences.retrieveAccessToken();
         taskFactory = TaskFactory.newInstance(accessToken);
         tweetAdapter = TweetAdapter.newInstance(activity);
+        RetrieveMyStreamTask.newInstance(onMyStreamTweetsFromDb, activity).execute();
     }
 
     @Override
@@ -57,6 +60,14 @@ public class MyStreamFragment extends Fragment {
         @Override
         public void taskCompleted(List<Tweet> response) {
             tweetAdapter.updateTweets(response);
+            InsertIntoDatabaseTask.newInstance(getActivity()).execute(response);
+        }
+    };
+
+    private final RetrieveMyStreamTask.Callback onMyStreamTweetsFromDb = new RetrieveMyStreamTask.Callback() {
+        @Override
+        public void onRetrievedMyStream(List<Tweet> tweets) {
+            tweetAdapter.updateTweets(tweets);
         }
     };
 }

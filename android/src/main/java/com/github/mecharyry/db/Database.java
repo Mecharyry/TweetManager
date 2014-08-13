@@ -72,13 +72,27 @@ public class Database {
         return true;
     }
 
-    public List<Tweet> getAllTweets() {
+    public List<Tweet> getTweetsByCategory(Tweet.Category category){
         List<Tweet> tweets = new ArrayList<Tweet>();
-        String selection = TweetTable.COLUMN_CATEGORY + " LIKE '" + Tweet.Category.ANDROID_DEV_TWEETS + "'";
+        String selection = TweetTable.COLUMN_CATEGORY + " LIKE '" + category + "'";
         Cursor cursor = sqLiteDatabase.query(TweetTable.TABLE_NAME, TweetTable.ALL_COLUMNS, selection, null, null, null, null);
 
         cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
+        while(!cursor.isAfterLast()){
+            Tweet tweet = cursorToTweet(cursor);
+            tweets.add(tweet);
+
+            cursor.moveToNext();
+        }
+        return tweets;
+    }
+
+    public List<Tweet> getAllTweets(){
+        List<Tweet> tweets = new ArrayList<Tweet>();
+        Cursor cursor = sqLiteDatabase.query(TweetTable.TABLE_NAME, TweetTable.ALL_COLUMNS, null, null, null, null, null);
+
+        cursor.moveToFirst();
+        while(!cursor.isAfterLast()){
             Tweet tweet = cursorToTweet(cursor);
             tweets.add(tweet);
 

@@ -32,7 +32,7 @@ public class RetrieveDevTweetsTask extends AsyncTask<Void, Void, List<Tweet>> {
     @Override
     protected List<Tweet> doInBackground(Void... params) {
         database.open();
-        List<Tweet> tweets = database.getAllTweets();
+        List<Tweet> tweets = database.getTweetsByCategory(Tweet.Category.ANDROID_DEV_TWEETS);
         database.close();
         return tweets;
     }
