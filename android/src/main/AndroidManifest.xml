@@ -6,9 +6,9 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:theme="@android:style/Theme.Holo.Light"
+        android:allowBackup="true"
         android:icon="@drawable/twitter_dark"
-        android:allowBackup="true">
+        android:theme="@android:style/Theme.Holo.Light">
 
         <activity
             android:name="com.github.mecharyry.TwitterManagerActivity"
@@ -33,6 +33,11 @@
                 <data android:scheme="mecharyry-android" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name="com.github.mecharyry.db.TweetContentProvider"
+            android:authorities="com.github.mecharyry.databaseProvider"
+            android:exported="false" />
     </application>
 
 </manifest>

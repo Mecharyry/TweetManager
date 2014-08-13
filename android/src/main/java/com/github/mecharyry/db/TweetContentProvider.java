@@ -6,8 +6,14 @@ import android.database.Cursor;
 import android.net.Uri;
 
 public class TweetContentProvider extends ContentProvider {
+
+    private ExtendedSQLiteOpenHelper sqLiteOpenHelper;
+
+    private static final String AUTHORITY = "com.github.mecharyry.databaseProvider";
+
     @Override
     public boolean onCreate() {
+        sqLiteOpenHelper = new ExtendedSQLiteOpenHelper(getContext());
         return false;
     }
 
