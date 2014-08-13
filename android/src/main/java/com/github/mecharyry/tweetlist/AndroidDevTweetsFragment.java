@@ -3,8 +3,10 @@ package com.github.mecharyry.tweetlist;
 import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +32,6 @@ public class AndroidDevTweetsFragment extends Fragment {
     private TweetCursorAdapter tweetAdapter;
     private TaskExecutor taskExecutor;
     private TaskFactory taskFactory;
-    private Database database;
     private ListView listView;
 
     public AndroidDevTweetsFragment() {
@@ -43,7 +44,6 @@ public class AndroidDevTweetsFragment extends Fragment {
         AccessTokenPreferences accessTokenPreferences = AccessTokenPreferences.newInstance(getActivity());
         AccessToken accessToken = accessTokenPreferences.retrieveAccessToken();
         taskFactory = TaskFactory.newInstance(accessToken);
-        database = Database.newInstance(activity);
 
         RetrieveTweetsFromDBTask.newInstance(onRetrievedDevTweetsFromDb, activity).executeTask(Tweet.Category.ANDROID_DEV_TWEETS);
     }

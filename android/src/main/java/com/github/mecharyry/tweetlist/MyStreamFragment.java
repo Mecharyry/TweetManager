@@ -30,7 +30,6 @@ public class MyStreamFragment extends Fragment {
     private TweetCursorAdapter tweetAdapter;
     private TaskExecutor taskExecutor;
     private TaskFactory taskFactory;
-    private Database database;
     private ListView listView;
 
     public MyStreamFragment() {
@@ -43,16 +42,6 @@ public class MyStreamFragment extends Fragment {
         AccessTokenPreferences accessTokenPreferences = AccessTokenPreferences.newInstance(getActivity());
         AccessToken accessToken = accessTokenPreferences.retrieveAccessToken();
         taskFactory = TaskFactory.newInstance(accessToken);
-        database = Database.newInstance(activity);
-
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                Cursor tweetsByCategoryCursor = database.getTweetsByCategory(Tweet.Category.MY_STREAM_TWEETS);
-                tweetAdapter = TweetCursorAdapter.newInstance(activity, tweetsByCategoryCursor, false);
-                listView.setAdapter(tweetAdapter);
-            }
-        });
     }
 
     @Override
@@ -79,7 +68,8 @@ public class MyStreamFragment extends Fragment {
     private final RetrieveTweetsFromDBTask.Callback onMyStreamTweetsFromDb = new RetrieveTweetsFromDBTask.Callback() {
         @Override
         public void onRetrievedTweetsFromDB(Cursor tweets) {
-            tweetAdapter.changeCursor(tweets);
+            tweetAdapter = TweetCursorAdapter.newInstance(getActivity(), tweets, false);
+            listView.setAdapter(tweetAdapter);
         }
     };
 }
