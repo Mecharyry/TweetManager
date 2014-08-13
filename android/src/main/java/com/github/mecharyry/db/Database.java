@@ -87,20 +87,6 @@ public class Database {
         return tweets;
     }
 
-    public List<Tweet> getAllTweets() {
-        List<Tweet> tweets = new ArrayList<Tweet>();
-        Cursor cursor = sqLiteDatabase.query(TweetTable.TABLE_NAME, TweetTable.ALL_COLUMNS, null, null, null, null, null);
-
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            Tweet tweet = cursorToTweet(cursor);
-            tweets.add(tweet);
-
-            cursor.moveToNext();
-        }
-        return tweets;
-    }
-
     private Tweet cursorToTweet(Cursor cursor) {
         int idColumnIndex = cursor.getColumnIndex(TweetTable.COLUMN_ID);
         int locationColumnIndex = cursor.getColumnIndex(TweetTable.COLUMN_LOCATION);
