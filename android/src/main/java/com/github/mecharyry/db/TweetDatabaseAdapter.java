@@ -4,7 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.github.mecharyry.tweetlist.adapter.mapping.Tweet;
 import com.github.mecharyry.tweetlist.parser.Parser;
@@ -13,24 +15,24 @@ import com.github.mecharyry.tweetlist.parser.ParserFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Database {
+public class TweetDatabaseAdapter {
 
-    private static final String TAG = Database.class.getSimpleName();
+    private static final String TAG = TweetDatabaseAdapter.class.getSimpleName();
     private final ExtendedSQLiteOpenHelper helper;
     private final Parser<byte[], Bitmap> byteArrayToBitmapParser;
     private final Parser<Bitmap, byte[]> bitmapToByteArrayParser;
     private SQLiteDatabase sqLiteDatabase;
 
-    public static Database newInstance(Context context) {
+    public static TweetDatabaseAdapter newInstance(Context context) {
         ExtendedSQLiteOpenHelper helper = new ExtendedSQLiteOpenHelper(context);
         ParserFactory parserFactory = ParserFactory.newInstance();
         Parser<byte[], Bitmap> byteArrayToBitmapParser = parserFactory.byteArrayToBitmapParser();
         Parser<Bitmap, byte[]> bitmapToByteArrayParser = parserFactory.bitmapToByteArrayParser();
 
-        return new Database(helper, byteArrayToBitmapParser, bitmapToByteArrayParser);
+        return new TweetDatabaseAdapter(helper, byteArrayToBitmapParser, bitmapToByteArrayParser);
     }
 
-    Database(ExtendedSQLiteOpenHelper helper, Parser<byte[], Bitmap> byteArrayToBitmapParser, Parser<Bitmap, byte[]> bitmapToByteArrayParser) {
+    TweetDatabaseAdapter(ExtendedSQLiteOpenHelper helper, Parser<byte[], Bitmap> byteArrayToBitmapParser, Parser<Bitmap, byte[]> bitmapToByteArrayParser) {
         this.helper = helper;
         this.byteArrayToBitmapParser = byteArrayToBitmapParser;
         this.bitmapToByteArrayParser = bitmapToByteArrayParser;
@@ -84,6 +86,7 @@ public class Database {
 
             cursor.moveToNext();
         }
+        cursor.close();
         return tweets;
     }
 
