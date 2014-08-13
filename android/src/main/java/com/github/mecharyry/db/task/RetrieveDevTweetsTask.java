@@ -9,16 +9,16 @@ import com.github.mecharyry.tweetlist.adapter.mapping.Tweet;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-public class RetrieveDevTweetsTask extends AsyncTask<Void, Void, List<Tweet>>{
+public class RetrieveDevTweetsTask extends AsyncTask<Void, Void, List<Tweet>> {
 
     private final Database database;
     private WeakReference<Callback> callbackWeakReference;
 
-    public interface Callback{
+    public interface Callback {
         void onRetrievedDevTweets(List<Tweet> tweets);
     }
 
-    public static RetrieveDevTweetsTask newInstance(Callback callback, Context context){
+    public static RetrieveDevTweetsTask newInstance(Callback callback, Context context) {
         Database database = Database.newInstance(context);
         WeakReference<Callback> callbackWeakReference = new WeakReference<Callback>(callback);
         return new RetrieveDevTweetsTask(database, callbackWeakReference);
@@ -41,7 +41,7 @@ public class RetrieveDevTweetsTask extends AsyncTask<Void, Void, List<Tweet>>{
     protected void onPostExecute(List<Tweet> tweets) {
         super.onPostExecute(tweets);
         Callback callback = callbackWeakReference.get();
-        if(callback != null){
+        if (callback != null) {
             callback.onRetrievedDevTweets(tweets);
         }
     }

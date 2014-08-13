@@ -65,7 +65,7 @@ public class MyStreamFragment extends Fragment {
         }
     };
 
-    public void retrieveFromDatabase(){
+    public void retrieveFromDatabase() {
         RetrieveDevTweetsTask.newInstance(onRetreivedDevTweetsFromDb, getActivity()).execute();
     }
 

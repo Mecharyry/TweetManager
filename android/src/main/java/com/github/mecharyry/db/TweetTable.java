@@ -8,7 +8,8 @@ public final class TweetTable {
     public static final String COLUMN_LOCATION = "location";
     public static final String COLUMN_TWEET_TEXT = "text";
     public static final String COLUMN_THUMB_IMAGE = "thumb_image";
+    public static final String COLUMN_CATEGORY = "category";
 
     public static final String[] ALL_COLUMNS = {COLUMN_ID, COLUMN_SCREEN_NAME, COLUMN_LOCATION,
-            COLUMN_TWEET_TEXT, COLUMN_THUMB_IMAGE};
+            COLUMN_TWEET_TEXT, COLUMN_THUMB_IMAGE, COLUMN_CATEGORY};
 }

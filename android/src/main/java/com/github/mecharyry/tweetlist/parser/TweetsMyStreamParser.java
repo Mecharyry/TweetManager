@@ -16,12 +16,14 @@ import java.util.List;
 public class TweetsMyStreamParser implements Parser<JSONArray, List<Tweet>> {
 
     private static final String TAG = TweetsMyStreamParser.class.getSimpleName();
+    private static final String KEY_ID = "id_str";
     private static final String KEY_TEXT = "text";
     private static final String KEY_USER = "user";
     private static final String KEY_SCREEN_NAME = "screen_name";
     private static final String KEY_LOCATION = "location";
     private static final String KEY_THUMB_IMAGE = "profile_image_url";
-    public static final String ERROR_JSON_ARRAY_MESSAGE = "While parsing json array to list of tweets.";
+    private static final String VALUE_CATEGORY = "home_stream";
+    private static final String ERROR_JSON_ARRAY_MESSAGE = "While parsing json array to list of tweets.";
     private final ImageRetriever imageRetriever;
 
     public TweetsMyStreamParser(ImageRetriever imageRetriever) {
@@ -44,6 +46,7 @@ public class TweetsMyStreamParser implements Parser<JSONArray, List<Tweet>> {
     }
 
     private Tweet extractTweet(JSONObject jsonObject) throws JSONException {
+        long id = Long.parseLong(jsonObject.getString(KEY_ID));
         JSONObject user = jsonObject.getJSONObject(KEY_USER);
         String screenName = user.getString(KEY_SCREEN_NAME);
         String location = user.getString(KEY_LOCATION);
@@ -51,6 +54,6 @@ public class TweetsMyStreamParser implements Parser<JSONArray, List<Tweet>> {
         String imgUrl = user.getString(KEY_THUMB_IMAGE);
         Bitmap bitmap = imageRetriever.retrieveBitmap(imgUrl);
 
-        return new Tweet(screenName, location, text, bitmap);
+        return new Tweet(id, screenName, location, text, bitmap, VALUE_CATEGORY);
     }
 }

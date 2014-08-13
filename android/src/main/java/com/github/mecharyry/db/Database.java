@@ -47,24 +47,26 @@ public class Database {
     public boolean insertTweet(Tweet tweet) {
         if (sqLiteDatabase.isOpen()) {
             ContentValues values = new ContentValues();
+            values.put(TweetTable.COLUMN_ID, tweet.getId());
             values.put(TweetTable.COLUMN_SCREEN_NAME, tweet.getScreenName());
             values.put(TweetTable.COLUMN_LOCATION, tweet.getLocation());
             values.put(TweetTable.COLUMN_TWEET_TEXT, tweet.getText());
+            values.put(TweetTable.COLUMN_CATEGORY, tweet.getCategory());
 
             byte[] imageData = bitmapToByteArrayParser.parse(tweet.getThumbImage());
             values.put(TweetTable.COLUMN_THUMB_IMAGE, imageData);
 
-            sqLiteDatabase.insert(TweetTable.TABLE_NAME, null, values);
+            sqLiteDatabase.insertWithOnConflict(TweetTable.TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_IGNORE);
             return true;
         }
         return false;
     }
 
-    public boolean insertTweets(List<Tweet> tweets){
+    public boolean insertTweets(List<Tweet> tweets) {
         for (Tweet tweet : tweets) {
             boolean response = insertTweet(tweet);
-            if(!response){
-               return false;
+            if (!response) {
+                return false;
             }
         }
         return true;
@@ -90,29 +92,17 @@ public class Database {
         int screenNameColumnIndex = cursor.getColumnIndex(TweetTable.COLUMN_SCREEN_NAME);
         int textColumnIndex = cursor.getColumnIndex(TweetTable.COLUMN_TWEET_TEXT);
         int bitmapColumnIndex = cursor.getColumnIndex(TweetTable.COLUMN_THUMB_IMAGE);
+        int categoryColumnIndex = cursor.getColumnIndex(TweetTable.COLUMN_CATEGORY);
 
         int id = cursor.getInt(idColumnIndex);
         String location = cursor.getString(locationColumnIndex);
         String screenName = cursor.getString(screenNameColumnIndex);
         String text = cursor.getString(textColumnIndex);
         byte[] imageData = cursor.getBlob(bitmapColumnIndex);
+        String category = cursor.getString(categoryColumnIndex);
 
         Bitmap thumbImage = byteArrayToBitmapParser.parse(imageData);
 
-        Tweet tweet = new Tweet(screenName, location, text, thumbImage);
-        tweet.setId(id);
-        return tweet;
-    }
-
-    public void beginTransaction() {
-        sqLiteDatabase.beginTransaction();
-    }
-
-    public void terminateTransaction() {
-        sqLiteDatabase.endTransaction();
-    }
-
-    public void setTransactionSuccessful() {
-        sqLiteDatabase.setTransactionSuccessful();
+        return new Tweet(id, screenName, location, text, thumbImage, category);
     }
 }

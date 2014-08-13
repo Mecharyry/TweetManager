@@ -8,20 +8,19 @@ public class Tweet {
     private final String location;
     private final String text;
     private final Bitmap thumbImage;
+    private final String category;
 
-    public Tweet(String screenName, String location, String text, Bitmap thumbImage) {
+    public Tweet(long id, String screenName, String location, String text, Bitmap thumbImage, String category) {
+        this.id = id;
         this.screenName = screenName;
         this.location = location;
         this.text = text;
         this.thumbImage = thumbImage;
+        this.category = category;
     }
 
     public long getId() {
         return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getScreenName() {
@@ -39,4 +38,6 @@ public class Tweet {
     public Bitmap getThumbImage() {
         return thumbImage;
     }
+
+    public String getCategory() { return category; }
 }
