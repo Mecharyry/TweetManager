@@ -29,11 +29,7 @@ public class ParserFactory {
         return new TweetsMyStreamParser(imageRetriever);
     }
 
-    public Parser<JSONObject, List<Tweet>> hashtagParser() {
-        return new TweetsHashtagParser(imageRetriever);
-    }
-
-    public Parser<JSONObject, ContentValues[]> hashtagParserI() {
+    public Parser<JSONObject, ContentValues[]> hashtagParser() {
         return HashtagToContentValuesParser.newInstance(imageRetriever);
     }
 

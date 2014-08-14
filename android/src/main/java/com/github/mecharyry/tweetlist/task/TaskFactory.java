@@ -43,7 +43,7 @@ public class TaskFactory {
 
     public Task<JSONObject, ContentValues[]> requestAndroidDevTweets() {
         String signedUrl = signUrl(ANDROID_DEV_TWEETS);
-        return new Task<JSONObject, ContentValues[]>(parserFactory.hashtagParserI(), requestFactory.twitterObjectRequest(), signedUrl);
+        return new Task<JSONObject, ContentValues[]>(parserFactory.hashtagParser(), requestFactory.twitterObjectRequest(), signedUrl);
     }
 
     public Task<JSONArray, List<Tweet>> requestMyStreamTweets() {

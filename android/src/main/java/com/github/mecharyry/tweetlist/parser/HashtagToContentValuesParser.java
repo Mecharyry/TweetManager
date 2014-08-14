@@ -13,7 +13,7 @@ import org.json.JSONObject;
 
 public class HashtagToContentValuesParser implements Parser<JSONObject, ContentValues[]> {
 
-    private static final String TAG = TweetsHashtagParser.class.getSimpleName();
+    private static final String TAG = HashtagToContentValuesParser.class.getSimpleName();
     private static final String KEY_ID = "id_str";
     private static final String KEY_STATUSES = "statuses";
     private static final String KEY_TEXT = "text";
