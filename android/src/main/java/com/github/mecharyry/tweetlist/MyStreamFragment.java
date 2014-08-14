@@ -69,16 +69,7 @@ public class MyStreamFragment extends Fragment implements LoaderManager.LoaderCa
     private final TaskCompleted<List<Tweet>> onMyStreamTweetsReceived = new TaskCompleted<List<Tweet>>() {
         @Override
         public void taskCompleted(List<Tweet> response) {
-            InsertIntoDatabaseTask.newInstance(getActivity()).execute(response);
-            RetrieveTweetsFromDBTask.newInstance(onMyStreamTweetsFromDb, getActivity()).executeTask(Tweet.Category.MY_STREAM_TWEETS);
-        }
-    };
-
-    private final RetrieveTweetsFromDBTask.Callback onMyStreamTweetsFromDb = new RetrieveTweetsFromDBTask.Callback() {
-        @Override
-        public void onRetrievedTweetsFromDB(Cursor tweets) {
-            tweetAdapter = TweetCursorAdapter.newInstance(getActivity(), tweets, false);
-            listView.setAdapter(tweetAdapter);
+            // TODO: Perform insert into database.
         }
     };
 
