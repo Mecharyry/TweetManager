@@ -1,6 +1,7 @@
 package com.github.mecharyry.tweetlist;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,8 +23,6 @@ import com.github.mecharyry.tweetlist.adapter.mapping.Tweet;
 import com.github.mecharyry.tweetlist.task.TaskCompleted;
 import com.github.mecharyry.tweetlist.task.TaskExecutor;
 import com.github.mecharyry.tweetlist.task.TaskFactory;
-
-import java.util.List;
 
 public class MyStreamFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -64,9 +63,9 @@ public class MyStreamFragment extends Fragment implements LoaderManager.LoaderCa
         getLoaderManager().initLoader(0, null, this);
     }
 
-    private final TaskCompleted<List<Tweet>> onMyStreamTweetsReceived = new TaskCompleted<List<Tweet>>() {
+    private final TaskCompleted<ContentValues[]> onMyStreamTweetsReceived = new TaskCompleted<ContentValues[]>() {
         @Override
-        public void taskCompleted(List<Tweet> response) {
+        public void taskCompleted(ContentValues[] response) {
             // TODO: Perform insert into database.
         }
     };

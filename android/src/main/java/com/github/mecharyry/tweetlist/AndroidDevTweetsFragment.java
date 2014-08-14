@@ -24,8 +24,6 @@ import com.github.mecharyry.tweetlist.task.TaskCompleted;
 import com.github.mecharyry.tweetlist.task.TaskExecutor;
 import com.github.mecharyry.tweetlist.task.TaskFactory;
 
-import java.util.List;
-
 public class AndroidDevTweetsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String TAG = AndroidDevTweetsFragment.class.getSimpleName();

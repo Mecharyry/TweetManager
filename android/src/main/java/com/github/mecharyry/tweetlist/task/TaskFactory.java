@@ -4,14 +4,11 @@ import android.content.ContentValues;
 
 import com.github.mecharyry.auth.oauth.AccessToken;
 import com.github.mecharyry.auth.oauth.OAuthAuthenticator;
-import com.github.mecharyry.tweetlist.adapter.mapping.Tweet;
 import com.github.mecharyry.tweetlist.parser.ParserFactory;
 import com.github.mecharyry.tweetlist.request.RequestFactory;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.util.List;
 
 import oauth.signpost.OAuthConsumer;
 import oauth.signpost.exception.OAuthCommunicationException;
@@ -46,9 +43,9 @@ public class TaskFactory {
         return new Task<JSONObject, ContentValues[]>(parserFactory.hashtagParser(), requestFactory.twitterObjectRequest(), signedUrl);
     }
 
-    public Task<JSONArray, List<Tweet>> requestMyStreamTweets() {
+    public Task<JSONArray, ContentValues[]> requestMyStreamTweets() {
         String signedUrl = signUrl(MY_STREAM_TWEETS);
-        return new Task<JSONArray, List<Tweet>>(parserFactory.myStreamParser(), requestFactory.twitterArrayRequest(), signedUrl);
+        return new Task<JSONArray, ContentValues[]>(parserFactory.myStreamParser(), requestFactory.twitterArrayRequest(), signedUrl);
     }
 
     private String signUrl(String unsignedUrl) {

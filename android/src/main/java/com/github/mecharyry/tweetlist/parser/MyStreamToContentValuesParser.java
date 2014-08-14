@@ -24,7 +24,7 @@ public class MyStreamToContentValuesParser implements Parser<JSONArray, ContentV
     private final ImageRetriever imageRetriever;
     private final ParserFactory parserFactory;
 
-    public static MyStreamToContentValuesParser newInstance(ImageRetriever imageRetriever){
+    public static MyStreamToContentValuesParser newInstance(ImageRetriever imageRetriever) {
         ParserFactory parserFactory = ParserFactory.newInstance();
         return new MyStreamToContentValuesParser(imageRetriever, parserFactory);
     }
@@ -37,8 +37,8 @@ public class MyStreamToContentValuesParser implements Parser<JSONArray, ContentV
     @Override
     public ContentValues[] parse(JSONArray from) {
         ContentValues[] tweets = new ContentValues[from.length()];
-        try{
-            for(int tweetIndex = 0; tweetIndex < from.length(); tweetIndex++){
+        try {
+            for (int tweetIndex = 0; tweetIndex < from.length(); tweetIndex++) {
                 JSONObject jsonObject = from.getJSONObject(tweetIndex);
                 ContentValues tweet = extractContentValues(jsonObject);
                 tweets[tweetIndex] = tweet;
