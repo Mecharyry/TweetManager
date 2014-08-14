@@ -12,4 +12,9 @@ public final class TweetTable {
 
     public static final String[] ALL_COLUMNS = {COLUMN_ID, COLUMN_SCREEN_NAME, COLUMN_LOCATION,
             COLUMN_TWEET_TEXT, COLUMN_THUMB_IMAGE, COLUMN_CATEGORY};
+
+    public enum Category {
+        ANDROID_DEV_TWEETS,
+        MY_STREAM_TWEETS;
+    }
 }

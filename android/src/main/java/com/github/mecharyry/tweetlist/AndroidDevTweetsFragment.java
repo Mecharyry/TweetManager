@@ -19,7 +19,6 @@ import com.github.mecharyry.auth.oauth.AccessToken;
 import com.github.mecharyry.db.TweetContentProvider;
 import com.github.mecharyry.db.TweetTable;
 import com.github.mecharyry.tweetlist.adapter.TweetCursorAdapter;
-import com.github.mecharyry.tweetlist.adapter.mapping.Tweet;
 import com.github.mecharyry.tweetlist.task.TaskCompleted;
 import com.github.mecharyry.tweetlist.task.TaskExecutor;
 import com.github.mecharyry.tweetlist.task.TaskFactory;
@@ -72,7 +71,7 @@ public class AndroidDevTweetsFragment extends Fragment implements LoaderManager.
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        String selection = TweetTable.COLUMN_CATEGORY + " LIKE '" + Tweet.Category.ANDROID_DEV_TWEETS + "'";
+        String selection = TweetTable.COLUMN_CATEGORY + " LIKE '" + TweetTable.Category.ANDROID_DEV_TWEETS + "'";
         CursorLoader cursorLoader = new CursorLoader(getActivity(), TweetContentProvider.CONTENT_URI,
                 TweetTable.ALL_COLUMNS, selection, null, null);
         return cursorLoader;
