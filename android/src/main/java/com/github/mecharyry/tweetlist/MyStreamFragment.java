@@ -73,7 +73,7 @@ public class MyStreamFragment extends Fragment implements LoaderManager.LoaderCa
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        String selection = TweetTable.COLUMN_CATEGORY + " LIKE '" + Tweet.Category.ANDROID_DEV_TWEETS + "'";
+        String selection = TweetTable.COLUMN_CATEGORY + " LIKE '" + Tweet.Category.MY_STREAM_TWEETS + "'";
         CursorLoader cursorLoader = new CursorLoader(getActivity(), TweetContentProvider.CONTENT_URI,
                 TweetTable.ALL_COLUMNS, selection, null, null);
         return cursorLoader;
