@@ -1,5 +1,7 @@
 package com.github.mecharyry.tweetlist.task;
 
+import android.content.ContentValues;
+
 import com.github.mecharyry.auth.oauth.AccessToken;
 import com.github.mecharyry.auth.oauth.OAuthAuthenticator;
 import com.github.mecharyry.tweetlist.adapter.mapping.Tweet;
@@ -39,9 +41,9 @@ public class TaskFactory {
         this.requestFactory = requestFactory;
     }
 
-    public Task<JSONObject, List<Tweet>> requestAndroidDevTweets() {
+    public Task<JSONObject, ContentValues[]> requestAndroidDevTweets() {
         String signedUrl = signUrl(ANDROID_DEV_TWEETS);
-        return new Task<JSONObject, List<Tweet>>(parserFactory.hashtagParser(), requestFactory.twitterObjectRequest(), signedUrl);
+        return new Task<JSONObject, ContentValues[]>(parserFactory.hashtagParserI(), requestFactory.twitterObjectRequest(), signedUrl);
     }
 
     public Task<JSONArray, List<Tweet>> requestMyStreamTweets() {

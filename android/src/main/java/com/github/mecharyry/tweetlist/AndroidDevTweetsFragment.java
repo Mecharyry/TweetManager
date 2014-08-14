@@ -1,6 +1,7 @@
 package com.github.mecharyry.tweetlist;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -64,9 +65,9 @@ public class AndroidDevTweetsFragment extends Fragment implements LoaderManager.
         getLoaderManager().initLoader(0, null, this);
     }
 
-    private final TaskCompleted<List<Tweet>> onAndroidDevTweetsReceived = new TaskCompleted<List<Tweet>>() {
+    private final TaskCompleted<ContentValues[]> onAndroidDevTweetsReceived = new TaskCompleted<ContentValues[]>() {
         @Override
-        public void taskCompleted(List<Tweet> response) {
+        public void taskCompleted(ContentValues[] response) {
             // TODO: Perform insert into database.
         }
     };
