@@ -15,26 +15,11 @@ public class TweetContentProvider extends ContentProvider {
     public static final String TAG = TweetContentProvider.class.getSimpleName();
     private ExtendedSQLiteOpenHelper database;
 
-    private static final int TWEETS = 10;
-    private static final int TWEET_ID = 20;
-
     private static final String AUTHORITY = "com.github.mecharyry.db.databaseProvider";
 
     private static final String BASE_PATH = "tweet";
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
             + "/" + BASE_PATH);
-
-    public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE
-            + "/tweets";
-    public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
-            + "/tweet";
-
-    private static final UriMatcher sURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-
-    static {
-        sURIMatcher.addURI(AUTHORITY, BASE_PATH, TWEETS);
-        sURIMatcher.addURI(AUTHORITY, BASE_PATH + "/#", TWEET_ID);
-    }
 
     @Override
     public boolean onCreate() {

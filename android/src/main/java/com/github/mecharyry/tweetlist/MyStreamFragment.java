@@ -65,15 +65,17 @@ public class MyStreamFragment extends Fragment implements LoaderManager.LoaderCa
     private final TaskCompleted<ContentValues[]> onMyStreamTweetsReceived = new TaskCompleted<ContentValues[]>() {
         @Override
         public void taskCompleted(ContentValues[] response) {
-            // TODO: Perform insert into database.
+            getActivity().getContentResolver().bulkInsert(TweetContentProvider.CONTENT_URI, response);
         }
     };
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        String selection = TweetTable.COLUMN_CATEGORY + " LIKE '" + TweetTable.Category.MY_STREAM_TWEETS + "'";
+        String selection = TweetTable.COLUMN_CATEGORY + "= ?";
+        String[] selectionArgs = {TweetTable.Category.MY_STREAM_TWEETS.toString()};
+
         CursorLoader cursorLoader = new CursorLoader(getActivity(), TweetContentProvider.CONTENT_URI,
-                TweetTable.ALL_COLUMNS, selection, null, null);
+                TweetTable.ALL_COLUMNS, selection, selectionArgs, null);
         return cursorLoader;
     }
 

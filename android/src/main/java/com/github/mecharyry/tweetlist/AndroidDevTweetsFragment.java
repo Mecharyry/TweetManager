@@ -65,7 +65,7 @@ public class AndroidDevTweetsFragment extends Fragment implements LoaderManager.
     private final TaskCompleted<ContentValues[]> onAndroidDevTweetsReceived = new TaskCompleted<ContentValues[]>() {
         @Override
         public void taskCompleted(ContentValues[] response) {
-            // TODO: Perform insert into database.
+            getActivity().getContentResolver().bulkInsert(TweetContentProvider.CONTENT_URI, response);
         }
     };
 
