@@ -82,6 +82,11 @@ public class TweetContentProvider extends ContentProvider {
     }
 
     @Override
+    public int bulkInsert(Uri uri, ContentValues[] values) {
+        return super.bulkInsert(uri, values);
+    }
+
+    @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         return 0;
     }
