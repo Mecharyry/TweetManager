@@ -17,8 +17,6 @@ import com.github.mecharyry.R;
 import com.github.mecharyry.auth.oauth.AccessToken;
 import com.github.mecharyry.db.TweetContentProvider;
 import com.github.mecharyry.db.TweetTable;
-import com.github.mecharyry.db.task.InsertIntoDatabaseTask;
-import com.github.mecharyry.db.task.RetrieveTweetsFromDBTask;
 import com.github.mecharyry.tweetlist.adapter.TweetCursorAdapter;
 import com.github.mecharyry.tweetlist.adapter.mapping.Tweet;
 import com.github.mecharyry.tweetlist.task.TaskCompleted;
@@ -27,7 +25,7 @@ import com.github.mecharyry.tweetlist.task.TaskFactory;
 
 import java.util.List;
 
-public class MyStreamFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
+public class MyStreamFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String TAG = MyStreamFragment.class.getSimpleName();
     private TweetCursorAdapter tweetAdapter;
