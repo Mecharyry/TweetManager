@@ -83,7 +83,16 @@ public class TweetContentProvider extends ContentProvider {
 
     @Override
     public int bulkInsert(Uri uri, ContentValues[] values) {
-        return super.bulkInsert(uri, values);
+        SQLiteDatabase sqlDB = database.getWritableDatabase();
+        int rowsInserted = 0;
+
+        for(ContentValues value : values){
+            sqlDB.insert(TweetTable.TABLE_NAME, null, value);
+            rowsInserted++;
+        }
+
+        getContext().getContentResolver().notifyChange(uri, null);
+        return rowsInserted;
     }
 
     @Override
