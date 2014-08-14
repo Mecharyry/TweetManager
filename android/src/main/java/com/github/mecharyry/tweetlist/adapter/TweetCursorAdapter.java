@@ -18,10 +18,6 @@ public class TweetCursorAdapter extends CursorAdapter {
 
     private final LayoutInflater inflater;
     private final ParserFactory parserFactory;
-    private final int locationColumnIndex;
-    private final int screenNameColumnIndex;
-    private final int textColumnIndex;
-    private final int bitmapColumnIndex;
 
     public static TweetCursorAdapter newInstance(Context context, Cursor cursor, boolean autoRequery) {
         ParserFactory parserFactory = ParserFactory.newInstance();
@@ -32,11 +28,6 @@ public class TweetCursorAdapter extends CursorAdapter {
         super(context, cursor, autoRequery);
         this.parserFactory = parserFactory;
         inflater = LayoutInflater.from(context);
-
-        locationColumnIndex = cursor.getColumnIndex(TweetTable.COLUMN_LOCATION);
-        screenNameColumnIndex = cursor.getColumnIndex(TweetTable.COLUMN_SCREEN_NAME);
-        textColumnIndex = cursor.getColumnIndex(TweetTable.COLUMN_TWEET_TEXT);
-        bitmapColumnIndex = cursor.getColumnIndex(TweetTable.COLUMN_THUMB_IMAGE);
     }
 
     @Override
@@ -55,6 +46,11 @@ public class TweetCursorAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
+        int locationColumnIndex = cursor.getColumnIndex(TweetTable.COLUMN_LOCATION);
+        int screenNameColumnIndex = cursor.getColumnIndex(TweetTable.COLUMN_SCREEN_NAME);
+        int textColumnIndex = cursor.getColumnIndex(TweetTable.COLUMN_TWEET_TEXT);
+        int bitmapColumnIndex = cursor.getColumnIndex(TweetTable.COLUMN_THUMB_IMAGE);
+
         String location = cursor.getString(locationColumnIndex);
         String screenName = cursor.getString(screenNameColumnIndex);
         String text = cursor.getString(textColumnIndex);

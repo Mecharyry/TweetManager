@@ -1,12 +1,12 @@
 package com.github.mecharyry.tweetlist;
 
 import android.app.Activity;
-import android.app.LoaderManager;
-import android.content.CursorLoader;
-import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +17,6 @@ import com.github.mecharyry.R;
 import com.github.mecharyry.auth.oauth.AccessToken;
 import com.github.mecharyry.db.TweetContentProvider;
 import com.github.mecharyry.db.TweetTable;
-import com.github.mecharyry.db.task.InsertIntoDatabaseTask;
-import com.github.mecharyry.db.task.RetrieveTweetsFromDBTask;
 import com.github.mecharyry.tweetlist.adapter.TweetCursorAdapter;
 import com.github.mecharyry.tweetlist.adapter.mapping.Tweet;
 import com.github.mecharyry.tweetlist.task.TaskCompleted;
@@ -45,8 +43,6 @@ public class AndroidDevTweetsFragment extends Fragment implements LoaderManager.
         AccessTokenPreferences accessTokenPreferences = AccessTokenPreferences.newInstance(getActivity());
         AccessToken accessToken = accessTokenPreferences.retrieveAccessToken();
         taskFactory = TaskFactory.newInstance(accessToken);
-
-        RetrieveTweetsFromDBTask.newInstance(onRetrievedDevTweetsFromDb, activity).executeTask(Tweet.Category.ANDROID_DEV_TWEETS);
     }
 
     @Override
@@ -60,38 +56,35 @@ public class AndroidDevTweetsFragment extends Fragment implements LoaderManager.
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         taskExecutor.execute(onAndroidDevTweetsReceived, taskFactory.requestAndroidDevTweets());
+        tweetAdapter = TweetCursorAdapter.newInstance(getActivity(), null, false);
+        listView.setAdapter(tweetAdapter);
+        tweetAdapter.notifyDataSetChanged();
+
+        getLoaderManager().initLoader(0, null, this);
     }
 
     private final TaskCompleted<List<Tweet>> onAndroidDevTweetsReceived = new TaskCompleted<List<Tweet>>() {
         @Override
         public void taskCompleted(List<Tweet> response) {
-            InsertIntoDatabaseTask.newInstance(getActivity()).execute(response);
-            RetrieveTweetsFromDBTask.newInstance(onRetrievedDevTweetsFromDb, getActivity());
-        }
-    };
-
-    private final RetrieveTweetsFromDBTask.Callback onRetrievedDevTweetsFromDb = new RetrieveTweetsFromDBTask.Callback() {
-        @Override
-        public void onRetrievedTweetsFromDB(Cursor tweets) {
-            tweetAdapter = TweetCursorAdapter.newInstance(getActivity(), tweets, false);
-            listView.setAdapter(tweetAdapter);
+            // TODO: Perform insert into database.
         }
     };
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        String selection = TweetTable.COLUMN_CATEGORY + " LIKE '" + Tweet.Category.ANDROID_DEV_TWEETS + "'";
         CursorLoader cursorLoader = new CursorLoader(getActivity(), TweetContentProvider.CONTENT_URI,
-                TweetTable.ALL_COLUMNS, null, null, null);
+                TweetTable.ALL_COLUMNS, selection, null, null);
         return cursorLoader;
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+    public void onLoadFinished(android.support.v4.content.Loader<Cursor> cursorLoader, Cursor cursor) {
         tweetAdapter.swapCursor(cursor);
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> cursorLoader) {
+    public void onLoaderReset(android.support.v4.content.Loader<Cursor> cursorLoader) {
         tweetAdapter.swapCursor(null);
     }
 }

@@ -15,8 +15,8 @@ public class TweetContentProvider extends ContentProvider {
     public static final String TAG = TweetContentProvider.class.getSimpleName();
     private ExtendedSQLiteOpenHelper database;
 
-    private static final int TWEETS = 1;
-    private static final int TWEET_ID = 2;
+    private static final int TWEETS = 10;
+    private static final int TWEET_ID = 20;
 
     private static final String AUTHORITY = "com.github.mecharyry.db.databaseProvider";
 
@@ -25,7 +25,7 @@ public class TweetContentProvider extends ContentProvider {
             + "/" + BASE_PATH);
 
     public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE
-            + "/tweet";
+            + "/tweets";
     public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
             + "/tweet";
 
@@ -50,12 +50,13 @@ public class TweetContentProvider extends ContentProvider {
         queryBuilder.setTables(TweetTable.TABLE_NAME);
 
         int uriType = sURIMatcher.match(uri);
+        Log.e(TAG, uri.toString());
         switch (uriType) {
             case TWEETS:
+                Log.e(TAG, "Tweets Uri.");
                 break;
             case TWEET_ID:
-                Log.e(TAG, "" + TWEET_ID);
-                Log.e(TAG, uri.toString());
+                Log.e(TAG, "Tweets ID Uri.");
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
