@@ -40,7 +40,7 @@ public class HashtagToContentValuesParser implements Parser<JSONObject, ContentV
     public ContentValues[] parse(JSONObject jsonObject) {
         try {
             JSONArray statuses = jsonObject.getJSONArray(KEY_STATUSES);
-            int numberOfStatuses = jsonObject.length();
+            int numberOfStatuses = statuses.length();
             ContentValues[] contentValues = new ContentValues[numberOfStatuses];
 
             for (int statusIndex = 0; statusIndex < numberOfStatuses; statusIndex++) {
@@ -48,6 +48,7 @@ public class HashtagToContentValuesParser implements Parser<JSONObject, ContentV
                 ContentValues contentValue = extractContentValues(innerJsonObject);
                 contentValues[statusIndex] = contentValue;
             }
+            return contentValues;
         } catch (JSONException e) {
             Log.e(TAG, ERROR_JSON_OBJECT_MESSAGE);
         }
@@ -72,6 +73,7 @@ public class HashtagToContentValuesParser implements Parser<JSONObject, ContentV
         values.put(TweetTable.COLUMN_LOCATION, location);
         values.put(TweetTable.COLUMN_TWEET_TEXT, text);
         values.put(TweetTable.COLUMN_THUMB_IMAGE, imageData);
+        values.put(TweetTable.COLUMN_CATEGORY, TweetTable.Category.ANDROID_DEV_TWEETS.toString());
 
         return values;
     }

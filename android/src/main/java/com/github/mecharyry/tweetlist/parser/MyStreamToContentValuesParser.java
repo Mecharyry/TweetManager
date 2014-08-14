@@ -46,7 +46,7 @@ public class MyStreamToContentValuesParser implements Parser<JSONArray, ContentV
         } catch (JSONException e) {
             Log.e(TAG, ERROR_JSON_ARRAY_MESSAGE);
         }
-        return new ContentValues[0];
+        return tweets;
     }
 
     private ContentValues extractContentValues(JSONObject jsonObject) throws JSONException {
@@ -66,6 +66,7 @@ public class MyStreamToContentValuesParser implements Parser<JSONArray, ContentV
         values.put(TweetTable.COLUMN_LOCATION, location);
         values.put(TweetTable.COLUMN_TWEET_TEXT, text);
         values.put(TweetTable.COLUMN_THUMB_IMAGE, imageData);
+        values.put(TweetTable.COLUMN_CATEGORY, TweetTable.Category.MY_STREAM_TWEETS.toString());
 
         return values;
     }

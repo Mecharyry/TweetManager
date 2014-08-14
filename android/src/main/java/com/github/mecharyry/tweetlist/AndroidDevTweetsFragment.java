@@ -71,9 +71,11 @@ public class AndroidDevTweetsFragment extends Fragment implements LoaderManager.
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        String selection = TweetTable.COLUMN_CATEGORY + " LIKE '" + TweetTable.Category.ANDROID_DEV_TWEETS + "'";
+        String selection = TweetTable.COLUMN_CATEGORY + "= ?";
+        String[] selectionArgs = {TweetTable.Category.ANDROID_DEV_TWEETS.toString()};
+
         CursorLoader cursorLoader = new CursorLoader(getActivity(), TweetContentProvider.CONTENT_URI,
-                TweetTable.ALL_COLUMNS, selection, null, null);
+                TweetTable.ALL_COLUMNS, selection, selectionArgs, null);
         return cursorLoader;
     }
 

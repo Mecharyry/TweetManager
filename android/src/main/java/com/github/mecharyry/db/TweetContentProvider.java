@@ -46,25 +46,10 @@ public class TweetContentProvider extends ContentProvider {
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
 
-        // Set the table
         queryBuilder.setTables(TweetTable.TABLE_NAME);
 
-        int uriType = sURIMatcher.match(uri);
-        Log.e(TAG, uri.toString());
-        switch (uriType) {
-            case TWEETS:
-                Log.e(TAG, "Tweets Uri.");
-                break;
-            case TWEET_ID:
-                Log.e(TAG, "Tweets ID Uri.");
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown URI: " + uri);
-        }
-
         SQLiteDatabase db = database.getWritableDatabase();
-        Cursor cursor = queryBuilder.query(db, projection, selection,
-                selectionArgs, null, null, sortOrder);
+        Cursor cursor = db.query(false, TweetTable.TABLE_NAME, TweetTable.ALL_COLUMNS, selection, selectionArgs, null, null, null, null);
 
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
 
@@ -87,11 +72,12 @@ public class TweetContentProvider extends ContentProvider {
         int rowsInserted = 0;
 
         for(ContentValues value : values){
-            sqlDB.insert(TweetTable.TABLE_NAME, null, value);
+            sqlDB.insertWithOnConflict(TweetTable.TABLE_NAME, null, value, SQLiteDatabase.CONFLICT_REPLACE);
             rowsInserted++;
         }
 
         getContext().getContentResolver().notifyChange(uri, null);
+        sqlDB.close();
         return rowsInserted;
     }
 
