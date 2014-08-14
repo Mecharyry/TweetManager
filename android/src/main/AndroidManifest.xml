@@ -36,7 +36,7 @@
 
         <provider
             android:name="com.github.mecharyry.db.TweetContentProvider"
-            android:authorities="com.github.mecharyry.databaseProvider"
+            android:authorities="com.github.mecharyry.db.databaseProvider"
             android:exported="false" />
     </application>
 
