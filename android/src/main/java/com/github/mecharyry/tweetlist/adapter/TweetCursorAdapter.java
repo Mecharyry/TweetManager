@@ -3,6 +3,7 @@ package com.github.mecharyry.tweetlist.adapter;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +15,11 @@ import com.github.mecharyry.R;
 import com.github.mecharyry.db.TweetTable;
 import com.github.mecharyry.tweetlist.parser.ParserFactory;
 
+import java.io.IOException;
+
 public class TweetCursorAdapter extends CursorAdapter {
 
+    private static final String TAG = TweetCursorAdapter.class.getSimpleName();
     private final LayoutInflater layoutInflater;
     private final ParserFactory parserFactory;
 
@@ -55,7 +59,8 @@ public class TweetCursorAdapter extends CursorAdapter {
         String screenName = cursor.getString(screenNameColumnIndex);
         String text = cursor.getString(textColumnIndex);
         byte[] imageData = cursor.getBlob(bitmapColumnIndex);
-        Bitmap bitmap = parserFactory.byteArrayToBitmapParser().parse(imageData);
+
+        Bitmap bitmap = retrieveBitmap(imageData);
 
         TweetHolder holder = (TweetHolder) view.getTag();
         if (holder != null) {
@@ -64,6 +69,17 @@ public class TweetCursorAdapter extends CursorAdapter {
             holder.textTweet.setText(text);
             holder.imageThumbnail.setImageBitmap(bitmap);
         }
+    }
+
+    private Bitmap retrieveBitmap(byte[] imageData) {
+        Bitmap bitmap;
+        try {
+            bitmap = parserFactory.byteArrayToBitmapParser().parse(imageData);
+        } catch (IOException e) {
+            Log.e(TAG, "Unable to parse bitmap.");
+            bitmap = Bitmap.createBitmap(0, 0, Bitmap.Config.ALPHA_8);
+        }
+        return bitmap;
     }
 
     private static class TweetHolder {
