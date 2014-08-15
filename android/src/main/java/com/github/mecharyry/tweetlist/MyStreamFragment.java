@@ -60,7 +60,7 @@ public class MyStreamFragment extends Fragment implements LoaderManager.LoaderCa
         super.onActivityCreated(savedInstanceState);
         taskExecutor.execute(onMyStreamTweetsReceived, taskFactory.requestMyStreamTweets());
 
-        tweetAdapter = TweetCursorAdapter.newInstance(getActivity(), null, false);
+        tweetAdapter = TweetCursorAdapter.newInstance(getLayoutInflater(savedInstanceState), null, false);
         listView.setAdapter(tweetAdapter);
         tweetAdapter.notifyDataSetChanged();
 

@@ -16,23 +16,23 @@ import com.github.mecharyry.tweetlist.parser.ParserFactory;
 
 public class TweetCursorAdapter extends CursorAdapter {
 
-    private final LayoutInflater inflater;
+    private final LayoutInflater layoutInflater;
     private final ParserFactory parserFactory;
 
-    public static TweetCursorAdapter newInstance(Context context, Cursor cursor, boolean autoRequery) {
+    public static TweetCursorAdapter newInstance(LayoutInflater layoutInflater, Cursor cursor, boolean autoRequery) {
         ParserFactory parserFactory = ParserFactory.newInstance();
-        return new TweetCursorAdapter(context, cursor, autoRequery, parserFactory);
+        return new TweetCursorAdapter(layoutInflater, cursor, autoRequery, parserFactory);
     }
 
-    TweetCursorAdapter(Context context, Cursor cursor, boolean autoRequery, ParserFactory parserFactory) {
-        super(context, cursor, autoRequery);
+    TweetCursorAdapter(LayoutInflater layoutInflater, Cursor cursor, boolean autoRequery, ParserFactory parserFactory) {
+        super(layoutInflater.getContext(), cursor, autoRequery);
         this.parserFactory = parserFactory;
-        inflater = LayoutInflater.from(context);
+        this.layoutInflater = layoutInflater;
     }
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        View view = inflater.inflate(R.layout.tweets_list_item, parent, false);
+        View view = layoutInflater.inflate(R.layout.tweets_list_item, parent, false);
 
         TweetHolder holder = new TweetHolder();
         holder.textScreenName = (TextView) view.findViewById(R.id.text_screen_name);

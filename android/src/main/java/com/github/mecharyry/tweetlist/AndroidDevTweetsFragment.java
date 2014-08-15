@@ -60,9 +60,8 @@ public class AndroidDevTweetsFragment extends Fragment implements LoaderManager.
         super.onActivityCreated(savedInstanceState);
         taskExecutor.execute(onAndroidDevTweetsReceived, taskFactory.requestAndroidDevTweets());
 
-        tweetAdapter = TweetCursorAdapter.newInstance(getActivity(), null, false);
+        tweetAdapter = TweetCursorAdapter.newInstance(getLayoutInflater(savedInstanceState), null, false);
         listView.setAdapter(tweetAdapter);
-        tweetAdapter.notifyDataSetChanged();
 
         getLoaderManager().initLoader(LOADER_MANAGER_ID, null, this);
     }
