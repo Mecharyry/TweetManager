@@ -1,25 +1,20 @@
 package com.github.mecharyry.db;
 
 import android.content.ContentProvider;
-import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-import android.util.Log;
 
 public class TweetContentProvider extends ContentProvider {
 
     public static final String TAG = TweetContentProvider.class.getSimpleName();
-    private ExtendedSQLiteOpenHelper database;
-
     private static final String AUTHORITY = "com.github.mecharyry.db.databaseProvider";
-
     private static final String BASE_PATH = "tweet";
-    public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
-            + "/" + BASE_PATH);
+    public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH);
+
+    private ExtendedSQLiteOpenHelper database;
 
     @Override
     public boolean onCreate() {
@@ -56,7 +51,7 @@ public class TweetContentProvider extends ContentProvider {
         SQLiteDatabase sqlDB = database.getWritableDatabase();
         int rowsInserted = 0;
 
-        for(ContentValues value : values){
+        for (ContentValues value : values) {
             sqlDB.insertWithOnConflict(TweetTable.TABLE_NAME, null, value, SQLiteDatabase.CONFLICT_REPLACE);
             rowsInserted++;
         }

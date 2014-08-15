@@ -25,7 +25,12 @@ import com.github.mecharyry.tweetlist.task.TaskFactory;
 
 public class MyStreamFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
+    private static final int LOADER_MANAGER_ID = 0;
+
     private static final String TAG = MyStreamFragment.class.getSimpleName();
+    public static final String QUERY_SELECTION = TweetTable.COLUMN_CATEGORY + "= ?";
+    public static final String[] QUERY_SELECTION_ARGS = {TweetTable.Category.MY_STREAM_TWEETS.toString()};
+
     private TweetCursorAdapter tweetAdapter;
     private TaskExecutor taskExecutor;
     private TaskFactory taskFactory;
@@ -59,7 +64,7 @@ public class MyStreamFragment extends Fragment implements LoaderManager.LoaderCa
         listView.setAdapter(tweetAdapter);
         tweetAdapter.notifyDataSetChanged();
 
-        getLoaderManager().initLoader(0, null, this);
+        getLoaderManager().initLoader(LOADER_MANAGER_ID, null, this);
     }
 
     private final TaskCompleted<ContentValues[]> onMyStreamTweetsReceived = new TaskCompleted<ContentValues[]>() {
@@ -71,11 +76,8 @@ public class MyStreamFragment extends Fragment implements LoaderManager.LoaderCa
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        String selection = TweetTable.COLUMN_CATEGORY + "= ?";
-        String[] selectionArgs = {TweetTable.Category.MY_STREAM_TWEETS.toString()};
-
         CursorLoader cursorLoader = new CursorLoader(getActivity(), TweetContentProvider.CONTENT_URI,
-                TweetTable.ALL_COLUMNS, selection, selectionArgs, null);
+                TweetTable.ALL_COLUMNS, QUERY_SELECTION, QUERY_SELECTION_ARGS, null);
         return cursorLoader;
     }
 
