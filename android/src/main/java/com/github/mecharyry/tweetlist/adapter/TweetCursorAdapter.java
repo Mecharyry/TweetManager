@@ -3,7 +3,6 @@ package com.github.mecharyry.tweetlist.adapter;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +13,6 @@ import android.widget.TextView;
 import com.github.mecharyry.R;
 import com.github.mecharyry.db.TweetTable;
 import com.github.mecharyry.tweetlist.parser.ByteArrayToBitmapParser;
-import com.github.mecharyry.tweetlist.parser.ParserFactory;
-
-import java.io.IOException;
 
 public class TweetCursorAdapter extends CursorAdapter {
 

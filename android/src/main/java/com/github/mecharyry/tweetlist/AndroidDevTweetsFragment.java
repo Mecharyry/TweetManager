@@ -8,9 +8,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ListView;
 
 import com.github.mecharyry.AccessTokenPreferences;
@@ -23,13 +25,16 @@ import com.github.mecharyry.tweetlist.task.TaskCompleted;
 import com.github.mecharyry.tweetlist.task.TaskExecutor;
 import com.github.mecharyry.tweetlist.task.TaskFactory;
 
-public class AndroidDevTweetsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class AndroidDevTweetsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, AbsListView.OnScrollListener {
 
     private static final int LOADER_MANAGER_ID = 0xa9;
 
     private static final String TAG = AndroidDevTweetsFragment.class.getSimpleName();
     private static final String QUERY_SELECTION = TweetTable.COLUMNS.COLUMN_CATEGORY.getColumnHeader() + "= ?";
     private static final String[] QUERY_SELECTION_ARGS = {TweetTable.Category.ANDROID_DEV_TWEETS.toString()};
+    private static final String QUERY_ORDER_BY = TweetTable.COLUMNS.COLUMN_ID.getColumnHeader() + " DESC";
+
+    private int totalLoadedCount = 0;
 
     private TweetCursorAdapter tweetAdapter;
     private TaskExecutor taskExecutor;
@@ -62,6 +67,7 @@ public class AndroidDevTweetsFragment extends Fragment implements LoaderManager.
 
         tweetAdapter = TweetCursorAdapter.newInstance(getLayoutInflater(savedInstanceState), null, false);
         listView.setAdapter(tweetAdapter);
+        listView.setOnScrollListener(this);
 
         getLoaderManager().initLoader(LOADER_MANAGER_ID, null, this);
     }
@@ -76,7 +82,7 @@ public class AndroidDevTweetsFragment extends Fragment implements LoaderManager.
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         CursorLoader cursorLoader = new CursorLoader(getActivity(), TweetContentProvider.CONTENT_URI,
-                TweetTable.COLUMNS.names(), QUERY_SELECTION, QUERY_SELECTION_ARGS, null);
+                TweetTable.COLUMNS.names(), QUERY_SELECTION, QUERY_SELECTION_ARGS, QUERY_ORDER_BY);
         return cursorLoader;
     }
 
@@ -88,5 +94,28 @@ public class AndroidDevTweetsFragment extends Fragment implements LoaderManager.
     @Override
     public void onLoaderReset(android.support.v4.content.Loader<Cursor> cursorLoader) {
         tweetAdapter.swapCursor(null);
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView absListView, int i) {
+    }
+
+    @Override
+    public void onScroll(AbsListView absListView, int indexFirstVisible, int numberVisible, int totalCount) {
+        int halfWay = totalCount / 2;
+        int distanceFromEnd = indexFirstVisible + halfWay;
+
+        boolean overHalfWay = distanceFromEnd >= totalCount;
+        boolean atEnd = totalCount != totalLoadedCount;
+
+        boolean loadMore = atEnd && overHalfWay;
+        if (loadMore)
+        {
+            totalLoadedCount = totalCount;
+            Cursor cursor = (Cursor) tweetAdapter.getItem(tweetAdapter.getCount()-1);
+            long id = cursor.getLong(cursor.getColumnIndex(TweetTable.COLUMNS.COLUMN_ID.getColumnHeader()));
+            taskExecutor.execute(onAndroidDevTweetsReceived, taskFactory.requestAndroidDevTweetsBeforeId(id));
+        }
+
     }
 }

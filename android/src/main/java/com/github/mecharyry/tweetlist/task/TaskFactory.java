@@ -16,7 +16,7 @@ import oauth.signpost.exception.OAuthExpectationFailedException;
 import oauth.signpost.exception.OAuthMessageSignerException;
 
 public class TaskFactory {
-    public static final String ANDROID_DEV_TWEETS = "https://api.twitter.com/1.1/search/tweets.json?q=%23AndroidDev&count=50";
+    public static final String ANDROID_DEV_TWEETS = "https://api.twitter.com/1.1/search/tweets.json?q=%23AndroidDev&count=20";
     public static final String MY_STREAM_TWEETS = "https://api.twitter.com/1.1/statuses/home_timeline.json?count=50";
     public static final String ERROR_SIGNING_URL_MESSAGE = "While signing URL.";
     private final OAuthConsumer consumer;
@@ -40,6 +40,11 @@ public class TaskFactory {
 
     public Task<JSONObject, ContentValues[]> requestAndroidDevTweets() {
         String signedUrl = signUrl(ANDROID_DEV_TWEETS);
+        return new Task<JSONObject, ContentValues[]>(parserFactory.hashtagParser(), requestFactory.twitterObjectRequest(), signedUrl);
+    }
+
+    public Task<JSONObject, ContentValues[]> requestAndroidDevTweetsBeforeId(long id) {
+        String signedUrl = signUrl(ANDROID_DEV_TWEETS + "&max_id=" + id);
         return new Task<JSONObject, ContentValues[]>(parserFactory.hashtagParser(), requestFactory.twitterObjectRequest(), signedUrl);
     }
 
