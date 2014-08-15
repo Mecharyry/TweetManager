@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -109,13 +108,13 @@ public class AndroidDevTweetsFragment extends Fragment implements LoaderManager.
         boolean atEnd = totalCount != totalLoadedCount;
 
         boolean loadMore = atEnd && overHalfWay;
-        if (loadMore)
-        {
+        if (loadMore) {
             totalLoadedCount = totalCount;
-            Cursor cursor = (Cursor) tweetAdapter.getItem(tweetAdapter.getCount()-1);
+            int finalListViewItemIndex = tweetAdapter.getCount() - 1;
+
+            Cursor cursor = (Cursor) tweetAdapter.getItem(finalListViewItemIndex);
             long id = cursor.getLong(cursor.getColumnIndex(TweetTable.COLUMNS.COLUMN_ID.getColumnHeader()));
             taskExecutor.execute(onAndroidDevTweetsReceived, taskFactory.requestAndroidDevTweetsBeforeId(id));
         }
-
     }
 }
