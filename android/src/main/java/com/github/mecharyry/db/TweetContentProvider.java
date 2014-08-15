@@ -24,10 +24,6 @@ public class TweetContentProvider extends ContentProvider {
 
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-        SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
-        // TODO: Remove Query Builder.
-        queryBuilder.setTables(TweetTable.TABLES.TWEET_TABLE.getTableName());
-
         SQLiteDatabase db = database.getWritableDatabase();
         TweetTable.COLUMNS.values();
         Cursor cursor = db.query(false, TweetTable.TABLES.TWEET_TABLE.getTableName(), TweetTable.COLUMNS.names(), selection, selectionArgs, null, null, null, null);
