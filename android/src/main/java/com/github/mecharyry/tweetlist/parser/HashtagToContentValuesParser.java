@@ -23,16 +23,16 @@ public class HashtagToContentValuesParser implements Parser<JSONObject, ContentV
     private static final String KEY_THUMB_IMAGE = "profile_image_url";
     public static final String ERROR_JSON_OBJECT_MESSAGE = "While parsing json object to list of tweets.";
     private final ImageRetriever imageRetriever;
-    private final ParserFactory parserFactory;
+    private final BitmapToByteArrayParser parser;
 
     public static HashtagToContentValuesParser newInstance(ImageRetriever imageRetriever) {
-        ParserFactory parserFactory = ParserFactory.newInstance();
-        return new HashtagToContentValuesParser(imageRetriever, parserFactory);
+        BitmapToByteArrayParser parser = new BitmapToByteArrayParser();
+        return new HashtagToContentValuesParser(imageRetriever, parser);
     }
 
-    HashtagToContentValuesParser(ImageRetriever imageRetriever, ParserFactory parserFactory) {
+    HashtagToContentValuesParser(ImageRetriever imageRetriever, BitmapToByteArrayParser parser) {
         this.imageRetriever = imageRetriever;
-        this.parserFactory = parserFactory;
+        this.parser = parser;
     }
 
 
@@ -65,7 +65,7 @@ public class HashtagToContentValuesParser implements Parser<JSONObject, ContentV
         String imgUrl = user.getString(KEY_THUMB_IMAGE);
         Bitmap bitmap = imageRetriever.retrieveBitmap(imgUrl);
 
-        byte[] imageData = parserFactory.bitmapToByteArrayParser().parse(bitmap);
+        byte[] imageData = parser.parse(bitmap);
 
         ContentValues values = new ContentValues();
         values.put(TweetTable.COLUMN_ID, id);

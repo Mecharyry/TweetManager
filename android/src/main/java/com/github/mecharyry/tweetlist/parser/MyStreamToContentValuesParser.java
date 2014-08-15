@@ -22,16 +22,16 @@ public class MyStreamToContentValuesParser implements Parser<JSONArray, ContentV
     private static final String KEY_THUMB_IMAGE = "profile_image_url";
     private static final String ERROR_JSON_ARRAY_MESSAGE = "While parsing json array to list of tweets.";
     private final ImageRetriever imageRetriever;
-    private final ParserFactory parserFactory;
+    private final BitmapToByteArrayParser parser;
 
     public static MyStreamToContentValuesParser newInstance(ImageRetriever imageRetriever) {
-        ParserFactory parserFactory = ParserFactory.newInstance();
-        return new MyStreamToContentValuesParser(imageRetriever, parserFactory);
+        BitmapToByteArrayParser parser = new BitmapToByteArrayParser();
+        return new MyStreamToContentValuesParser(imageRetriever, parser);
     }
 
-    public MyStreamToContentValuesParser(ImageRetriever imageRetriever, ParserFactory parserFactory) {
+    public MyStreamToContentValuesParser(ImageRetriever imageRetriever, BitmapToByteArrayParser parser) {
         this.imageRetriever = imageRetriever;
-        this.parserFactory = parserFactory;
+        this.parser = parser;
     }
 
     @Override
@@ -58,7 +58,7 @@ public class MyStreamToContentValuesParser implements Parser<JSONArray, ContentV
         String imgUrl = user.getString(KEY_THUMB_IMAGE);
         Bitmap bitmap = imageRetriever.retrieveBitmap(imgUrl);
 
-        byte[] imageData = parserFactory.bitmapToByteArrayParser().parse(bitmap);
+        byte[] imageData = parser.parse(bitmap);
 
         ContentValues values = new ContentValues();
         values.put(TweetTable.COLUMN_ID, id);

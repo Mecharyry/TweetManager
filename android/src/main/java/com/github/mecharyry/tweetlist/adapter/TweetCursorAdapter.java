@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.github.mecharyry.R;
 import com.github.mecharyry.db.TweetTable;
+import com.github.mecharyry.tweetlist.parser.ByteArrayToBitmapParser;
 import com.github.mecharyry.tweetlist.parser.ParserFactory;
 
 import java.io.IOException;
@@ -21,16 +22,16 @@ public class TweetCursorAdapter extends CursorAdapter {
 
     private static final String TAG = TweetCursorAdapter.class.getSimpleName();
     private final LayoutInflater layoutInflater;
-    private final ParserFactory parserFactory;
+    private final ByteArrayToBitmapParser parser;
 
     public static TweetCursorAdapter newInstance(LayoutInflater layoutInflater, Cursor cursor, boolean autoRequery) {
-        ParserFactory parserFactory = ParserFactory.newInstance();
-        return new TweetCursorAdapter(layoutInflater, cursor, autoRequery, parserFactory);
+        ByteArrayToBitmapParser parser = new ByteArrayToBitmapParser();
+        return new TweetCursorAdapter(layoutInflater, cursor, autoRequery, parser);
     }
 
-    TweetCursorAdapter(LayoutInflater layoutInflater, Cursor cursor, boolean autoRequery, ParserFactory parserFactory) {
+    TweetCursorAdapter(LayoutInflater layoutInflater, Cursor cursor, boolean autoRequery, ByteArrayToBitmapParser parser) {
         super(layoutInflater.getContext(), cursor, autoRequery);
-        this.parserFactory = parserFactory;
+        this.parser = parser;
         this.layoutInflater = layoutInflater;
     }
 
@@ -60,7 +61,7 @@ public class TweetCursorAdapter extends CursorAdapter {
         String text = cursor.getString(textColumnIndex);
         byte[] imageData = cursor.getBlob(bitmapColumnIndex);
 
-        Bitmap bitmap = retrieveBitmap(imageData);
+        Bitmap bitmap = parser.parse(imageData);
 
         TweetHolder holder = (TweetHolder) view.getTag();
         if (holder != null) {
@@ -69,17 +70,6 @@ public class TweetCursorAdapter extends CursorAdapter {
             holder.textTweet.setText(text);
             holder.imageThumbnail.setImageBitmap(bitmap);
         }
-    }
-
-    private Bitmap retrieveBitmap(byte[] imageData) {
-        Bitmap bitmap;
-        try {
-            bitmap = parserFactory.byteArrayToBitmapParser().parse(imageData);
-        } catch (IOException e) {
-            Log.e(TAG, "Unable to parse bitmap.");
-            bitmap = Bitmap.createBitmap(0, 0, Bitmap.Config.ALPHA_8);
-        }
-        return bitmap;
     }
 
     private static class TweetHolder {
