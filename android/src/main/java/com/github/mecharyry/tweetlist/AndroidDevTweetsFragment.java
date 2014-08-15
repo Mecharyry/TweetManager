@@ -41,7 +41,7 @@ public class AndroidDevTweetsFragment extends Fragment implements LoaderManager.
     }
 
     @Override
-    public void onAttach(final Activity activity) {
+    public void onAttach(Activity activity) {
         super.onAttach(activity);
         AccessTokenPreferences accessTokenPreferences = AccessTokenPreferences.newInstance(getActivity());
         AccessToken accessToken = accessTokenPreferences.retrieveAccessToken();
