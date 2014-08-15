@@ -25,11 +25,12 @@ public class TweetContentProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
-
-        queryBuilder.setTables(TweetTable.TABLE_NAME);
+        // TODO: Remove Query Builder.
+        queryBuilder.setTables(TweetTable.TABLES.TWEET_TABLE.getTableName());
 
         SQLiteDatabase db = database.getWritableDatabase();
-        Cursor cursor = db.query(false, TweetTable.TABLE_NAME, TweetTable.ALL_COLUMNS, selection, selectionArgs, null, null, null, null);
+        TweetTable.COLUMNS.values();
+        Cursor cursor = db.query(false, TweetTable.TABLES.TWEET_TABLE.getTableName(), TweetTable.COLUMNS.names(), selection, selectionArgs, null, null, null, null);
 
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
 
@@ -52,7 +53,7 @@ public class TweetContentProvider extends ContentProvider {
         int rowsInserted = 0;
 
         for (ContentValues value : values) {
-            sqlDB.insertWithOnConflict(TweetTable.TABLE_NAME, null, value, SQLiteDatabase.CONFLICT_REPLACE);
+            sqlDB.insertWithOnConflict(TweetTable.TABLES.TWEET_TABLE.getTableName(), null, value, SQLiteDatabase.CONFLICT_REPLACE);
             rowsInserted++;
         }
 

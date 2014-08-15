@@ -25,10 +25,10 @@ import com.github.mecharyry.tweetlist.task.TaskFactory;
 
 public class AndroidDevTweetsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final int LOADER_MANAGER_ID = 0;
+    private static final int LOADER_MANAGER_ID = 0xa9;
 
     private static final String TAG = AndroidDevTweetsFragment.class.getSimpleName();
-    private static final String QUERY_SELECTION = TweetTable.COLUMN_CATEGORY + "= ?";
+    private static final String QUERY_SELECTION = TweetTable.COLUMNS.COLUMN_CATEGORY.getColumnHeader() + "= ?";
     private static final String[] QUERY_SELECTION_ARGS = {TweetTable.Category.ANDROID_DEV_TWEETS.toString()};
 
     private TweetCursorAdapter tweetAdapter;
@@ -76,7 +76,7 @@ public class AndroidDevTweetsFragment extends Fragment implements LoaderManager.
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         CursorLoader cursorLoader = new CursorLoader(getActivity(), TweetContentProvider.CONTENT_URI,
-                TweetTable.ALL_COLUMNS, QUERY_SELECTION, QUERY_SELECTION_ARGS, null);
+                TweetTable.COLUMNS.names(), QUERY_SELECTION, QUERY_SELECTION_ARGS, null);
         return cursorLoader;
     }
 

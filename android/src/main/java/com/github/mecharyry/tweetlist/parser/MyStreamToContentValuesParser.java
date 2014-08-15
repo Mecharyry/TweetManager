@@ -61,12 +61,12 @@ public class MyStreamToContentValuesParser implements Parser<JSONArray, ContentV
         byte[] imageData = parser.parse(bitmap);
 
         ContentValues values = new ContentValues();
-        values.put(TweetTable.COLUMN_ID, id);
-        values.put(TweetTable.COLUMN_SCREEN_NAME, screenName);
-        values.put(TweetTable.COLUMN_LOCATION, location);
-        values.put(TweetTable.COLUMN_TWEET_TEXT, text);
-        values.put(TweetTable.COLUMN_THUMB_IMAGE, imageData);
-        values.put(TweetTable.COLUMN_CATEGORY, TweetTable.Category.MY_STREAM_TWEETS.toString());
+        values.put(TweetTable.COLUMNS.COLUMN_ID.getColumnHeader(), id);
+        values.put(TweetTable.COLUMNS.COLUMN_SCREEN_NAME.getColumnHeader(), screenName);
+        values.put(TweetTable.COLUMNS.COLUMN_LOCATION.getColumnHeader(), location);
+        values.put(TweetTable.COLUMNS.COLUMN_TWEET_TEXT.getColumnHeader(), text);
+        values.put(TweetTable.COLUMNS.COLUMN_THUMB_IMAGE.getColumnHeader(), imageData);
+        values.put(TweetTable.COLUMNS.COLUMN_CATEGORY.getColumnHeader(), TweetTable.Category.MY_STREAM_TWEETS.toString());
 
         return values;
     }

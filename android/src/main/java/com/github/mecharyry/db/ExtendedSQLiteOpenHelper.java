@@ -15,16 +15,16 @@ public class ExtendedSQLiteOpenHelper extends SQLiteOpenHelper {
     private static final String BLOB_TYPE = " BLOB";
     private static final String COMMA_SEP = ",";
     private static final String SQL_CREATE_ENTRIES =
-            "CREATE TABLE " + TweetTable.TABLE_NAME +
-                    " (" + TweetTable.COLUMN_ID + " INTEGER PRIMARY KEY," +
-                    TweetTable.COLUMN_SCREEN_NAME + TEXT_TYPE + COMMA_SEP +
-                    TweetTable.COLUMN_LOCATION + TEXT_TYPE + COMMA_SEP +
-                    TweetTable.COLUMN_THUMB_IMAGE + BLOB_TYPE + COMMA_SEP +
-                    TweetTable.COLUMN_TWEET_TEXT + TEXT_TYPE + COMMA_SEP +
-                    TweetTable.COLUMN_CATEGORY + TEXT_TYPE +
+            "CREATE TABLE " + TweetTable.TABLES.TWEET_TABLE.getTableName() +
+                    " (" + TweetTable.COLUMNS.COLUMN_ID.getColumnHeader() + " INTEGER PRIMARY KEY," +
+                    TweetTable.COLUMNS.COLUMN_SCREEN_NAME.getColumnHeader() + TEXT_TYPE + COMMA_SEP +
+                    TweetTable.COLUMNS.COLUMN_LOCATION.getColumnHeader() + TEXT_TYPE + COMMA_SEP +
+                    TweetTable.COLUMNS.COLUMN_THUMB_IMAGE.getColumnHeader() + BLOB_TYPE + COMMA_SEP +
+                    TweetTable.COLUMNS.COLUMN_TWEET_TEXT.getColumnHeader() + TEXT_TYPE + COMMA_SEP +
+                    TweetTable.COLUMNS.COLUMN_CATEGORY.getColumnHeader() + TEXT_TYPE +
                     " )";
 
-    private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + TweetTable.TABLE_NAME;
+    private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + TweetTable.TABLES.TWEET_TABLE.getTableName();
 
     public ExtendedSQLiteOpenHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

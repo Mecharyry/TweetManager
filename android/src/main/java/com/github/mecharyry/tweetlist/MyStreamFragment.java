@@ -25,10 +25,10 @@ import com.github.mecharyry.tweetlist.task.TaskFactory;
 
 public class MyStreamFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final int LOADER_MANAGER_ID = 0;
+    private static final int LOADER_MANAGER_ID = 0xa9;
 
     private static final String TAG = MyStreamFragment.class.getSimpleName();
-    public static final String QUERY_SELECTION = TweetTable.COLUMN_CATEGORY + "= ?";
+    public static final String QUERY_SELECTION = TweetTable.COLUMNS.COLUMN_CATEGORY.getColumnHeader() + "= ?";
     public static final String[] QUERY_SELECTION_ARGS = {TweetTable.Category.MY_STREAM_TWEETS.toString()};
 
     private TweetCursorAdapter tweetAdapter;
@@ -77,7 +77,7 @@ public class MyStreamFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         CursorLoader cursorLoader = new CursorLoader(getActivity(), TweetContentProvider.CONTENT_URI,
-                TweetTable.ALL_COLUMNS, QUERY_SELECTION, QUERY_SELECTION_ARGS, null);
+                TweetTable.COLUMNS.names(), QUERY_SELECTION, QUERY_SELECTION_ARGS, null);
         return cursorLoader;
     }
 

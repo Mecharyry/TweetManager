@@ -51,10 +51,10 @@ public class TweetCursorAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        int locationColumnIndex = cursor.getColumnIndex(TweetTable.COLUMN_LOCATION);
-        int screenNameColumnIndex = cursor.getColumnIndex(TweetTable.COLUMN_SCREEN_NAME);
-        int textColumnIndex = cursor.getColumnIndex(TweetTable.COLUMN_TWEET_TEXT);
-        int bitmapColumnIndex = cursor.getColumnIndex(TweetTable.COLUMN_THUMB_IMAGE);
+        int locationColumnIndex = cursor.getColumnIndex(TweetTable.COLUMNS.COLUMN_LOCATION.getColumnHeader());
+        int screenNameColumnIndex = cursor.getColumnIndex(TweetTable.COLUMNS.COLUMN_SCREEN_NAME.getColumnHeader());
+        int textColumnIndex = cursor.getColumnIndex(TweetTable.COLUMNS.COLUMN_TWEET_TEXT.getColumnHeader());
+        int bitmapColumnIndex = cursor.getColumnIndex(TweetTable.COLUMNS.COLUMN_THUMB_IMAGE.getColumnHeader());
 
         String location = cursor.getString(locationColumnIndex);
         String screenName = cursor.getString(screenNameColumnIndex);
