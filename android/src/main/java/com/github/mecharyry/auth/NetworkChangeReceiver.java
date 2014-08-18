@@ -9,16 +9,16 @@ import android.util.Log;
 
 public class NetworkChangeReceiver extends BroadcastReceiver {
 
-    private final Notify notify;
+    private final Callback callback;
 
-    public interface Notify {
+    public interface Callback {
         void networkAvailable();
 
         void networkUnavailable();
     }
 
-    public NetworkChangeReceiver(Notify notify) {
-        this.notify = notify;
+    public NetworkChangeReceiver(Callback callback) {
+        this.callback = callback;
     }
 
     @Override
@@ -26,10 +26,10 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
         Log.i(NetworkChangeReceiver.class.getSimpleName(), "Context: " + context.toString() + "\nIntent: " + intent);
 
         if (isNetworkAvailable(context)) {
-            notify.networkAvailable();
+            callback.networkAvailable();
             return;
         }
-        notify.networkUnavailable();
+        callback.networkUnavailable();
     }
 
     public static boolean isNetworkAvailable(Context context) {

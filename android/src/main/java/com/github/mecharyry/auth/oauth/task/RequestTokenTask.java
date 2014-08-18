@@ -11,20 +11,20 @@ import java.lang.ref.WeakReference;
 public class RequestTokenTask extends AsyncTask<Void, Void, NetworkResponse<String>> {
 
     private OAuthAuthenticator oAuthAuthenticator;
-    private final WeakReference<Notify> callbackWeakReference;
+    private final WeakReference<Callback> callbackWeakReference;
 
-    public interface Notify {
+    public interface Callback {
         void onSuccess(String token);
 
         void onFailure(String reason);
     }
 
-    public static RequestTokenTask newInstance(Notify notify, OAuthAuthenticator oAuthAuthenticator) {
-        WeakReference<Notify> weakReference = new WeakReference<Notify>(notify);
+    public static RequestTokenTask newInstance(Callback callback, OAuthAuthenticator oAuthAuthenticator) {
+        WeakReference<Callback> weakReference = new WeakReference<Callback>(callback);
         return new RequestTokenTask(weakReference, oAuthAuthenticator);
     }
 
-    private RequestTokenTask(WeakReference<Notify> callbackWeakReference, OAuthAuthenticator oAuthAuthenticator) {
+    private RequestTokenTask(WeakReference<Callback> callbackWeakReference, OAuthAuthenticator oAuthAuthenticator) {
         this.callbackWeakReference = callbackWeakReference;
         this.oAuthAuthenticator = oAuthAuthenticator;
     }
@@ -36,12 +36,12 @@ public class RequestTokenTask extends AsyncTask<Void, Void, NetworkResponse<Stri
 
     @Override
     protected void onPostExecute(NetworkResponse<String> response) {
-        Notify notify = callbackWeakReference.get();
-        if (notify != null) {
+        Callback callback = callbackWeakReference.get();
+        if (callback != null) {
             if (response.getStatus() == RequestStatus.REQUEST_SUCCESS) {
-                notify.onSuccess(response.getResponse());
+                callback.onSuccess(response.getResponse());
             } else {
-                notify.onFailure(response.getResponse());
+                callback.onFailure(response.getResponse());
             }
         }
     }
