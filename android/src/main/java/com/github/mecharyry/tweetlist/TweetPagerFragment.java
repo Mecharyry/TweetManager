@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.github.mecharyry.AccessTokenPreferences;
 import com.github.mecharyry.DeveloperError;
 import com.github.mecharyry.R;
+import com.github.mecharyry.tweetlist.adapter.TwitterSlidePagerAdapter;
 
 public class TweetPagerFragment extends Fragment {
 
@@ -51,7 +52,7 @@ public class TweetPagerFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         viewPager = (ViewPager) view.findViewById(R.id.pager);
-        PagerAdapter pagerAdapter = new TwitterSlidePagerAdapter(getFragmentManager());
+        PagerAdapter pagerAdapter = TwitterSlidePagerAdapter.newInstance(getFragmentManager());
         viewPager.setAdapter(pagerAdapter);
     }
 

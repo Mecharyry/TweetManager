@@ -71,12 +71,12 @@ public class TweetCursorAdapter extends CursorAdapter {
     }
 
     public long getFinalItemId() {
-        try{
+        try {
             int finalItemIndex = getCount() - 1;
             Cursor cursor = (Cursor) getItem(finalItemIndex);
             int columnIdIndex = cursor.getColumnIndexOrThrow(TweetTable.COLUMNS.COLUMN_ID.getColumnHeader());
             return cursor.getLong(columnIdIndex);
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             Log.e(TAG, ERROR_RETRIEVING_ID_COLUMN);
         }
         return -1;

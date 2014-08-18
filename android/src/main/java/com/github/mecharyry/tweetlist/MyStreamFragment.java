@@ -11,7 +11,6 @@ import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ListView;
 
 import com.github.mecharyry.AccessTokenPreferences;
@@ -24,7 +23,7 @@ import com.github.mecharyry.tweetlist.task.TaskCompleted;
 import com.github.mecharyry.tweetlist.task.TaskExecutor;
 import com.github.mecharyry.tweetlist.task.TaskFactory;
 
-public class MyStreamFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, AbsListView.OnScrollListener {
+public class MyStreamFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int LOADER_MANAGER_ID = 0xa9;
 
@@ -32,8 +31,6 @@ public class MyStreamFragment extends Fragment implements LoaderManager.LoaderCa
     public static final String QUERY_SELECTION = TweetTable.COLUMNS.COLUMN_CATEGORY.getColumnHeader() + "= ?";
     public static final String[] QUERY_SELECTION_ARGS = {TweetTable.Category.MY_STREAM_TWEETS.toString()};
     private static final String QUERY_ORDER_BY = TweetTable.COLUMNS.COLUMN_ID.getColumnHeader() + " DESC";
-
-    private int totalLoadedCount = 0;
 
     private TweetCursorAdapter tweetAdapter;
     private TaskExecutor taskExecutor;
@@ -69,7 +66,7 @@ public class MyStreamFragment extends Fragment implements LoaderManager.LoaderCa
 
         tweetAdapter = TweetCursorAdapter.newInstance(getLayoutInflater(savedInstanceState), null, false);
         listView.setAdapter(tweetAdapter);
-        listView.setOnScrollListener(this);
+        listView.setOnScrollListener(new ScrollListener(onScrollReceived));
 
         getLoaderManager().initLoader(LOADER_MANAGER_ID, null, this);
     }
@@ -98,23 +95,10 @@ public class MyStreamFragment extends Fragment implements LoaderManager.LoaderCa
         tweetAdapter.swapCursor(null);
     }
 
-    @Override
-    public void onScrollStateChanged(AbsListView absListView, int i) {
-
-    }
-
-    @Override
-    public void onScroll(AbsListView absListView, int indexFirstVisible, int numberVisible, int totalCount) {
-        int halfWay = totalCount / 2;
-        int distanceFromEnd = indexFirstVisible + halfWay;
-
-        boolean overHalfWay = distanceFromEnd >= totalCount;
-        boolean atEnd = totalCount != totalLoadedCount;
-
-        boolean loadMore = atEnd && overHalfWay;
-        if (loadMore) {
-            totalLoadedCount = totalCount;
+    private final ScrollListener.Callback onScrollReceived = new ScrollListener.Callback() {
+        @Override
+        public void onScroll() {
             taskExecutor.execute(onMyStreamTweetsReceived, taskFactory.requestMyStreamTweetsBeforeId(tweetAdapter.getFinalItemId()));
         }
-    }
+    };
 }
