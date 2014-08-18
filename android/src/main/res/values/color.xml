@@ -12,5 +12,4 @@
     <color name="button_gradient_border_color">#FFFFFF</color>
     <color name="menu_background_semi_transparent">#99000000</color>
     <color name="warning_message_color">#FF0000</color>
-    <color name="progress_bar_text_color">#444444</color>
 </resources>
