@@ -16,9 +16,9 @@
     <dimen name="logo_margin">20dp</dimen>
     <dimen name="menu_button_padding">10dp</dimen>
     <dimen name="thumb_info_top_margin">5dp</dimen>
-    <dimen name="thumb_image_width">48dp</dimen>
-    <dimen name="thumb_image_height">48dp</dimen>
-    <dimen name="thumb_info_left_margin">5dp</dimen>
+    <dimen name="thumb_image_width">64dp</dimen>
+    <dimen name="thumb_image_height">64dp</dimen>
+    <dimen name="thumb_info_left_margin">10dp</dimen>
     <dimen name="tab_padding_top">4dp</dimen>
     <dimen name="tab_padding_bottom">4dp</dimen>
     <dimen name="menu_padding">20dp</dimen>
