@@ -51,8 +51,8 @@ public class AndroidDevTweetsFragment extends Fragment implements LoaderManager.
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_android_dev_tweets, container, false);
-        listView = (ListView) view.findViewById(R.id.listview_androiddev_tweets);
+        View view = inflater.inflate(R.layout.twitter_stream_layout, container, false);
+        listView = (ListView) view.findViewById(R.id.listview_twitter_stream);
 
         View progressFooter = inflater.inflate(R.layout.listview_footer, null, false);
         listView.addFooterView(progressFooter);

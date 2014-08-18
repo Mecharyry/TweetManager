@@ -51,8 +51,8 @@ public class MyStreamFragment extends Fragment implements LoaderManager.LoaderCa
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_my_stream, container, false);
-        listView = (ListView) view.findViewById(R.id.listview_mystream);
+        View view = inflater.inflate(R.layout.twitter_stream_layout, container, false);
+        listView = (ListView) view.findViewById(R.id.listview_twitter_stream);
 
         View progressFooter = inflater.inflate(R.layout.listview_footer, null, false);
         listView.addFooterView(progressFooter);
