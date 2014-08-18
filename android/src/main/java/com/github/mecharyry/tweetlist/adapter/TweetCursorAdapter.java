@@ -68,6 +68,12 @@ public class TweetCursorAdapter extends CursorAdapter {
         }
     }
 
+    public long getFinalItemId() {
+        int finalItemIndex = getCount() - 1;
+        Cursor cursor = (Cursor) getItem(finalItemIndex);
+        return cursor.getLong(cursor.getColumnIndex(TweetTable.COLUMNS.COLUMN_ID.getColumnHeader()));
+    }
+
     private static class TweetHolder {
         TextView textScreenName;
         TextView textTweet;

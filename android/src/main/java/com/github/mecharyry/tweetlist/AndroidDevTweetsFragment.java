@@ -56,6 +56,9 @@ public class AndroidDevTweetsFragment extends Fragment implements LoaderManager.
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_android_dev_tweets, container, false);
         listView = (ListView) view.findViewById(R.id.listview_androiddev_tweets);
+
+        View progressFooter = inflater.inflate(R.layout.listview_footer, null, false);
+        listView.addFooterView(progressFooter);
         return view;
     }
 
@@ -110,11 +113,7 @@ public class AndroidDevTweetsFragment extends Fragment implements LoaderManager.
         boolean loadMore = atEnd && overHalfWay;
         if (loadMore) {
             totalLoadedCount = totalCount;
-            int finalListViewItemIndex = tweetAdapter.getCount() - 1;
-
-            Cursor cursor = (Cursor) tweetAdapter.getItem(finalListViewItemIndex);
-            long id = cursor.getLong(cursor.getColumnIndex(TweetTable.COLUMNS.COLUMN_ID.getColumnHeader()));
-            taskExecutor.execute(onAndroidDevTweetsReceived, taskFactory.requestAndroidDevTweetsBeforeId(id));
+            taskExecutor.execute(onAndroidDevTweetsReceived, taskFactory.requestAndroidDevTweetsBeforeId(tweetAdapter.getFinalItemId()));
         }
     }
 }

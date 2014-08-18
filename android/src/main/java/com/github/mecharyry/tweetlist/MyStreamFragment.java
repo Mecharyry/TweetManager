@@ -56,6 +56,9 @@ public class MyStreamFragment extends Fragment implements LoaderManager.LoaderCa
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_stream, container, false);
         listView = (ListView) view.findViewById(R.id.listview_mystream);
+
+        View progressFooter = inflater.inflate(R.layout.listview_footer, null, false);
+        listView.addFooterView(progressFooter);
         return view;
     }
 
@@ -111,11 +114,7 @@ public class MyStreamFragment extends Fragment implements LoaderManager.LoaderCa
         boolean loadMore = atEnd && overHalfWay;
         if (loadMore) {
             totalLoadedCount = totalCount;
-            int finalListViewItemIndex = tweetAdapter.getCount() - 1;
-
-            Cursor cursor = (Cursor) tweetAdapter.getItem(finalListViewItemIndex);
-            long id = cursor.getLong(cursor.getColumnIndex(TweetTable.COLUMNS.COLUMN_ID.getColumnHeader()));
-            taskExecutor.execute(onMyStreamTweetsReceived, taskFactory.requestMyStreamTweetsBeforeId(id));
+            taskExecutor.execute(onMyStreamTweetsReceived, taskFactory.requestMyStreamTweetsBeforeId(tweetAdapter.getFinalItemId()));
         }
     }
 }

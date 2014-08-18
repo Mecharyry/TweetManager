@@ -17,6 +17,6 @@
     <string name="application_logo_content_description">Application logo</string>
     <string name="toast_notification">Opening Browser</string>
     <string name="oauth_requester_title">Authorization</string>
-    <string name="progress_bar_message">Loading...</string>
+    <string name="progress_bar_message">Retrieving Tweets…</string>
 
 </resources>
