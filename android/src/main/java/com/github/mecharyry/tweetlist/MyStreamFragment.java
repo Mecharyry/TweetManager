@@ -111,11 +111,7 @@ public class MyStreamFragment extends Fragment implements LoaderManager.LoaderCa
         boolean loadMore = atEnd && overHalfWay;
         if (loadMore) {
             totalLoadedCount = totalCount;
-            int finalListViewItemIndex = tweetAdapter.getCount() - 1;
-
-            Cursor cursor = (Cursor) tweetAdapter.getItem(finalListViewItemIndex);
-            long id = cursor.getLong(cursor.getColumnIndex(TweetTable.COLUMNS.COLUMN_ID.getColumnHeader()));
-            taskExecutor.execute(onMyStreamTweetsReceived, taskFactory.requestMyStreamTweetsBeforeId(id));
+            taskExecutor.execute(onMyStreamTweetsReceived, taskFactory.requestMyStreamTweetsBeforeId(tweetAdapter.getFinalItemId()));
         }
     }
 }
