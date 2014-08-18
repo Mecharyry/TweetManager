@@ -3,6 +3,7 @@ package com.github.mecharyry.tweetlist.adapter;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.github.mecharyry.tweetlist.parser.ByteArrayToBitmapParser;
 public class TweetCursorAdapter extends CursorAdapter {
 
     private static final String TAG = TweetCursorAdapter.class.getSimpleName();
+    public static final String ERROR_RETRIEVING_ID_COLUMN = "Error when retrieving column index.";
     private final LayoutInflater layoutInflater;
     private final ByteArrayToBitmapParser parser;
 
@@ -69,9 +71,15 @@ public class TweetCursorAdapter extends CursorAdapter {
     }
 
     public long getFinalItemId() {
-        int finalItemIndex = getCount() - 1;
-        Cursor cursor = (Cursor) getItem(finalItemIndex);
-        return cursor.getLong(cursor.getColumnIndex(TweetTable.COLUMNS.COLUMN_ID.getColumnHeader()));
+        try{
+            int finalItemIndex = getCount() - 1;
+            Cursor cursor = (Cursor) getItem(finalItemIndex);
+            int columnIdIndex = cursor.getColumnIndexOrThrow(TweetTable.COLUMNS.COLUMN_ID.getColumnHeader());
+            return cursor.getLong(columnIdIndex);
+        }catch (IllegalArgumentException e){
+            Log.e(TAG, ERROR_RETRIEVING_ID_COLUMN);
+        }
+        return -1;
     }
 
     private static class TweetHolder {
