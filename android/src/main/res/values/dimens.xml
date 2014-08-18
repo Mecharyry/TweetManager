@@ -4,7 +4,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="list_view_item_padding">25dp</dimen>
     <dimen name="list_view_padding">10dp</dimen>
-    <dimen name="list_view_divider_height">5.0sp</dimen>
+    <dimen name="list_view_divider_height">1.0sp</dimen>
     <dimen name="rounded_edges_left_padding">5dp</dimen>
     <dimen name="rounded_edges_top_padding">5dp</dimen>
     <dimen name="rounded_edges_right_padding">5dp</dimen>
@@ -18,10 +18,6 @@
     <dimen name="thumb_info_top_margin">5dp</dimen>
     <dimen name="thumb_image_width">48dp</dimen>
     <dimen name="thumb_image_height">48dp</dimen>
-    <dimen name="shadow_top_padding">0dp</dimen>
-    <dimen name="shadow_right_padding">3dp</dimen>
-    <dimen name="shadow_bottom_padding">3dp</dimen>
-    <dimen name="shadow_left_padding">0dp</dimen>
     <dimen name="thumb_info_left_margin">5dp</dimen>
     <dimen name="tab_padding_top">4dp</dimen>
     <dimen name="tab_padding_bottom">4dp</dimen>
