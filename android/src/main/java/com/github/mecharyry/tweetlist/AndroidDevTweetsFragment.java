@@ -97,7 +97,7 @@ public class AndroidDevTweetsFragment extends Fragment implements LoaderManager.
 
     private final ScrollListener.Callback onScrollReceived = new ScrollListener.Callback() {
         @Override
-        public void onScroll() {
+        public void onLoadMore() {
             taskExecutor.execute(onAndroidDevTweetsReceived, taskFactory.requestAndroidDevTweetsBeforeId(tweetAdapter.getFinalItemId()));
         }
     };

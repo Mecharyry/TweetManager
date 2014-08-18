@@ -97,7 +97,7 @@ public class MyStreamFragment extends Fragment implements LoaderManager.LoaderCa
 
     private final ScrollListener.Callback onScrollReceived = new ScrollListener.Callback() {
         @Override
-        public void onScroll() {
+        public void onLoadMore() {
             taskExecutor.execute(onMyStreamTweetsReceived, taskFactory.requestMyStreamTweetsBeforeId(tweetAdapter.getFinalItemId()));
         }
     };
