@@ -32,9 +32,7 @@ public class ScrollListener implements AbsListView.OnScrollListener {
         boolean loadMore = atEnd && overHalfWay;
         if (loadMore) {
             totalLoadedCount = totalItemCount;
-            if (callback != null) {
-                callback.onLoadMore();
-            }
+            callback.onLoadMore();
         }
     }
 }
