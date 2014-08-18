@@ -18,7 +18,7 @@ import com.github.mecharyry.tweetlist.parser.ByteArrayToBitmapParser;
 public class TweetCursorAdapter extends CursorAdapter {
 
     private static final String TAG = TweetCursorAdapter.class.getSimpleName();
-    public static final String ERROR_RETRIEVING_ID_COLUMN = "Error when retrieving column index.";
+    private static final String ERROR_RETRIEVING_ID_COLUMN = "Error when retrieving column index.";
     private final LayoutInflater layoutInflater;
     private final ByteArrayToBitmapParser parser;
 

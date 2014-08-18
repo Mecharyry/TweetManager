@@ -9,7 +9,7 @@ public class ScrollListener implements AbsListView.OnScrollListener {
     private Callback callback;
 
     public interface Callback {
-        void onScroll();
+        void onLoadMore();
     }
 
     public ScrollListener(Callback callback) {
@@ -33,7 +33,7 @@ public class ScrollListener implements AbsListView.OnScrollListener {
         if (loadMore) {
             totalLoadedCount = totalItemCount;
             if (callback != null) {
-                callback.onScroll();
+                callback.onLoadMore();
             }
         }
     }
