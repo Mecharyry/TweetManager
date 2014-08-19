@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.view.PagerTabStrip;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,7 @@ public class AndroidDevTweetsFragment extends Fragment implements LoaderManager.
     private TaskExecutor taskExecutor;
     private TaskFactory taskFactory;
     private ListView listView;
+    private PagerTabStrip pagerTabStrip;
 
     public AndroidDevTweetsFragment() {
         taskExecutor = new TaskExecutor();
@@ -47,6 +49,7 @@ public class AndroidDevTweetsFragment extends Fragment implements LoaderManager.
         AccessTokenPreferences accessTokenPreferences = AccessTokenPreferences.newInstance(getActivity());
         AccessToken accessToken = accessTokenPreferences.retrieveAccessToken();
         taskFactory = TaskFactory.newInstance(accessToken);
+        pagerTabStrip = (PagerTabStrip) activity.findViewById(R.id.pager_tab_strip);
     }
 
     @Override
@@ -80,9 +83,8 @@ public class AndroidDevTweetsFragment extends Fragment implements LoaderManager.
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        CursorLoader cursorLoader = new CursorLoader(getActivity(), TweetContentProvider.CONTENT_URI,
+        return new CursorLoader(getActivity(), TweetContentProvider.CONTENT_URI,
                 TweetTable.COLUMNS.names(), QUERY_SELECTION, QUERY_SELECTION_ARGS, QUERY_ORDER_BY);
-        return cursorLoader;
     }
 
     @Override
@@ -99,6 +101,16 @@ public class AndroidDevTweetsFragment extends Fragment implements LoaderManager.
         @Override
         public void onLoadMore() {
             taskExecutor.execute(onAndroidDevTweetsReceived, taskFactory.requestAndroidDevTweetsBeforeId(tweetAdapter.getFinalItemId()));
+        }
+
+        @Override
+        public void onHideTabs() {
+            pagerTabStrip.setVisibility(View.GONE);
+        }
+
+        @Override
+        public void onShowTabs() {
+            pagerTabStrip.setVisibility(View.VISIBLE);
         }
     };
 }

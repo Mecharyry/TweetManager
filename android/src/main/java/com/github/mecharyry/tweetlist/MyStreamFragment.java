@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.view.PagerTabStrip;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,7 @@ public class MyStreamFragment extends Fragment implements LoaderManager.LoaderCa
     private TaskExecutor taskExecutor;
     private TaskFactory taskFactory;
     private ListView listView;
+    private PagerTabStrip pagerTabStrip;
 
     public MyStreamFragment() {
         taskExecutor = new TaskExecutor();
@@ -47,6 +49,7 @@ public class MyStreamFragment extends Fragment implements LoaderManager.LoaderCa
         AccessTokenPreferences accessTokenPreferences = AccessTokenPreferences.newInstance(getActivity());
         AccessToken accessToken = accessTokenPreferences.retrieveAccessToken();
         taskFactory = TaskFactory.newInstance(accessToken);
+        pagerTabStrip = (PagerTabStrip) activity.findViewById(R.id.pager_tab_strip);
     }
 
     @Override
@@ -99,6 +102,16 @@ public class MyStreamFragment extends Fragment implements LoaderManager.LoaderCa
         @Override
         public void onLoadMore() {
             taskExecutor.execute(onMyStreamTweetsReceived, taskFactory.requestMyStreamTweetsBeforeId(tweetAdapter.getFinalItemId()));
+        }
+
+        @Override
+        public void onHideTabs() {
+            pagerTabStrip.setVisibility(View.GONE);
+        }
+
+        @Override
+        public void onShowTabs() {
+            pagerTabStrip.setVisibility(View.VISIBLE);
         }
     };
 }

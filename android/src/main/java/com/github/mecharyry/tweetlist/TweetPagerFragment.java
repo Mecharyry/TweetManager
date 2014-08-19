@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,6 +23,7 @@ public class TweetPagerFragment extends Fragment {
     public static final String ERROR_MUST_IMPLEMENT_MESSAGE = " must implement Callback.";
     public static final String ERROR_MENU_ITEM_MESSAGE = "Menu item not handled.";
     private ViewPager viewPager;
+    private PagerTabStrip pagerTabStrip;
     private AccessTokenPreferences accessTokenPreferences;
     private Callback callback;
 
@@ -54,7 +56,17 @@ public class TweetPagerFragment extends Fragment {
         viewPager = (ViewPager) view.findViewById(R.id.pager);
         PagerAdapter pagerAdapter = TwitterSlidePagerAdapter.newInstance(getFragmentManager());
         viewPager.setAdapter(pagerAdapter);
+        viewPager.setOnPageChangeListener(new OnPageChangeListener(onPageChangeRecieved));
+
+        pagerTabStrip = (PagerTabStrip) view.findViewById(R.id.pager_tab_strip);
     }
+
+    private final OnPageChangeListener.Callback onPageChangeRecieved = new OnPageChangeListener.Callback() {
+        @Override
+        public void onPageSelected() {
+            pagerTabStrip.setVisibility(View.VISIBLE);
+        }
+    };
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
