@@ -8,10 +8,6 @@ import com.github.mecharyry.tweetlist.StreamType;
 
 public class TwitterSlidePagerAdapter extends FragmentStatePagerAdapter {
 
-    public static TwitterSlidePagerAdapter newInstance(FragmentManager fragmentManager) {
-        return new TwitterSlidePagerAdapter(fragmentManager);
-    }
-
     TwitterSlidePagerAdapter(FragmentManager fm) {
         super(fm);
     }
