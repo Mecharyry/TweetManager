@@ -26,10 +26,10 @@ public class ScrollListener implements AbsListView.OnScrollListener {
         int halfWay = totalItemCount / 2;
         int distanceFromEnd = firstVisibleItem + halfWay;
 
-        boolean overHalfWay = distanceFromEnd >= totalItemCount;
-        boolean atEnd = totalItemCount != totalLoadedCount;
+        boolean isOverHalfway = distanceFromEnd >= totalItemCount;
+        boolean isAtEnd = totalItemCount != totalLoadedCount;
 
-        boolean loadMore = atEnd && overHalfWay;
+        boolean loadMore = isAtEnd && isOverHalfway;
         if (loadMore) {
             totalLoadedCount = totalItemCount;
             callback.onLoadMore();
