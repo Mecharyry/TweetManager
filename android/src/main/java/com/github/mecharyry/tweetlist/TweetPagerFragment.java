@@ -54,7 +54,7 @@ public class TweetPagerFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         viewPager = (ViewPager) view.findViewById(R.id.pager);
-        PagerAdapter pagerAdapter = TwitterSlidePagerAdapter.newInstance(getFragmentManager());
+        PagerAdapter pagerAdapter = new TwitterSlidePagerAdapter(getFragmentManager());
         viewPager.setAdapter(pagerAdapter);
         viewPager.setOnPageChangeListener(new OnPageChangeListener(onPageChangeRecieved));
 
