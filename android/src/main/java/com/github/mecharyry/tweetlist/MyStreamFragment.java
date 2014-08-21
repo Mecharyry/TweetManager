@@ -1,6 +1,7 @@
 package com.github.mecharyry.tweetlist;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -8,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.view.PagerTabStrip;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,28 +28,35 @@ public class MyStreamFragment extends Fragment implements LoaderManager.LoaderCa
 
     private static final int LOADER_MANAGER_ID = 0xa9;
 
-    private static final String TAG = MyStreamFragment.class.getSimpleName();
     public static final String QUERY_SELECTION = TweetTable.COLUMNS.COLUMN_CATEGORY.getColumnHeader() + "= ?";
     public static final String[] QUERY_SELECTION_ARGS = {TweetTable.Category.MY_STREAM_TWEETS.toString()};
     private static final String QUERY_ORDER_BY = TweetTable.COLUMNS.COLUMN_ID.getColumnHeader() + " DESC";
+    public static final String ERROR_MUST_IMPLEMENT_MESSAGE = " must implement Callback.";
 
     private TweetCursorAdapter tweetAdapter;
     private TaskExecutor taskExecutor;
     private TaskFactory taskFactory;
     private ListView listView;
-    private PagerTabStrip pagerTabStrip;
+    private TabVisibilityController callback;
+    private ContentResolver contentResolver;
 
     public MyStreamFragment() {
         taskExecutor = new TaskExecutor();
     }
 
     @Override
-    public void onAttach(final Activity activity) {
+    public void onAttach(Activity activity) {
         super.onAttach(activity);
         AccessTokenPreferences accessTokenPreferences = AccessTokenPreferences.newInstance(getActivity());
         AccessToken accessToken = accessTokenPreferences.retrieveAccessToken();
         taskFactory = TaskFactory.newInstance(accessToken);
-        pagerTabStrip = (PagerTabStrip) activity.findViewById(R.id.pager_tab_strip);
+        contentResolver = activity.getContentResolver();
+
+        try {
+            callback = (TabVisibilityController) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.getClass().getName() + ERROR_MUST_IMPLEMENT_MESSAGE);
+        }
     }
 
     @Override
@@ -69,7 +76,7 @@ public class MyStreamFragment extends Fragment implements LoaderManager.LoaderCa
 
         tweetAdapter = TweetCursorAdapter.newInstance(getLayoutInflater(savedInstanceState), null, false);
         listView.setAdapter(tweetAdapter);
-        listView.setOnScrollListener(new ScrollListener(onScrollReceived));
+        listView.setOnScrollListener(new ScrollListener(onScrollReceived, callback));
 
         getLoaderManager().initLoader(LOADER_MANAGER_ID, null, this);
     }
@@ -77,7 +84,9 @@ public class MyStreamFragment extends Fragment implements LoaderManager.LoaderCa
     private final TaskCompleted<ContentValues[]> onMyStreamTweetsReceived = new TaskCompleted<ContentValues[]>() {
         @Override
         public void taskCompleted(ContentValues[] response) {
-            getActivity().getContentResolver().bulkInsert(TweetContentProvider.CONTENT_URI, response);
+            if (contentResolver != null) {
+                contentResolver.bulkInsert(TweetContentProvider.CONTENT_URI, response);
+            }
         }
     };
 
@@ -102,16 +111,6 @@ public class MyStreamFragment extends Fragment implements LoaderManager.LoaderCa
         @Override
         public void onLoadMore() {
             taskExecutor.execute(onMyStreamTweetsReceived, taskFactory.requestMyStreamTweetsBeforeId(tweetAdapter.getFinalItemId()));
-        }
-
-        @Override
-        public void onHideTabs() {
-            pagerTabStrip.setVisibility(View.GONE);
-        }
-
-        @Override
-        public void onShowTabs() {
-            pagerTabStrip.setVisibility(View.VISIBLE);
         }
     };
 }

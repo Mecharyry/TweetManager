@@ -8,15 +8,15 @@ public class ScrollListener implements AbsListView.OnScrollListener {
     private int totalLoadedCount = 0;
     private int previousFirstVisibleItem = 0;
     private Callback callback;
+    private TabVisibilityController tabVisibilityController;
 
     public interface Callback {
         void onLoadMore();
-        void onHideTabs();
-        void onShowTabs();
     }
 
-    public ScrollListener(Callback callback) {
+    public ScrollListener(Callback callback, TabVisibilityController tabVisibilityController) {
         this.callback = callback;
+        this.tabVisibilityController = tabVisibilityController;
     }
 
     @Override
@@ -38,11 +38,13 @@ public class ScrollListener implements AbsListView.OnScrollListener {
         }
 
         if (firstVisibleItem > previousFirstVisibleItem + 1) {
-            callback.onHideTabs();
+            tabVisibilityController.onHideTabs();
             previousFirstVisibleItem = firstVisibleItem;
+            tabVisibilityController.onHideTabs();
         } else if (firstVisibleItem < previousFirstVisibleItem - 1) {
-            callback.onShowTabs();
+            tabVisibilityController.onShowTabs();
             previousFirstVisibleItem = firstVisibleItem;
+            tabVisibilityController.onShowTabs();
         }
     }
 }

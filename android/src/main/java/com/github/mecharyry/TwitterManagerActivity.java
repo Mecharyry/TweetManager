@@ -7,12 +7,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
 
 import com.github.mecharyry.auth.AuthenticationFragment;
 import com.github.mecharyry.auth.oauth.OAuthWebViewActivity;
+import com.github.mecharyry.tweetlist.TabVisibilityController;
 import com.github.mecharyry.tweetlist.TweetPagerFragment;
 
-public class TwitterManagerActivity extends FragmentActivity implements AuthenticationFragment.Callback, TweetPagerFragment.Callback {
+public class TwitterManagerActivity extends FragmentActivity implements AuthenticationFragment.Callback, TweetPagerFragment.Callback, TabVisibilityController {
 
     private FragmentManager manager;
 
@@ -22,7 +24,10 @@ public class TwitterManagerActivity extends FragmentActivity implements Authenti
         setContentView(R.layout.activity_twitter_manager);
 
         manager = getSupportFragmentManager();
-        replaceFragment(new AuthenticationFragment());
+
+        if (savedInstanceState == null) {
+            replaceFragment(new AuthenticationFragment());
+        }
     }
 
     @Override
@@ -48,7 +53,6 @@ public class TwitterManagerActivity extends FragmentActivity implements Authenti
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.fragment_container, replaceWith);
         transaction.commit();
-        manager.popBackStack();
     }
 
     @Override
@@ -89,5 +93,15 @@ public class TwitterManagerActivity extends FragmentActivity implements Authenti
     @Override
     public void onClearCredentials() {
         replaceFragment(new AuthenticationFragment());
+    }
+
+    @Override
+    public void onShowTabs() {
+        findViewById(R.id.pager_tab_strip).setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onHideTabs() {
+        findViewById(R.id.pager_tab_strip).setVisibility(View.GONE);
     }
 }

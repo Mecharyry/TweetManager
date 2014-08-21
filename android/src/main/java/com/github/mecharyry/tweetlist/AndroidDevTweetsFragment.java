@@ -1,6 +1,7 @@
 package com.github.mecharyry.tweetlist;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -8,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.view.PagerTabStrip;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +16,7 @@ import android.widget.ListView;
 
 import com.github.mecharyry.AccessTokenPreferences;
 import com.github.mecharyry.R;
+import com.github.mecharyry.TwitterManagerActivity;
 import com.github.mecharyry.auth.oauth.AccessToken;
 import com.github.mecharyry.db.TweetContentProvider;
 import com.github.mecharyry.db.TweetTable;
@@ -28,16 +29,18 @@ public class AndroidDevTweetsFragment extends Fragment implements LoaderManager.
 
     private static final int LOADER_MANAGER_ID = 0xa9;
 
-    private static final String TAG = AndroidDevTweetsFragment.class.getSimpleName();
     private static final String QUERY_SELECTION = TweetTable.COLUMNS.COLUMN_CATEGORY.getColumnHeader() + "= ?";
     private static final String[] QUERY_SELECTION_ARGS = {TweetTable.Category.ANDROID_DEV_TWEETS.toString()};
     private static final String QUERY_ORDER_BY = TweetTable.COLUMNS.COLUMN_ID.getColumnHeader() + " DESC";
+    public static final String ERROR_MUST_IMPLEMENT_MESSAGE = " must implement Callback.";
+    public static final String TAG = TwitterManagerActivity.class.getSimpleName();
 
     private TweetCursorAdapter tweetAdapter;
     private TaskExecutor taskExecutor;
     private TaskFactory taskFactory;
     private ListView listView;
-    private PagerTabStrip pagerTabStrip;
+    private TabVisibilityController callback;
+    private ContentResolver contentResolver;
 
     public AndroidDevTweetsFragment() {
         taskExecutor = new TaskExecutor();
@@ -49,7 +52,13 @@ public class AndroidDevTweetsFragment extends Fragment implements LoaderManager.
         AccessTokenPreferences accessTokenPreferences = AccessTokenPreferences.newInstance(getActivity());
         AccessToken accessToken = accessTokenPreferences.retrieveAccessToken();
         taskFactory = TaskFactory.newInstance(accessToken);
-        pagerTabStrip = (PagerTabStrip) activity.findViewById(R.id.pager_tab_strip);
+        contentResolver = activity.getContentResolver();
+
+        try {
+            callback = (TabVisibilityController) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.getClass().getName() + ERROR_MUST_IMPLEMENT_MESSAGE);
+        }
     }
 
     @Override
@@ -69,7 +78,7 @@ public class AndroidDevTweetsFragment extends Fragment implements LoaderManager.
 
         tweetAdapter = TweetCursorAdapter.newInstance(getLayoutInflater(savedInstanceState), null, false);
         listView.setAdapter(tweetAdapter);
-        listView.setOnScrollListener(new ScrollListener(onScrollReceived));
+        listView.setOnScrollListener(new ScrollListener(onScrollReceived, callback));
 
         getLoaderManager().initLoader(LOADER_MANAGER_ID, null, this);
     }
@@ -77,7 +86,9 @@ public class AndroidDevTweetsFragment extends Fragment implements LoaderManager.
     private final TaskCompleted<ContentValues[]> onAndroidDevTweetsReceived = new TaskCompleted<ContentValues[]>() {
         @Override
         public void taskCompleted(ContentValues[] response) {
-            getActivity().getContentResolver().bulkInsert(TweetContentProvider.CONTENT_URI, response);
+            if (contentResolver != null) {
+                contentResolver.bulkInsert(TweetContentProvider.CONTENT_URI, response);
+            }
         }
     };
 
@@ -101,16 +112,6 @@ public class AndroidDevTweetsFragment extends Fragment implements LoaderManager.
         @Override
         public void onLoadMore() {
             taskExecutor.execute(onAndroidDevTweetsReceived, taskFactory.requestAndroidDevTweetsBeforeId(tweetAdapter.getFinalItemId()));
-        }
-
-        @Override
-        public void onHideTabs() {
-            pagerTabStrip.setVisibility(View.GONE);
-        }
-
-        @Override
-        public void onShowTabs() {
-            pagerTabStrip.setVisibility(View.VISIBLE);
         }
     };
 }
