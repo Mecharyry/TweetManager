@@ -1,5 +1,6 @@
 package com.github.mecharyry.tweetlist.task;
 
+import com.github.mecharyry.DeveloperError;
 import com.github.mecharyry.tweetlist.parser.Parser;
 import com.github.mecharyry.tweetlist.request.Request;
 import com.github.mecharyry.tweetlist.request.RequestException;
@@ -21,7 +22,7 @@ public class Task<F, T> {
         try {
             result = requester.request(url);
         } catch (RequestException e) {
-            e.printStackTrace();
+            throw DeveloperError.because("While performing request.", e);
         }
         return parser.parse(result);
     }

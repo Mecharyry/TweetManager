@@ -5,7 +5,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,7 +21,7 @@ public abstract class WebServiceRequest<T> implements Request<T> {
     @Override
     public T request(String signedUrl) throws RequestException {
         Throwable throwable = null;
-        HttpClient client = HttpClientBuilder.create().build();
+        HttpClient client = new DefaultHttpClient();
         HttpGet get = new HttpGet(signedUrl);
 
         try {
@@ -52,6 +52,7 @@ public abstract class WebServiceRequest<T> implements Request<T> {
                 stringBuilder.append(line);
             }
             inputStream.close();
+            return stringBuilder.toString();
         } catch (IOException e) {
             throwable = e;
         }

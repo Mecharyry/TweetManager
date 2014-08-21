@@ -1,7 +1,10 @@
 apply plugin: 'com.android.application'
 
 dependencies {
-    compile project(':core')
+    compile (project(':core')) {
+        exclude module: 'json'
+        exclude module: 'httpclient'
+    }
     compile 'com.loopj.android:android-async-http:1.4.5'
     compile 'com.android.support:support-v4:20.0.+'
 }
