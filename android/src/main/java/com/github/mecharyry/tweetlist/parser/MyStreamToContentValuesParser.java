@@ -2,8 +2,8 @@ package com.github.mecharyry.tweetlist.parser;
 
 import android.content.ContentValues;
 import android.graphics.Bitmap;
-import android.util.Log;
 
+import com.github.mecharyry.DeveloperError;
 import com.github.mecharyry.db.TweetTable;
 import com.github.mecharyry.tweetlist.ImageRetriever;
 
@@ -13,7 +13,6 @@ import org.json.JSONObject;
 
 public class MyStreamToContentValuesParser implements Parser<JSONArray, ContentValues[]> {
 
-    private static final String TAG = MyStreamToContentValuesParser.class.getSimpleName();
     private static final String KEY_ID = "id_str";
     private static final String KEY_TEXT = "text";
     private static final String KEY_USER = "user";
@@ -44,7 +43,7 @@ public class MyStreamToContentValuesParser implements Parser<JSONArray, ContentV
                 tweets[tweetIndex] = tweet;
             }
         } catch (JSONException e) {
-            Log.e(TAG, ERROR_JSON_ARRAY_MESSAGE);
+            throw DeveloperError.because(ERROR_JSON_ARRAY_MESSAGE, e);
         }
         return tweets;
     }

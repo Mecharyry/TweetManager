@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import com.github.mecharyry.DeveloperError;
 import com.github.mecharyry.db.TweetTable;
 import com.github.mecharyry.tweetlist.ImageRetriever;
 
@@ -13,7 +14,6 @@ import org.json.JSONObject;
 
 public class HashtagToContentValuesParser implements Parser<JSONObject, ContentValues[]> {
 
-    private static final String TAG = HashtagToContentValuesParser.class.getSimpleName();
     private static final String KEY_ID = "id_str";
     private static final String KEY_STATUSES = "statuses";
     private static final String KEY_TEXT = "text";
@@ -50,10 +50,8 @@ public class HashtagToContentValuesParser implements Parser<JSONObject, ContentV
             }
             return contentValues;
         } catch (JSONException e) {
-            Log.e(TAG, ERROR_JSON_OBJECT_MESSAGE);
+            throw DeveloperError.because(ERROR_JSON_OBJECT_MESSAGE, e);
         }
-
-        return new ContentValues[0];
     }
 
     private ContentValues extractContentValues(JSONObject jsonObject) throws JSONException {

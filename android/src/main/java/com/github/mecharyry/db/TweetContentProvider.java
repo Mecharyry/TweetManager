@@ -8,7 +8,6 @@ import android.net.Uri;
 
 public class TweetContentProvider extends ContentProvider {
 
-    public static final String TAG = TweetContentProvider.class.getSimpleName();
     private static final String AUTHORITY = "com.github.mecharyry.db.databaseProvider";
     private static final String BASE_PATH = "tweet";
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH);

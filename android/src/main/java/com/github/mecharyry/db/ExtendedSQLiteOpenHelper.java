@@ -3,13 +3,11 @@ package com.github.mecharyry.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 public class ExtendedSQLiteOpenHelper extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 1;
 
-    private static final String TAG = ExtendedSQLiteOpenHelper.class.getSimpleName();
     public static final String DATABASE_NAME = "tweet.db";
     private static final String TEXT_TYPE = " TEXT";
     private static final String BLOB_TYPE = " BLOB";
@@ -34,14 +32,12 @@ public class ExtendedSQLiteOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_ENTRIES);
-        Log.i(TAG, "Create Statement: " + SQL_CREATE_ENTRIES);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(SQL_DELETE_ENTRIES);
         onCreate(db);
-        Log.i(TAG, "Delete Statement: " + SQL_DELETE_ENTRIES);
     }
 
     @Override

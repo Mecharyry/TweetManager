@@ -33,7 +33,6 @@ public class AndroidDevTweetsFragment extends Fragment implements LoaderManager.
     private static final String[] QUERY_SELECTION_ARGS = {TweetTable.Category.ANDROID_DEV_TWEETS.toString()};
     private static final String QUERY_ORDER_BY = TweetTable.COLUMNS.COLUMN_ID.getColumnHeader() + " DESC";
     public static final String ERROR_MUST_IMPLEMENT_MESSAGE = " must implement Callback.";
-    public static final String TAG = TwitterManagerActivity.class.getSimpleName();
 
     private TweetCursorAdapter tweetAdapter;
     private TaskExecutor taskExecutor;

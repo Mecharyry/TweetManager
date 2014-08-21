@@ -4,7 +4,6 @@ import android.widget.AbsListView;
 
 public class ScrollListener implements AbsListView.OnScrollListener {
 
-    public static final String TAG = ScrollListener.class.getSimpleName();
     private int totalLoadedCount = 0;
     private int previousFirstVisibleItem = 0;
     private Callback callback;

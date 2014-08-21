@@ -11,13 +11,13 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.mecharyry.DeveloperError;
 import com.github.mecharyry.R;
 import com.github.mecharyry.db.TweetTable;
 import com.github.mecharyry.tweetlist.parser.ByteArrayToBitmapParser;
 
 public class TweetCursorAdapter extends CursorAdapter {
 
-    private static final String TAG = TweetCursorAdapter.class.getSimpleName();
     private static final String ERROR_RETRIEVING_ID_COLUMN = "Error when retrieving column index.";
     private final LayoutInflater layoutInflater;
     private final ByteArrayToBitmapParser parser;
@@ -77,9 +77,8 @@ public class TweetCursorAdapter extends CursorAdapter {
             int columnIdIndex = cursor.getColumnIndexOrThrow(TweetTable.COLUMNS.COLUMN_ID.getColumnHeader());
             return cursor.getLong(columnIdIndex);
         } catch (IllegalArgumentException e) {
-            Log.e(TAG, ERROR_RETRIEVING_ID_COLUMN);
+            throw DeveloperError.because(ERROR_RETRIEVING_ID_COLUMN, e);
         }
-        return -1;
     }
 
     private static class TweetHolder {

@@ -14,7 +14,6 @@ import java.io.InputStreamReader;
 
 public abstract class WebServiceRequest<T> implements Request<T> {
 
-    private static final String TAG = WebServiceRequest.class.getSimpleName();
     public static final String READING_STREAM_ERROR_MESSAGE = "While reading stream.";
     public static final String PARSING_STREAM_TO_STRING_ERROR_MESSAGE = "While parsing stream to string";
 
