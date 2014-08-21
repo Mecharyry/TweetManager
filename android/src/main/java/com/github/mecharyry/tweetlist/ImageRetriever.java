@@ -13,6 +13,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import java.io.IOException;
 import java.io.InputStream;
 
+// TODO: Repurpose to use web request.
 public class ImageRetriever {
 
     public static final String ERROR_READING_STREAM_MESSAGE = "While reading bitmap stream.";

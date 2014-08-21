@@ -2,7 +2,6 @@ package com.github.mecharyry.tweetlist.parser;
 
 
 import android.content.ContentValues;
-import android.graphics.Bitmap;
 
 import com.github.mecharyry.tweetlist.ImageRetriever;
 
@@ -28,13 +27,5 @@ public class ParserFactory {
 
     public Parser<JSONObject, ContentValues[]> hashtagParser() {
         return HashtagToContentValuesParser.newInstance(imageRetriever);
-    }
-
-    public Parser<Bitmap, byte[]> bitmapToByteArrayParser() {
-        return new BitmapToByteArrayParser();
-    }
-
-    public Parser<byte[], Bitmap> byteArrayToBitmapParser() {
-        return new ByteArrayToBitmapParser();
     }
 }

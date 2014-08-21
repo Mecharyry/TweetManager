@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mecharyry.AccessTokenPreferences;
+import com.github.mecharyry.BuildConfig;
 import com.github.mecharyry.R;
 import com.github.mecharyry.auth.oauth.AccessToken;
 import com.github.mecharyry.auth.oauth.OAuthAuthenticator;
@@ -37,7 +38,7 @@ public class AuthenticationFragment extends Fragment {
     }
 
     public AuthenticationFragment() {
-        oAuthAuthenticator = OAuthAuthenticator.newInstance();
+        oAuthAuthenticator = OAuthAuthenticator.newInstance(BuildConfig.CONSUMER_KEY, BuildConfig.CONSUMER_SECRET);
     }
 
     @Override

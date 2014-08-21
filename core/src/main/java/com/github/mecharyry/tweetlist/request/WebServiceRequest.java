@@ -1,13 +1,11 @@
 package com.github.mecharyry.tweetlist.request;
 
-import android.util.Log;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,11 +16,12 @@ public abstract class WebServiceRequest<T> implements Request<T> {
 
     private static final String TAG = WebServiceRequest.class.getSimpleName();
     public static final String READING_STREAM_ERROR_MESSAGE = "While reading stream.";
+    public static final String PARSING_STREAM_TO_STRING_ERROR_MESSAGE = "While parsing stream to string";
 
     @Override
     public T request(String signedUrl) throws RequestException {
         Throwable throwable = null;
-        HttpClient client = new DefaultHttpClient();
+        HttpClient client = HttpClientBuilder.create().build();
         HttpGet get = new HttpGet(signedUrl);
 
         try {
@@ -40,10 +39,11 @@ public abstract class WebServiceRequest<T> implements Request<T> {
         } catch (IOException e) {
             throwable = e;
         }
-        throw new RequestException(READING_STREAM_ERROR_MESSAGE, throwable);
+        throw RequestException.because(READING_STREAM_ERROR_MESSAGE, throwable);
     }
 
-    protected static String inputStreamToString(InputStream inputStream) {
+    protected static String inputStreamToString(InputStream inputStream) throws RequestException {
+        Throwable throwable = null;
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         StringBuilder stringBuilder = new StringBuilder();
         String line;
@@ -53,9 +53,9 @@ public abstract class WebServiceRequest<T> implements Request<T> {
             }
             inputStream.close();
         } catch (IOException e) {
-            Log.e(TAG, READING_STREAM_ERROR_MESSAGE, e);
+            throwable = e;
         }
-        return stringBuilder.toString();
+        throw RequestException.because(PARSING_STREAM_TO_STRING_ERROR_MESSAGE, throwable);
     }
 
     abstract T convertStringTo(String input);

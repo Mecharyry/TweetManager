@@ -37,6 +37,7 @@ public class ScrollListener implements AbsListView.OnScrollListener {
             callback.onLoadMore();
         }
 
+        // TODO: Split this method into additional methods.
         if (firstVisibleItem > previousFirstVisibleItem + 1) {
             tabVisibilityController.onHideTabs();
             previousFirstVisibleItem = firstVisibleItem;

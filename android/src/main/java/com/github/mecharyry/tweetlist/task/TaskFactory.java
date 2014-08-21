@@ -2,6 +2,7 @@ package com.github.mecharyry.tweetlist.task;
 
 import android.content.ContentValues;
 
+import com.github.mecharyry.BuildConfig;
 import com.github.mecharyry.auth.oauth.AccessToken;
 import com.github.mecharyry.auth.oauth.OAuthAuthenticator;
 import com.github.mecharyry.tweetlist.parser.ParserFactory;
@@ -25,7 +26,7 @@ public class TaskFactory {
 
 
     public static TaskFactory newInstance(AccessToken accessToken) {
-        OAuthAuthenticator oAuthAuthenticator = OAuthAuthenticator.newInstance();
+        OAuthAuthenticator oAuthAuthenticator = OAuthAuthenticator.newInstance(BuildConfig.CONSUMER_KEY, BuildConfig.CONSUMER_SECRET);
         OAuthConsumer oAuthConsumer = oAuthAuthenticator.getConsumer(accessToken);
         ParserFactory parserFactory = ParserFactory.newInstance();
         RequestFactory requestFactory = new RequestFactory();
