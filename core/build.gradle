@@ -5,4 +5,5 @@ dependencies {
     compile 'oauth.signpost:signpost-commonshttp4:1.2.1.2@jar'
     compile('org.json:json:20140107')
     compile 'org.apache.httpcomponents:httpclient:4.0.3'
+    compile 'junit:junit:4.11'
 }
