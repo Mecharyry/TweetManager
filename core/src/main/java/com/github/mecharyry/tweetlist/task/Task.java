@@ -18,7 +18,7 @@ public class Task<F, T> {
     }
 
     public T executeTask() {
-        F result = null;
+        F result;
         try {
             result = requester.request(url);
         } catch (RequestException e) {

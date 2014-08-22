@@ -3,6 +3,6 @@ apply plugin: 'java'
 dependencies {
     compile 'oauth.signpost:signpost-core:1.2.1.2@jar'
     compile 'oauth.signpost:signpost-commonshttp4:1.2.1.2@jar'
-    compile ('org.json:json:20140107')
+    compile('org.json:json:20140107')
     compile 'org.apache.httpcomponents:httpclient:4.0.3'
 }

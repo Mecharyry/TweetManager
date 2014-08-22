@@ -2,11 +2,11 @@ package com.github.mecharyry.tweetlist.parser;
 
 import android.content.ContentValues;
 import android.graphics.Bitmap;
-import android.util.Log;
 
 import com.github.mecharyry.DeveloperError;
 import com.github.mecharyry.db.TweetTable;
 import com.github.mecharyry.tweetlist.ImageRetriever;
+import com.github.mecharyry.tweetlist.request.RequestException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,7 +61,13 @@ public class HashtagToContentValuesParser implements Parser<JSONObject, ContentV
         String location = user.getString(KEY_LOCATION);
         String text = jsonObject.getString(KEY_TEXT);
         String imgUrl = user.getString(KEY_THUMB_IMAGE);
-        Bitmap bitmap = imageRetriever.retrieveBitmap(imgUrl);
+
+        Bitmap bitmap;
+        try {
+            bitmap = imageRetriever.request(imgUrl);
+        } catch (RequestException e) {
+            bitmap = Bitmap.createBitmap(0,0, Bitmap.Config.ALPHA_8);
+        }
 
         byte[] imageData = parser.parse(bitmap);
 

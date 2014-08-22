@@ -16,7 +16,6 @@ import android.widget.ListView;
 
 import com.github.mecharyry.AccessTokenPreferences;
 import com.github.mecharyry.R;
-import com.github.mecharyry.TwitterManagerActivity;
 import com.github.mecharyry.auth.oauth.AccessToken;
 import com.github.mecharyry.db.TweetContentProvider;
 import com.github.mecharyry.db.TweetTable;
