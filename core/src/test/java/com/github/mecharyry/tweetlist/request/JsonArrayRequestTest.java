@@ -8,9 +8,14 @@ import org.junit.Test;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class JsonArrayRequestTest {
+
+    public static final int FIRST_INDEX = 0;
+    public static final int SECOND_INDEX = 1;
+    public static final int EXPECTED_LENGTH = 2;
 
     private static final String FIRST_NAME = "firstName";
     private static final String LAST_NAME = "lastName";
@@ -18,12 +23,11 @@ public class JsonArrayRequestTest {
     private static final String FELINE = "Feline";
     private static final String RACHEL = "Rachel";
     private static final String WORLEDGE = "Worledge";
+
+    private static final String BASIC_JSON_ARRAY_INVALID = "Nonsense";
     private static final String BASIC_JSON_ARRAY_VALID = "[{" + FIRST_NAME + ":\"" + RYAN + "\", " + LAST_NAME + ":\"" + FELINE + "\"}," +
             "{" + FIRST_NAME + ":\"" + RACHEL + "\", " + LAST_NAME + ":\"" + WORLEDGE + "\"}]";
-    private static final String BASIC_JSON_ARRAY_INVALID = "Nonsense";
-    public static final int EXPECTED_LENGTH = 2;
-    public static final int FIRST_INDEX = 0;
-    public static final int SECOND_INDEX = 1;
+
     private JsonArrayRequest jsonArrayRequest;
 
     @Before
@@ -53,7 +57,7 @@ public class JsonArrayRequestTest {
         jsonArrayRequest.convertStreamTo(createInputStream(BASIC_JSON_ARRAY_INVALID));
     }
 
-    private InputStream createInputStream(String jsonArrayAsString){
+    private InputStream createInputStream(String jsonArrayAsString) {
         return new ByteArrayInputStream(jsonArrayAsString.getBytes());
     }
 }

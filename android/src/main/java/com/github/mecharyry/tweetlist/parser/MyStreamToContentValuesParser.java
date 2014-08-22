@@ -61,7 +61,7 @@ public class MyStreamToContentValuesParser implements Parser<JSONArray, ContentV
         try {
             bitmap = imageRetriever.request(imgUrl);
         } catch (RequestException e) {
-            bitmap = Bitmap.createBitmap(0,0, Bitmap.Config.ALPHA_8);
+            bitmap = Bitmap.createBitmap(0, 0, Bitmap.Config.ALPHA_8);
         }
 
         byte[] imageData = parser.parse(bitmap);

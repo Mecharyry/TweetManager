@@ -6,7 +6,9 @@ import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class JsonObjectRequestTest {
 
@@ -16,6 +18,7 @@ public class JsonObjectRequestTest {
     private static final String FELINE = "Feline";
     private static final String BASIC_JSON_OBJECT_VALID = "{" + FIRST_NAME + ":\"" + RYAN + "\", " + LAST_NAME + ":\"" + FELINE + "\"}";
     private static final String BASIC_JSON_OBJECT_INVALID = "Nonsense";
+
     private JsonObjectRequest jsonObjectRequest;
 
     @Before
