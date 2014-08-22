@@ -37,7 +37,7 @@ public class JsonObjectRequestTest {
         jsonObjectRequest.convertStreamTo(createInputStream(BASIC_JSON_OBJECT_INVALID));
     }
 
-    private InputStream createInputStream(String jsonArrayAsString) {
-        return new ByteArrayInputStream((jsonArrayAsString.getBytes()));
+    private InputStream createInputStream(String jsonObjectAsString) {
+        return new ByteArrayInputStream((jsonObjectAsString.getBytes()));
     }
 }
