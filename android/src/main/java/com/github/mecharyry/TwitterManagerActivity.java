@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -13,8 +12,14 @@ import com.github.mecharyry.auth.AuthenticationFragment;
 import com.github.mecharyry.auth.oauth.OAuthWebViewActivity;
 import com.github.mecharyry.tweetlist.TabVisibilityController;
 import com.github.mecharyry.tweetlist.TweetPagerFragment;
+import com.leanplum.Leanplum;
+import com.leanplum.activities.LeanplumFragmentActivity;
 
-public class TwitterManagerActivity extends FragmentActivity implements AuthenticationFragment.Callback, TweetPagerFragment.Callback, TabVisibilityController {
+public class TwitterManagerActivity extends LeanplumFragmentActivity implements AuthenticationFragment.Callback, TweetPagerFragment.Callback, TabVisibilityController {
+
+    public static final String APP_ID_KEY = "JgJNu8zPCsxuhp91zhH68gRLhKSqzgenHGwQbKAq7FE";
+    public static final String DEV_ACCESS_KEY = "iW6U8abyB4689kwbWootwcef9WHJLe2wp0NiUglTwlQ";
+    public static final String APP_PRODUCTION_KEY = "NR1XYZ2LZvf9Y2atkyyf2oOfOAr794urITafhkHm3Cw";
 
     private FragmentManager manager;
 
@@ -23,11 +28,22 @@ public class TwitterManagerActivity extends FragmentActivity implements Authenti
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_twitter_manager);
 
+        addLeanplumKeys();
+
         manager = getSupportFragmentManager();
 
         if (savedInstanceState == null) {
             replaceFragment(new AuthenticationFragment());
         }
+    }
+
+    private void addLeanplumKeys() {
+        if (BuildConfig.DEBUG) {
+            Leanplum.setAppIdForDevelopmentMode(APP_ID_KEY, DEV_ACCESS_KEY);
+        } else {
+            Leanplum.setAppIdForProductionMode(APP_ID_KEY, APP_PRODUCTION_KEY);
+        }
+        Leanplum.start(this);
     }
 
     @Override

@@ -4,6 +4,7 @@ dependencies {
     compile project(':core')
     compile 'com.loopj.android:android-async-http:1.4.5'
     compile 'com.android.support:support-v4:20.0.+'
+    compile 'com.leanplum:Leanplum:1.1+'
 }
 
 android {

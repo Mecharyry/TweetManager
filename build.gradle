@@ -2,6 +2,9 @@ subprojects {
     buildscript {
         repositories {
             mavenCentral()
+            maven {
+                url "http://www.leanplum.com/leanplum-sdks/"
+            }
         }
 
         dependencies {
@@ -11,6 +14,9 @@ subprojects {
 
     repositories {
         mavenCentral()
+        maven {
+            url "http://www.leanplum.com/leanplum-sdks/"
+        }
     }
 }
 
