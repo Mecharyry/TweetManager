@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.github.mecharyry">
+  package="com.github.mecharyry">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+  <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <application
-        android:allowBackup="true"
-        android:icon="@drawable/twitter_dark"
-        android:theme="@android:style/Theme.Holo.Light">
+  <application
+    android:allowBackup="true"
+    android:icon="@drawable/twitter_dark"
+    android:theme="@android:style/Theme.Holo.Light">
 
-        <activity
-            android:name="com.github.mecharyry.TwitterManagerActivity"
-            android:label="@string/title_activity_twitter_manager">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+    <activity
+      android:name="com.github.mecharyry.TwitterManagerActivity"
+      android:label="@string/title_activity_twitter_manager">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+    </activity>
 
-        <activity
-            android:name="com.github.mecharyry.auth.oauth.OAuthWebViewActivity"
-            android:label="@string/oauth_requester_title"
-            android:launchMode="singleTop">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
+    <activity
+      android:name="com.github.mecharyry.auth.oauth.OAuthWebViewActivity"
+      android:label="@string/oauth_requester_title"
+      android:launchMode="singleTop">
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="mecharyry-android" />
-            </intent-filter>
-        </activity>
+        <data android:scheme="mecharyry-android" />
+      </intent-filter>
+    </activity>
 
-        <provider
-            android:name="com.github.mecharyry.db.TweetContentProvider"
-            android:authorities="com.github.mecharyry.db.databaseProvider"
-            android:exported="false" />
-    </application>
+    <provider
+      android:name="com.github.mecharyry.db.TweetContentProvider"
+      android:authorities="com.github.mecharyry.db.databaseProvider"
+      android:exported="false" />
+  </application>
 
 </manifest>

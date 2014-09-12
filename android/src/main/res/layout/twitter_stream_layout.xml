@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ListView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/listview_twitter_stream"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="@dimen/list_view_padding"
-    android:divider="#DDDDDD"
-    android:dividerHeight="@dimen/list_view_divider_height"
-    android:orientation="vertical"
-    android:scrollbars="none" />
+  android:id="@+id/listview_twitter_stream"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:layout_margin="@dimen/list_view_padding"
+  android:divider="#DDDDDD"
+  android:dividerHeight="@dimen/list_view_divider_height"
+  android:orientation="vertical"
+  android:scrollbars="none" />

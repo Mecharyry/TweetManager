@@ -1,52 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="@drawable/blue_birds"
+  android:focusableInTouchMode="true">
+
+  <ImageView
+    android:id="@+id/image_view_twitter_logo"
+    android:layout_width="@dimen/logo_width"
+    android:layout_height="@dimen/logo_height"
+    android:layout_margin="@dimen/logo_margin"
+    android:layout_above="@+id/authentication_options"
+    android:layout_centerHorizontal="true"
+    android:contentDescription="@string/application_logo_content_description"
+    android:src="@drawable/twitter_dark" />
+
+  <TextView
+    android:id="@+id/text_warning_message"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:textStyle="bold"
+    android:textColor="@color/warning_message_color"
+    android:textSize="@dimen/warning_text_size"
+    android:layout_below="@id/authentication_options" />
+
+
+  <LinearLayout
+    android:id="@+id/authentication_options"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/blue_birds"
-    android:focusableInTouchMode="true">
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:layout_marginLeft="@dimen/menu_margin_left"
+    android:layout_marginRight="@dimen/menu_margin_right"
+    android:background="@drawable/authentication_background"
+    android:orientation="vertical"
+    android:padding="@dimen/menu_padding">
 
-    <ImageView
-        android:id="@+id/image_view_twitter_logo"
-        android:layout_width="@dimen/logo_width"
-        android:layout_height="@dimen/logo_height"
-        android:layout_margin="@dimen/logo_margin"
-        android:layout_above="@+id/authentication_options"
-        android:layout_centerHorizontal="true"
-        android:contentDescription="@string/application_logo_content_description"
-        android:src="@drawable/twitter_dark" />
+    <Button
+      android:id="@+id/button_authentication"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="@drawable/button_background"
+      android:padding="@dimen/button_padding"
+      android:text="@string/authenticate"
+      android:drawableLeft="@drawable/blue_lock_icon" />
 
-    <TextView
-        android:id="@+id/text_warning_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:textStyle="bold"
-        android:textColor="@color/warning_message_color"
-        android:textSize="@dimen/warning_text_size"
-        android:layout_below="@id/authentication_options" />
-
-
-    <LinearLayout
-        android:id="@+id/authentication_options"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginLeft="@dimen/menu_margin_left"
-        android:layout_marginRight="@dimen/menu_margin_right"
-        android:background="@drawable/authentication_background"
-        android:orientation="vertical"
-        android:padding="@dimen/menu_padding">
-
-        <Button
-            android:id="@+id/button_authentication"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/button_background"
-            android:padding="@dimen/button_padding"
-            android:text="@string/authenticate"
-            android:drawableLeft="@drawable/blue_lock_icon" />
-
-    </LinearLayout>
+  </LinearLayout>
 
 </RelativeLayout>

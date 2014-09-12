@@ -64,7 +64,6 @@ public class TwitterManagerActivity extends LeanplumFragmentActivity implements 
         }
     }
 
-
     private void replaceFragment(Fragment replaceWith) {
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.fragment_container, replaceWith);

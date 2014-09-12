@@ -54,6 +54,10 @@ public class AndroidDevTweetsFragment extends Fragment implements LoaderManager.
         taskFactory = TaskFactory.newInstance(accessToken);
         contentResolver = activity.getContentResolver();
 
+        attachCallback(activity);
+    }
+
+    private void attachCallback(Activity activity) {
         try {
             callback = (TabVisibilityController) activity;
         } catch (ClassCastException e) {

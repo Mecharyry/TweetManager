@@ -35,7 +35,6 @@ public class HashtagToContentValuesParser implements Parser<JSONObject, ContentV
         this.parser = parser;
     }
 
-
     @Override
     public ContentValues[] parse(JSONObject jsonObject) {
         try {

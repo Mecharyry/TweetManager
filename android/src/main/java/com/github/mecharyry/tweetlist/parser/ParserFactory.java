@@ -1,6 +1,5 @@
 package com.github.mecharyry.tweetlist.parser;
 
-
 import android.content.ContentValues;
 import android.graphics.Bitmap;
 

@@ -23,7 +23,6 @@ public class TaskFactory {
     private final ParserFactory parserFactory;
     private final RequestFactory requestFactory;
 
-
     public static TaskFactory newInstance(AccessToken accessToken) {
         OAuthAuthenticator oAuthAuthenticator = OAuthAuthenticator.newInstance();
         OAuthConsumer oAuthConsumer = oAuthAuthenticator.getConsumer(accessToken);
