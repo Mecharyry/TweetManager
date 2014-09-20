@@ -16,6 +16,11 @@ android {
         targetSdkVersion 19
         buildConfigField "String", "CONSUMER_KEY", getProperty("consumerKey")
         buildConfigField "String", "CONSUMER_SECRET", getProperty("consumerSecret")
+        buildConfigField "boolean", "DO_AB_TESTING", "true"
+        buildConfigField "String", "LEAN_PLUM_APP_ID", '"yLfsN7Y4I54aUUECDlHa4gsM83WKfFpf7grw51nuAXU"'
+        buildConfigField "String", "LEAN_PLUM_DEV_KEY", '"YaLiXUK0jEGDnjHABHEacy2oXxDe1ZuItlfO3kBATFc"'
+        buildConfigField "String", "LEAN_PLUM_PRO_KEY", '"NA97c8Mnzzww2bOIP9Pqhet3gAywinon7fB3sWQhdeQ"'
+
     }
 
 }
