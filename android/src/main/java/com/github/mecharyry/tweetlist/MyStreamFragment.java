@@ -30,6 +30,7 @@ public class MyStreamFragment extends Fragment implements LoaderManager.LoaderCa
     private static final String TAG = MyStreamFragment.class.getSimpleName();
     public static final String QUERY_SELECTION = TweetTable.COLUMNS.COLUMN_CATEGORY.getColumnHeader() + "= ?";
     public static final String[] QUERY_SELECTION_ARGS = {TweetTable.Category.MY_STREAM_TWEETS.toString()};
+    private static final String QUERY_ORDER_BY = TweetTable.COLUMNS.COLUMN_ID.getColumnHeader() + " DESC";
 
     private TweetCursorAdapter tweetAdapter;
     private TaskExecutor taskExecutor;
@@ -50,8 +51,11 @@ public class MyStreamFragment extends Fragment implements LoaderManager.LoaderCa
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_my_stream, container, false);
-        listView = (ListView) view.findViewById(R.id.listview_mystream);
+        View view = inflater.inflate(R.layout.twitter_stream_layout, container, false);
+        listView = (ListView) view.findViewById(R.id.listview_twitter_stream);
+
+        View progressFooter = inflater.inflate(R.layout.listview_footer, null, false);
+        listView.addFooterView(progressFooter);
         return view;
     }
 
@@ -62,7 +66,7 @@ public class MyStreamFragment extends Fragment implements LoaderManager.LoaderCa
 
         tweetAdapter = TweetCursorAdapter.newInstance(getLayoutInflater(savedInstanceState), null, false);
         listView.setAdapter(tweetAdapter);
-        tweetAdapter.notifyDataSetChanged();
+        listView.setOnScrollListener(new ScrollListener(onScrollReceived));
 
         getLoaderManager().initLoader(LOADER_MANAGER_ID, null, this);
     }
@@ -77,7 +81,7 @@ public class MyStreamFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         CursorLoader cursorLoader = new CursorLoader(getActivity(), TweetContentProvider.CONTENT_URI,
-                TweetTable.COLUMNS.names(), QUERY_SELECTION, QUERY_SELECTION_ARGS, null);
+                TweetTable.COLUMNS.names(), QUERY_SELECTION, QUERY_SELECTION_ARGS, QUERY_ORDER_BY);
         return cursorLoader;
     }
 
@@ -90,4 +94,11 @@ public class MyStreamFragment extends Fragment implements LoaderManager.LoaderCa
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
         tweetAdapter.swapCursor(null);
     }
+
+    private final ScrollListener.Callback onScrollReceived = new ScrollListener.Callback() {
+        @Override
+        public void onLoadMore() {
+            taskExecutor.execute(onMyStreamTweetsReceived, taskFactory.requestMyStreamTweetsBeforeId(tweetAdapter.getFinalItemId()));
+        }
+    };
 }

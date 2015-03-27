@@ -1,14 +1,12 @@
-package com.github.mecharyry.tweetlist;
+package com.github.mecharyry.tweetlist.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-class TwitterSlidePagerAdapter extends FragmentStatePagerAdapter {
+import com.github.mecharyry.tweetlist.StreamType;
 
-    public static TwitterSlidePagerAdapter newInstance(FragmentManager fragmentManager) {
-        return new TwitterSlidePagerAdapter(fragmentManager);
-    }
+public class TwitterSlidePagerAdapter extends FragmentStatePagerAdapter {
 
     TwitterSlidePagerAdapter(FragmentManager fm) {
         super(fm);

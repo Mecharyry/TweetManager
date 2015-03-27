@@ -4,7 +4,6 @@ import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 
 public class TweetContentProvider extends ContentProvider {
@@ -26,8 +25,7 @@ public class TweetContentProvider extends ContentProvider {
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         SQLiteDatabase db = database.getWritableDatabase();
         TweetTable.COLUMNS.values();
-        Cursor cursor = db.query(false, TweetTable.TABLES.TWEET_TABLE.getTableName(), TweetTable.COLUMNS.names(), selection, selectionArgs, null, null, null, null);
-
+        Cursor cursor = db.query(false, TweetTable.TABLES.TWEET_TABLE.getTableName(), TweetTable.COLUMNS.names(), selection, selectionArgs, null, null, sortOrder, null);
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
 
         return cursor;
